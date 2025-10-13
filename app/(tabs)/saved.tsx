@@ -1,4 +1,5 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import dimensions from '@/lib/dimensions';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -67,19 +68,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-    width: 393,
-    height: 852,
+    width: dimensions.constrainedWidth,
+    alignSelf: 'center',
   },
   scrollView: {
     flex: 1,
-    width: 393,
-    maxHeight: 792,
+    width: dimensions.constrainedWidth,
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 20,
-    width: 393,
+    width: dimensions.constrainedWidth,
   },
   title: {
     fontSize: 28,

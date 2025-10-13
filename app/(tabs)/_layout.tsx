@@ -1,3 +1,4 @@
+import dimensions from '@/lib/dimensions';
 import { Image } from 'expo-image';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -21,10 +22,14 @@ export default function TabLayout() {
           height: 60,
           paddingBottom: 8,
           paddingTop: 8,
-          width: 393,
+          width: dimensions.constrainedWidth,
           position: 'absolute',
           bottom: 0,
           left: 0,
+          right: 0,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          alignSelf: 'center',
         },
         tabBarLabelStyle: {
           display: 'none',

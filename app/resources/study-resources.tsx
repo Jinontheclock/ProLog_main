@@ -1,5 +1,6 @@
 import CustomTabBar from '@/components/custom-tab-bar';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -144,13 +145,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-    width: 393,
-    height: 852,
+    width: dimensions.constrainedWidth,
+    alignSelf: 'center',
   },
   scrollView: {
     flex: 1,
-    width: 393,
-    maxHeight: 792,
+    width: dimensions.constrainedWidth,
   },
   header: {
     flexDirection: 'row',

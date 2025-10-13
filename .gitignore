@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+# VS Code History
+.history/
+
 # Expo
 .expo/
 dist/
