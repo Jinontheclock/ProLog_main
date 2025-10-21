@@ -3,7 +3,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HowToBuildResumeScreen() {
@@ -13,9 +13,10 @@ export default function HowToBuildResumeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Image 
-              source={require('@/assets/images/backArrow.png')}
-              style={{ width: 24, height: 24 }}
+            <IconSymbol 
+              name="chevron.left"
+              size={24}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           <Text style={styles.title}>How to Build a Strong R...</Text>
@@ -118,6 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Bold',
   },
   mainCard: {
     backgroundColor: '#F8F8F8',
@@ -139,6 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#666',
     marginBottom: 8,
+    fontFamily: 'Roboto-Medium',
   },
   titleRow: {
     flexDirection: 'row',
@@ -152,6 +155,7 @@ const styles = StyleSheet.create({
     color: '#2C2C2C',
     flex: 1,
     lineHeight: 26,
+    fontFamily: 'Roboto-Bold',
   },
   aiGeneratedBadge: {
     backgroundColor: '#2C2C2C',
@@ -163,6 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '500',
     color: 'white',
+    fontFamily: 'Roboto-Medium',
   },
   cardActions: {
     flexDirection: 'row',
@@ -183,11 +188,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
+    fontFamily: 'Roboto-Bold',
   },
   sectionText: {
     fontSize: 14,
     color: '#333',
     lineHeight: 20,
+    fontFamily: 'Roboto',
   },
   bulletList: {
     gap: 8,
@@ -197,5 +204,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     lineHeight: 20,
+    fontFamily: 'Roboto',
   },
 });

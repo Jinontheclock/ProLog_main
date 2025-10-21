@@ -1,7 +1,7 @@
-import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { IconSymbol } from './ui/icon-symbol';
 
 interface CustomTabBarProps {
   activeTab?: 'home' | 'tracking' | 'resources' | 'saved' | 'settings';
@@ -9,11 +9,11 @@ interface CustomTabBarProps {
 
 export default function CustomTabBar({ activeTab = 'home' }: CustomTabBarProps) {
   const tabs = [
-    { key: 'home', icon: require('@/assets/images/homeIcon.png'), route: '/(tabs)/' },
-    { key: 'tracking', icon: require('@/assets/images/trackingIcon.png'), route: '/(tabs)/tracking' },
-    { key: 'resources', icon: require('@/assets/images/resourcesIcon.png'), route: '/(tabs)/resources' },
-    { key: 'saved', icon: require('@/assets/images/savedIcon.png'), route: '/(tabs)/saved' },
-    { key: 'settings', icon: require('@/assets/images/settingsIcon.png'), route: '/(tabs)/settings' },
+    { key: 'home', iconName: 'house.fill', route: '/(tabs)/' },
+    { key: 'tracking', iconName: 'chart.bar.fill', route: '/(tabs)/tracking' },
+    { key: 'resources', iconName: 'book.fill', route: '/(tabs)/resources' },
+    { key: 'saved', iconName: 'bookmark.fill', route: '/(tabs)/saved' },
+    { key: 'settings', iconName: 'gearshape.fill', route: '/(tabs)/settings' },
   ];
 
   return (
@@ -24,13 +24,10 @@ export default function CustomTabBar({ activeTab = 'home' }: CustomTabBarProps) 
           style={styles.tabItem}
           onPress={() => router.push(tab.route as any)}
         >
-          <Image
-            source={tab.icon}
-            style={{
-              width: 48,
-              height: 48,
-              opacity: activeTab === tab.key ? 1 : 0.6,
-            }}
+          <IconSymbol
+            name={tab.iconName as any}
+            size={24}
+            color={activeTab === tab.key ? '#2C2C2C' : '#999999'}
           />
         </TouchableOpacity>
       ))}

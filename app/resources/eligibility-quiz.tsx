@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Bold',
   },
   placeholder: {
     width: 40,
@@ -130,6 +131,7 @@ const styles = StyleSheet.create({
     color: '#2C2C2C',
     textAlign: 'center',
     lineHeight: 32,
+    fontFamily: 'Roboto-Bold',
   },
   optionsContainer: {
     paddingHorizontal: 20,
@@ -156,6 +158,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     textAlign: 'center',
+    fontFamily: 'Roboto-Medium',
   },
   selectedOptionText: {
     color: '#2E7D32',
@@ -174,5 +177,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#666',
+    fontFamily: 'Roboto-Medium',
   },
 });

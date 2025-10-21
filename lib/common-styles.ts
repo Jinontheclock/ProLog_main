@@ -24,6 +24,11 @@ export const CommonStyles = StyleSheet.create({
     width: dimensions.constrainedWidth,
     backgroundColor: '#F2F2F2',
   },
+  headerSimple: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+  },
   backButton: {
     marginRight: 15,
     padding: 8,
@@ -32,18 +37,21 @@ export const CommonStyles = StyleSheet.create({
   // Title styles
   mainTitle: {
     fontSize: 50,
-    fontWeight: 'normal',
+    fontWeight: '400',
     color: '#2C2C2C',
+    fontFamily: 'Roboto',
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Bold',
   },
   subTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Bold',
   },
   
   // Card styles
@@ -57,16 +65,28 @@ export const CommonStyles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
+  whiteCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  },
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#2C2C2C',
     marginBottom: 8,
+    fontFamily: 'Roboto-Bold',
   },
   cardDescription: {
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
+    fontFamily: 'Roboto',
   },
   
   // Button styles
@@ -87,32 +107,52 @@ export const CommonStyles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: 'Roboto-Medium',
   },
-  
-  // Filter button styles
-  filterButton: {
+  whiteButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#F8F8F8',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 20,
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 16,
+    borderRadius: 16,
+    gap: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  filterText: {
+  whiteButtonText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Medium',
   },
   
   // Section styles
   section: {
     paddingHorizontal: 20,
     marginBottom: 20,
+  },
+  
+  // Content area
+  contentPadding: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  
+  // Common text styles
+  placeholderText: {
+    fontSize: 16,
+    color: '#999999',
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+  },
+  bodyText: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: '#000000',
+    fontFamily: 'Roboto',
   },
 });

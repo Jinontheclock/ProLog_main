@@ -3,7 +3,7 @@ import { CommonStyles } from '@/lib/common-styles';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ResourcesScreen() {
@@ -18,9 +18,10 @@ export default function ResourcesScreen() {
         {/* Search Bar */}
         <View style={styles.searchContainer}>
           <View style={styles.searchBar}>
-            <Image
-              source={require('@/assets/images/searchIcon.png')}
-              style={{ width: 20, height: 20 }}
+            <IconSymbol
+              name="magnifyingglass"
+              size={20}
+              color="#666"
             /> 
             <TextInput 
               style={styles.searchInput}
@@ -28,9 +29,10 @@ export default function ResourcesScreen() {
               placeholderTextColor="#666"
             />
             <TouchableOpacity style={styles.filterButton}>
-              <Image
-                source={require('@/assets/images/filterIcon.png')}
-                style={{ width: 20, height: 20 }}
+              <IconSymbol
+                name="line.3.horizontal.decrease.circle"
+                size={20}
+                color="#666"
               />
             </TouchableOpacity>
           </View>

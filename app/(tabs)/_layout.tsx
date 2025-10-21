@@ -21,10 +21,10 @@ export default function TabLayout() {
           backgroundColor: '#F2F2F2',
           borderRadius: 60,
           shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.1,
-          shadowRadius: 8,
-          elevation: 8,
+          shadowOffset: { width: 0, height: 8 },
+          shadowOpacity: 0.15,
+          shadowRadius: 16,
+          elevation: 12,
           flexDirection: 'row',
           height: 52,
           justifyContent: 'center',
@@ -35,8 +35,10 @@ export default function TabLayout() {
           right: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
-          width: 375,
+          width: 360,
           alignSelf: 'center',
+          borderWidth: 1,
+          borderColor: 'rgba(255, 255, 255, 0.5)',
         },
         tabBarLabelStyle: {
           display: 'none',
@@ -57,15 +59,19 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/homeIcon.png')}
-                style={{ width: 48, height: 48, opacity: focused ? 1 : 0.6 }}
+                source={require('@/assets/images/home.svg')}
+                style={{ 
+                  width: 24, 
+                  height: 24,
+                  tintColor: focused ? '#2C2C2C' : '#999999'
+                }}
               />
             </View>
           ),
         }}
       />
       <Tabs.Screen
-        name="tracking"
+        name="skills"
         options={{
           title: '',
           tabBarIcon: ({ focused }) => (
@@ -79,15 +85,19 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/trackingIcon.png')}
-                style={{ width: 48, height: 48, opacity: focused ? 1 : 0.6 }}
+                source={require('@/assets/images/event_list.svg')}
+                style={{ 
+                  width: 24, 
+                  height: 24,
+                  tintColor: focused ? '#2C2C2C' : '#999999'
+                }}
               />
             </View>
           ),
         }}
       />
       <Tabs.Screen
-        name="resources"
+        name="finances"
         options={{
           title: '',
           tabBarIcon: ({ focused }) => (
@@ -101,30 +111,12 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/resourcesIcon.png')}
-                style={{ width: 48, height: 48, opacity: focused ? 1 : 0.6 }}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="saved"
-        options={{
-          title: '',
-          tabBarIcon: ({ focused }) => (
-            <View style={{
-              alignItems: 'center',
-              backgroundColor: '#F2F2F2',
-              borderRadius: 26,
-              height: 52,
-              justifyContent: 'center',
-              padding: 14,
-              width: 52,
-            }}>
-              <Image 
-                source={require('@/assets/images/savedIcon.png')}
-                style={{ width: 48, height: 48, opacity: focused ? 1 : 0.6 }}
+                source={require('@/assets/images/book_2.svg')}
+                style={{ 
+                  width: 24, 
+                  height: 24,
+                  tintColor: focused ? '#2C2C2C' : '#999999'
+                }}
               />
             </View>
           ),
@@ -145,11 +137,33 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/settingsIcon.png')}
-                style={{ width: 48, height: 48, opacity: focused ? 1 : 0.6 }}
+                source={require('@/assets/images/brightness_5.svg')}
+                style={{ 
+                  width: 24, 
+                  height: 24,
+                  tintColor: focused ? '#2C2C2C' : '#999999'
+                }}
               />
             </View>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="tracking"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="resources"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="saved"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

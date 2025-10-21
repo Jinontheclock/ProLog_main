@@ -1,11 +1,17 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { CommonStyles } from '@/lib/common-styles';
-import dimensions from '@/lib/dimensions';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
+  const trainingHours = 1500;
+  const trainingGoal = 1800;
+  const totalHours = 1500;
+  const totalGoal = 6000;
+  const competencies = 30;
+  const totalCompetencies = 60;
+
   return (
     <SafeAreaView style={CommonStyles.container}>
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
@@ -14,91 +20,144 @@ export default function HomeScreen() {
           <Text style={CommonStyles.mainTitle}>Dashboard</Text>
         </View>
 
-        {/* Main Cards Row */}
-        <View style={styles.cardsContainer}>
-          {/* Training Hours Card */}
-          <View style={styles.trainingCard}>
-            <View style={styles.cardHeader}>
-              <IconSymbol name="clock" size={20} color="#666" />
-              <Text style={styles.cardTitle}>Training hours</Text>
-            </View>
-            <Text style={styles.lastUpdated}>Last updated 2:45PM</Text>
-            
-            <View style={styles.progressContainer}>
-              <View style={styles.progressCircle}>
-                <View style={styles.progressArc} />
-                <View style={styles.progressTextContainer}>
-                  <Text style={styles.progressLevel}>Level 1</Text>
+        {/* Level 1 Section */}
+        <View style={styles.levelSection}>
+          <View style={styles.levelMainContent}>
+            {/* Left Column */}
+            <View style={styles.levelLeftColumn}>
+              <Text style={styles.levelTitle}>Level 1</Text>
+              <Text style={styles.lastUpdated}>Last updated 2:45PM</Text>
+              <Text style={styles.sectionLabel}>Training Hours</Text>
+
+              {/* Circular Progress */}
+              <View style={styles.circularProgressContainer}>
+                <Image 
+                  source={require('@/assets/images/Frame 376.png')} 
+                  style={styles.circularProgressImage}
+                  resizeMode="contain"
+                />
+              </View>
+
+              {/* Total Hours */}
+              <View style={styles.totalHoursContainer}>
+                <Text style={styles.totalHoursLabel}>Total Hours</Text>
+                <Text style={styles.totalHoursText}>{totalHours.toLocaleString()}/{totalGoal.toLocaleString()}</Text>
+                <View style={styles.totalHoursBar}>
+                  <Image 
+                    source={require('@/assets/images/Frame 101-1.png')} 
+                    style={styles.progressBarBackground}
+                    resizeMode="stretch"
+                  />
+                  <Image 
+                    source={require('@/assets/images/Frame 101.png')} 
+                    style={[styles.progressBarFilled, { width: `${(totalHours / totalGoal) * 100}%` }]}
+                    resizeMode="stretch"
+                  />
                 </View>
               </View>
             </View>
-            
-            <Text style={styles.progressText}>1,500/6,000 hrs</Text>
-            
-            <TouchableOpacity style={styles.viewDetailButton}>
-              <Text style={styles.viewDetailText}>View detail →</Text>
-            </TouchableOpacity>
-          </View>
 
-          {/* Reminder Card */}
-          <View style={styles.reminderCard}>
-            <View style={styles.reminderHeader}>
-              <IconSymbol name="bell" size={20} color="white" />
-              <Text style={styles.reminderTitle}>Reminder</Text>
-            </View>
-            
-            <View style={styles.reminderList}>
-              <View style={styles.reminderItem}>
-                <Text style={styles.reminderDate}>Oct 10, 2025</Text>
-                <Text style={styles.reminderText}>WHIMS Expiration</Text>
+            {/* Right Column - White Card */}
+            <View style={styles.levelRightCard}>
+              <TouchableOpacity style={styles.reminderButton}>
+                <Image 
+                  source={require('@/assets/images/bell.png')} 
+                  style={styles.reminderIcon}
+                />
+                <Text style={styles.reminderButtonText}>Reminder</Text>
+              </TouchableOpacity>
+
+              <View style={styles.reminderInfo}>
+                <Text style={styles.reminderLabel}>WHIMS</Text>
+                <Text style={styles.reminderLabel}>Expiration</Text>
+                <Text style={styles.reminderDate}>Nov 10, 2025</Text>
               </View>
+
               <View style={styles.reminderDivider} />
-              <View style={styles.reminderItem}>
-                <Text style={styles.reminderDate}>Oct 25, 2025</Text>
-                <Text style={styles.reminderText}>Level 1 Exam</Text>
+
+              <View style={styles.reminderInfo}>
+                <Text style={styles.reminderLabel}>Level 2 Exam</Text>
+                <Text style={styles.reminderDate}>Nov 13, 2025</Text>
+              </View>
+
+              <TouchableOpacity style={styles.addCircleButton}>
+                <Image 
+                  source={require('@/assets/images/add_2.png')} 
+                  style={styles.addIcon}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {/* Competencies Section */}
+        <View style={styles.competenciesSection}>
+          <View style={styles.competenciesContent}>
+            <View style={styles.competenciesLeft}>
+              <Text style={styles.competenciesTitle}>Competencies</Text>
+              <Text style={styles.competenciesCount}>{competencies}/{totalCompetencies}</Text>
+              <View style={styles.competenciesBar}>
+                <Image 
+                  source={require('@/assets/images/Frame 101-1.png')} 
+                  style={styles.progressBarBackground}
+                  resizeMode="stretch"
+                />
+                <Image 
+                  source={require('@/assets/images/Frame 101.png')} 
+                  style={[styles.progressBarFilled, { width: `${(competencies / totalCompetencies) * 100}%` }]}
+                  resizeMode="stretch"
+                />
               </View>
             </View>
-            
-            <TouchableOpacity style={styles.addButton}>
-              <IconSymbol name="plus" size={24} color="#333" />
+            <TouchableOpacity style={styles.checklistButton}>
+              <IconSymbol name="chevron.right" size={20} color="white" />
+              <Text style={styles.checklistButtonText}>View</Text>
+              <Text style={styles.checklistButtonText}>Checklist</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Competency Checklist */}
-        <TouchableOpacity style={styles.checklistContainer}>
-          <View style={styles.checklistHeader}>
-            <IconSymbol name="list.bullet" size={20} color="white" />
-            <Text style={styles.checklistTitle}>Competency Checklist</Text>
-            <IconSymbol name="chevron.right" size={20} color="white" />
-          </View>
-          <View style={styles.checklistContent}>
-            <Text style={styles.checklistLevel}>Level 1</Text>
-            <Text style={styles.checklistProgress}>3/60</Text>
-          </View>
-        </TouchableOpacity>
-
-        {/* Suggested Reading */}
-        <View style={styles.suggestedReadingSection}>
-          <Text style={styles.sectionTitle}>Suggested Reading</Text>
+        {/* Suggested Section */}
+        <View style={styles.suggestedSection}>
+          <Text style={styles.suggestedTitle}>Suggested</Text>
           
-          <View style={styles.readingCardsContainer}>
-            {/* WHMIS Card */}
-            <TouchableOpacity style={styles.readingCard}>
-              <Text style={styles.readingCategory}>Other Resources</Text>
-              <Text style={styles.readingTitle}>WHMIS Application</Text>
-              <Text style={styles.readingDescription}>WHMIS: What it is and How to apply</Text>
-              <Text style={styles.readMoreText}>Read more →</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.suggestedCardsContainer}>
+            {/* Canada Apprentice Loan Card */}
+            <TouchableOpacity style={styles.suggestedCard}>
+              <Text style={styles.cardTag}>Loan</Text>
+              <Text style={styles.cardTitle}>Canada</Text>
+              <Text style={styles.cardTitle}>Apprentice</Text>
+              <Text style={styles.cardTitle}>Loan</Text>
+              <Text style={styles.cardDescription}>Interest-free loans for each period of technical training</Text>
+              <View style={styles.cardArrow}>
+                <IconSymbol name="arrow.right" size={20} color="#333" />
+              </View>
             </TouchableOpacity>
 
-            {/* Savings Card */}
-            <TouchableOpacity style={styles.readingCard}>
-              <Text style={styles.readingCategory}>Other Resources</Text>
-              <Text style={styles.readingTitle}>Strategies to Increase Savings</Text>
-              <Text style={styles.readingDescription}>Learn more about saving strategies</Text>
-              <Text style={styles.readMoreText}>Read more →</Text>
+            {/* Tips Card */}
+            <TouchableOpacity style={styles.suggestedCard}>
+              <Text style={styles.cardTag}>Tips</Text>
+              <Text style={styles.cardTitle}>Strategies</Text>
+              <Text style={styles.cardTitle}>to Increase</Text>
+              <Text style={styles.cardTitle}>Savings</Text>
+              <Text style={styles.cardDescription}>Learn more about saving strategies</Text>
+              <View style={styles.cardArrow}>
+                <IconSymbol name="arrow.right" size={20} color="#333" />
+              </View>
             </TouchableOpacity>
-          </View>
+
+            {/* Financial Support Card */}
+            <TouchableOpacity style={styles.suggestedCard}>
+              <Text style={styles.cardTag}>Financial Sup</Text>
+              <Text style={styles.cardTitle}>Employment</Text>
+              <Text style={styles.cardTitle}>Insurance</Text>
+              <Text style={styles.cardTitle}>(EI)</Text>
+              <Text style={styles.cardDescription}>EI benefits that you may be able to apply</Text>
+              <View style={styles.cardArrow}>
+                <IconSymbol name="arrow.right" size={20} color="#333" />
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -109,265 +168,298 @@ const styles = StyleSheet.create({
   dashboardHeader: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 20,
-    width: dimensions.constrainedWidth,
+    paddingBottom: 16,
   },
-  cardsContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    gap: 15,
+  levelSection: {
+    marginHorizontal: 20,
     marginBottom: 20,
-    width: dimensions.constrainedWidth,
   },
-  trainingCard: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
+  levelMainContent: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  levelLeftColumn: {
+    width: '60%',
+    backgroundColor: '#F2F2F2',
     padding: 20,
+    borderRadius: 20,
+  },
+  levelRightCard: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    padding: 20,
+    borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
-    maxWidth: 180,
+    shadowRadius: 16,
+    elevation: 12,
+    justifyContent: 'space-between',
   },
-  reminderCard: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
-    maxWidth: 180,
+  levelTitle: {
+    fontSize: 24,
+    fontWeight: '400',
+    color: '#2C2C2C',
+    fontFamily: 'Roboto',
+    marginBottom: 4,
   },
-  cardHeader: {
+  reminderButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    justifyContent: 'center',
+    backgroundColor: '#E07843',
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    borderRadius: 12,
+    gap: 6,
+    marginBottom: 20,
   },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2C2C2C',
-    marginLeft: 8,
+  reminderIcon: {
+    width: 12,
+    height: 12,
+  },
+  reminderButtonText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
   },
   lastUpdated: {
     fontSize: 12,
-    color: '#666666',
+    color: '#999999',
     marginBottom: 20,
+    fontFamily: 'Roboto',
   },
-  progressContainer: {
-    alignItems: 'center',
-    marginBottom: 15,
+  sectionLabel: {
+    fontSize: 14,
+    color: '#2C2C2C',
+    marginBottom: 16,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
   },
-  progressCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 8,
-    borderColor: '#E0E0E0',
+  circularProgressContainer: {
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    marginBottom: 20,
   },
-  progressArc: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 8,
-    borderColor: 'transparent',
-    borderTopColor: '#2C2C2C',
-    borderRightColor: '#2C2C2C',
-    transform: [{ rotate: '-45deg' }],
+  circularProgressImage: {
+    width: 180,
+    height: 180,
   },
   progressTextContainer: {
+    position: 'absolute',
+    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  progressLevel: {
-    fontSize: 16,
-    fontWeight: '600',
+  progressNumbers: {
+    fontSize: 24,
+    fontWeight: '400',
     color: '#2C2C2C',
+    fontFamily: 'Roboto',
   },
-  progressText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#2C2C2C',
-    textAlign: 'center',
-    marginBottom: 15,
+  progressDivider: {
+    fontSize: 20,
+    fontWeight: '400',
+    color: '#999999',
+    marginHorizontal: 2,
+    fontFamily: 'Roboto',
   },
-  viewDetailButton: {
+  progressGoal: {
+    fontSize: 20,
+    fontWeight: '400',
+    color: '#999999',
+    fontFamily: 'Roboto',
+  },
+  reminderInfo: {
+    marginBottom: 20,
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    backgroundColor: '#F8F8F8',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  viewDetailText: {
-    fontSize: 14,
-    color: '#666666',
-  },
-  reminderHeader: {
-    backgroundColor: '#2C2C2C',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  reminderTitle: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: '600',
-    marginLeft: 8,
-  },
-  reminderList: {
-    marginBottom: 15,
-  },
-  reminderItem: {
-    marginBottom: 8,
-  },
-  reminderDate: {
-    fontSize: 12,
-    color: '#666666',
-    marginBottom: 2,
-  },
-  reminderText: {
-    fontSize: 14,
-    color: '#2C2C2C',
-    fontWeight: '500',
   },
   reminderDivider: {
     height: 1,
-    backgroundColor: '#E0E0E0',
-    marginVertical: 8,
+    backgroundColor: '#E5E5E5',
+    marginVertical: 16,
   },
-  addButton: {
-    backgroundColor: '#F8F8F8',
-    width: 48,
+  reminderLabel: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#2C2C2C',
+    lineHeight: 20,
+    fontFamily: 'Roboto',
+    textAlign: 'center',
+  },
+  reminderDate: {
+    fontSize: 12,
+    color: '#999999',
+    marginTop: 4,
+    fontFamily: 'Roboto',
+    textAlign: 'center',
+  },
+  totalHoursContainer: {
+    marginBottom: 0,
+  },
+  totalHoursLabel: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#2C2C2C',
+    marginBottom: 8,
+    fontFamily: 'Roboto',
+  },
+  totalHoursText: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: '#2C2C2C',
+    marginBottom: 8,
+    fontFamily: 'Roboto',
+  },
+  totalHoursBar: {
+    height: 16,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  progressBarBackground: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
+  progressBarFilled: {
+    height: '100%',
+    position: 'absolute',
+  },
+  addCircleButton: {
+    width: '100%',
     height: 48,
-    borderRadius: 24,
+    borderRadius: 12,
+    backgroundColor: '#F2F2F2',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
   },
-  checklistContainer: {
+  addIcon: {
+    width: 24,
+    height: 24,
+  },
+  competenciesSection: {
     marginHorizontal: 20,
-    marginBottom: 20,
-    width: 353,
+    marginBottom: 24,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 20,
+    padding: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
-    borderRadius: 16,
+    shadowRadius: 16,
+    elevation: 12,
+  },
+  competenciesContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+  },
+  competenciesLeft: {
+    flex: 1,
+  },
+  competenciesTitle: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#2C2C2C',
+    fontFamily: 'Roboto',
+    marginBottom: 4,
+  },
+  competenciesCount: {
+    fontSize: 24,
+    fontWeight: '400',
+    color: '#2C2C2C',
+    fontFamily: 'Roboto',
+    marginBottom: 8,
+  },
+  competenciesBar: {
+    height: 16,
+    position: 'relative',
     overflow: 'hidden',
   },
-  checklistHeader: {
+  checklistButton: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#2C2C2C',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    paddingVertical: 16,
     paddingHorizontal: 20,
-    paddingVertical: 15,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-  },
-  checklistTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 8,
-  },
-  checklistContent: {
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-  },
-  checklistLevel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2C2C2C',
-  },
-  checklistProgress: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2C2C2C',
-  },
-  suggestedReadingSection: {
-    paddingHorizontal: 20,
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#2C2C2C',
-    marginBottom: 15,
-  },
-  readingCardsContainer: {
-    flexDirection: 'row',
-    gap: 15,
-  },
-  readingCard: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
     borderRadius: 16,
-    padding: 20,
+    gap: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 6,
+    minWidth: 110,
+  },
+  checklistButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+  },
+  suggestedSection: {
+    marginBottom: 100,
+  },
+  suggestedTitle: {
+    fontSize: 18,
+    fontFamily: 'Roboto',
+    fontWeight: '400',
+    color: '#787878',
+    marginBottom: 16,
+    paddingHorizontal: 20,
+  },
+  suggestedCardsContainer: {
+    paddingHorizontal: 20,
+    gap: 12,
+  },
+  suggestedCard: {
+    width: 160,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 16,
+    padding: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowRadius: 16,
+    elevation: 12,
+    marginRight: 12,
+    position: 'relative',
   },
-  readingCategory: {
+  cardTag: {
+    fontSize: 11,
+    color: '#999999',
+    marginBottom: 12,
+    fontWeight: '500',
+    fontFamily: 'Roboto-Medium',
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#2C2C2C',
+    lineHeight: 22,
+    fontFamily: 'Roboto-Bold',
+  },
+  cardDescription: {
     fontSize: 12,
     color: '#666666',
-    marginBottom: 8,
+    lineHeight: 18,
+    marginTop: 12,
+    marginBottom: 32,
+    fontFamily: 'Roboto',
   },
-  readingTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2C2C2C',
-    marginBottom: 8,
-  },
-  readingDescription: {
-    fontSize: 14,
-    color: '#666666',
-    marginBottom: 12,
-    lineHeight: 20,
-  },
-  readMoreText: {
-    fontSize: 14,
-    color: '#2C2C2C',
-    fontWeight: '500',
-    backgroundColor: '#F8F8F8',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    textAlign: 'center',
+  cardArrow: {
+    position: 'absolute',
+    right: 12,
+    bottom: 12,
   },
 });

@@ -3,7 +3,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FinancialResourcesScreen() {
@@ -15,9 +15,10 @@ export default function FinancialResourcesScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Image 
-              source={require('@/assets/images/backArrow.png')}
-              style={{ width: 24, height: 24 }}
+            <IconSymbol 
+              name="chevron.left"
+              size={24}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           <Text style={styles.title}>Financial Resources</Text>
@@ -27,9 +28,10 @@ export default function FinancialResourcesScreen() {
         <View style={styles.filterContainer}>
           <TouchableOpacity style={styles.filterButton}>
             <Text style={styles.filterText}>Category</Text>
-            <Image 
-              source={require('@/assets/images/downArrow.png')}
-              style={{ width: 16, height: 16 }}
+            <IconSymbol 
+              name="chevron.down"
+              size={16}
+              color="#666"
             />
           </TouchableOpacity>
         </View>
@@ -84,6 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Bold',
   },
   filterContainer: {
     paddingHorizontal: 20,
@@ -108,6 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#333',
+    fontFamily: 'Roboto-Medium',
   },
   resourcesContainer: {
     paddingHorizontal: 20,
@@ -134,11 +138,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#2C2C2C',
     marginBottom: 8,
+    fontFamily: 'Roboto-Bold',
   },
   cardDescription: {
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
+    fontFamily: 'Roboto',
   },
 });
 

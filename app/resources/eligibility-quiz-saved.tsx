@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Bold',
   },
   placeholder: {
     width: 40,
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
     lineHeight: 32,
+    fontFamily: 'Roboto-Bold',
   },
   successDescription: {
     fontSize: 16,
@@ -110,6 +112,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 40,
     paddingHorizontal: 20,
+    fontFamily: 'Roboto',
   },
   goToButton: {
     backgroundColor: '#F8F8F8',
@@ -126,5 +129,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#333',
+    fontFamily: 'Roboto-Medium',
   },
 });

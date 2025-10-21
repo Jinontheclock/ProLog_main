@@ -1,7 +1,6 @@
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { CommonStyles } from '@/lib/common-styles';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {
@@ -15,15 +14,16 @@ export default function SettingsScreen() {
 
         {/* User Profile Card */}
         <View style={styles.profileCard}>
-          <View style={styles.profileIcon}>
-            <IconSymbol name="person" size={24} color="#2C2C2C" />
-          </View>
+          <Image 
+            source={require('@/assets/images/Frame 171.png')} 
+            style={styles.profileIcon}
+          />
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>John Doe</Text>
-            <Text style={styles.profileEmail}>johndoe@gmail.com</Text>
+            <Text style={styles.profileName}>Gilbert Pickles</Text>
+            <Text style={styles.profileEmail}>gpickles69@gmail.com</Text>
             <TouchableOpacity style={styles.accountDetails}>
               <Text style={styles.accountDetailsText}>Account details</Text>
-              <IconSymbol name="chevron.right" size={16} color="#2C2C2C" />
+              <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIcon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -34,39 +34,39 @@ export default function SettingsScreen() {
         {/* Settings Options */}
         <View style={styles.settingsList}>
           <TouchableOpacity style={styles.settingItem}>
-            <IconSymbol name="person.circle" size={20} color="#2C2C2C" />
+            <Image source={require('@/assets/images/account_circle.png')} style={styles.settingIcon} />
             <Text style={styles.settingText}>Account Settings</Text>
-            <IconSymbol name="chevron.right" size={16} color="#2C2C2C" />
+            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <IconSymbol name="bell" size={20} color="#2C2C2C" />
+            <Image source={require('@/assets/images/notifications.png')} style={styles.settingIcon} />
             <Text style={styles.settingText}>Notification</Text>
-            <IconSymbol name="chevron.right" size={16} color="#2C2C2C" />
+            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <IconSymbol name="accessibility" size={20} color="#2C2C2C" />
+            <Image source={require('@/assets/images/accessibility.png')} style={styles.settingIcon} />
             <Text style={styles.settingText}>Accessibility</Text>
-            <IconSymbol name="chevron.right" size={16} color="#2C2C2C" />
+            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <IconSymbol name="gear" size={20} color="#2C2C2C" />
+            <Image source={require('@/assets/images/brightness_6.png')} style={styles.settingIcon} />
             <Text style={styles.settingText}>Display Settings</Text>
-            <IconSymbol name="chevron.right" size={16} color="#2C2C2C" />
+            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <IconSymbol name="globe" size={20} color="#2C2C2C" />
+            <Image source={require('@/assets/images/language.png')} style={styles.settingIcon} />
             <Text style={styles.settingText}>Language</Text>
-            <IconSymbol name="chevron.right" size={16} color="#2C2C2C" />
+            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <IconSymbol name="rectangle.portrait.and.arrow.right" size={20} color="#2C2C2C" />
+            <Image source={require('@/assets/images/exit_to_app.png')} style={styles.settingIcon} />
             <Text style={styles.settingText}>Logout</Text>
-            <IconSymbol name="chevron.right" size={16} color="#2C2C2C" />
+            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -78,88 +78,101 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 20,
+    paddingBottom: 16,
   },
   profileCard: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 20,
     marginHorizontal: 20,
-    marginBottom: 30,
+    marginBottom: 32,
     flexDirection: 'row',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
   },
   profileIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#F2F2F2',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     marginRight: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
   },
   profileInfo: {
     flex: 1,
   },
   profileName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2C2C2C',
-    marginBottom: 4,
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#000000',
+    marginBottom: 2,
+    fontFamily: 'Roboto-Medium',
   },
   profileEmail: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: 13,
+    color: '#8E8E93',
+    marginBottom: 6,
+    fontFamily: 'Roboto',
   },
   accountDetails: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 4,
   },
   accountDetailsText: {
-    fontSize: 14,
-    color: '#999',
-    marginRight: 4,
+    fontSize: 13,
+    color: '#000000',
+    fontFamily: 'Roboto',
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#666',
+    fontSize: 15,
+    fontWeight: '400',
+    color: '#8E8E93',
     marginHorizontal: 20,
-    marginBottom: 16,
+    marginBottom: 12,
+    fontFamily: 'Roboto',
   },
   settingsList: {
     paddingHorizontal: 20,
+    gap: 12,
+    paddingBottom: 100,
   },
   settingItem: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     paddingHorizontal: 20,
-    paddingVertical: 16,
-    marginBottom: 12,
+    paddingVertical: 14,
     flexDirection: 'row',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  settingIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#000000',
   },
   settingText: {
     flex: 1,
     fontSize: 16,
-    fontWeight: '500',
-    color: '#2C2C2C',
+    fontWeight: '400',
+    color: '#000000',
     marginLeft: 16,
+    fontFamily: 'Roboto',
+  },
+  arrowIcon: {
+    width: 16,
+    height: 16,
+    tintColor: '#000000',
+  },
+  arrowIconLarge: {
+    width: 24,
+    height: 24,
+    tintColor: '#000000',
   },
 });

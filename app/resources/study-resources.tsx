@@ -3,7 +3,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function StudyResourcesScreen() {
@@ -15,9 +15,10 @@ export default function StudyResourcesScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Image 
-              source={require('@/assets/images/backArrow.png')}
-              style={{ width: 24, height: 24 }}
+            <IconSymbol 
+              name="chevron.left"
+              size={24}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           <Text style={styles.title}>Study Resources</Text>
@@ -27,23 +28,26 @@ export default function StudyResourcesScreen() {
         <View style={styles.filterContainer}>
           <TouchableOpacity style={styles.filterButton}>
             <Text style={styles.filterText}>Level</Text>
-            <Image 
-              source={require('@/assets/images/downArrow.png')}
-              style={{ width: 16, height: 16 }}
+            <IconSymbol 
+              name="chevron.down"
+              size={16}
+              color="#666"
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.filterButton}>
             <Text style={styles.filterText}>Line</Text>
-            <Image 
-              source={require('@/assets/images/downArrow.png')}
-              style={{ width: 16, height: 16 }}
+            <IconSymbol 
+              name="chevron.down"
+              size={16}
+              color="#666"
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.filterButton}>
             <Text style={styles.filterText}>Theory/Practical</Text>
-            <Image 
-              source={require('@/assets/images/downArrow.png')}
-              style={{ width: 16, height: 16 }}
+            <IconSymbol 
+              name="chevron.down"
+              size={16}
+              color="#666"
             />
           </TouchableOpacity>
         </View>
@@ -57,13 +61,10 @@ export default function StudyResourcesScreen() {
           >
             <Text style={styles.sectionTitle}>Line A: Apply Circuit Concepts</Text>
             <Text style={styles.sectionCount}>2</Text>
-            <Image 
-              source={require('@/assets/images/downArrow.png')}
-              style={{ 
-                width: 20, 
-                height: 20,
-                transform: [{ rotate: expandedItem === 'line-a' ? '180deg' : '0deg' }]
-              }}
+            <IconSymbol 
+              name={expandedItem === 'line-a' ? 'chevron.up' : 'chevron.down'}
+              size={20}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           
@@ -93,13 +94,10 @@ export default function StudyResourcesScreen() {
           >
             <Text style={styles.sectionTitle}>Line B: Perform Safety-Related Functions</Text>
             <Text style={styles.sectionCount}>1</Text>
-            <Image 
-              source={require('@/assets/images/downArrow.png')}
-              style={{ 
-                width: 20, 
-                height: 20,
-                transform: [{ rotate: expandedItem === 'line-b' ? '180deg' : '0deg' }]
-              }}
+            <IconSymbol 
+              name={expandedItem === 'line-b' ? 'chevron.up' : 'chevron.down'}
+              size={20}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           
@@ -152,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#2C2C2C',
+    fontFamily: 'Roboto-Bold',
   },
   filterContainer: {
     flexDirection: 'row',
@@ -174,6 +173,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2C2C2C',
     fontWeight: '500',
+    fontFamily: 'Roboto-Medium',
   },
   resourcesContainer: {
     paddingHorizontal: 20,
@@ -194,12 +194,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
     flex: 1,
+    fontFamily: 'Roboto-Bold',
   },
   sectionCount: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginRight: 10,
+    fontFamily: 'Roboto-Bold',
   },
   expandedSection: {
     backgroundColor: '#F8F8F8',
@@ -232,5 +234,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#2C2C2C',
     flex: 1,
+    fontFamily: 'Roboto-Medium',
   },
 });

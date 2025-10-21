@@ -2,7 +2,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SeriesCircuitsScreen() {
@@ -12,9 +12,10 @@ export default function SeriesCircuitsScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Image 
-              source={require('@/assets/images/backArrow.png')}
-              style={{ width: 24, height: 24 }}
+            <IconSymbol 
+              name="chevron.left"
+              size={24}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           <Text style={styles.title}>Describe the operating principles of series circuits</Text>
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#2C2C2C',
     flex: 1,
+    fontFamily: 'Roboto-Bold',
   },
   content: {
     paddingHorizontal: 20,
@@ -235,12 +237,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginBottom: 8,
+    fontFamily: 'Roboto',
   },
   lineText: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#2C2C2C',
     marginBottom: 12,
+    fontFamily: 'Roboto-Bold',
   },
   tagsContainer: {
     flexDirection: 'row',
@@ -257,12 +261,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '600',
+    fontFamily: 'Roboto-Medium',
   },
   mainTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#2C2C2C',
     marginBottom: 16,
+    fontFamily: 'Roboto-Medium',
   },
   actionIcons: {
     flexDirection: 'row',
@@ -287,11 +293,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#2C2C2C',
     marginBottom: 12,
+    fontFamily: 'Roboto-Bold',
   },
   sectionText: {
     fontSize: 16,
     color: '#2C2C2C',
     lineHeight: 24,
+    fontFamily: 'Roboto',
   },
   bulletList: {
     gap: 12,
@@ -305,12 +313,14 @@ const styles = StyleSheet.create({
     color: '#2C2C2C',
     marginRight: 8,
     marginTop: 2,
+    fontFamily: 'Roboto',
   },
   bulletText: {
     fontSize: 16,
     color: '#2C2C2C',
     lineHeight: 24,
     flex: 1,
+    fontFamily: 'Roboto',
   },
   boldText: {
     fontWeight: 'bold',

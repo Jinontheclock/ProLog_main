@@ -105,7 +105,16 @@ export default function TrackingScreen() {
                 <Text style={styles.sectionLabel}>Hours</Text>
                 <View style={styles.progressBarContainer}>
                   <View style={styles.progressBar}>
-                    <View style={[styles.progressFill, { width: '90%' }]} />
+                    <Image 
+                      source={require('@/assets/images/Frame 101-1.png')} 
+                      style={styles.progressBarBackground}
+                      resizeMode="stretch"
+                    />
+                    <Image 
+                      source={require('@/assets/images/Frame 101.png')} 
+                      style={[styles.progressBarFilled, { width: '90%' }]}
+                      resizeMode="stretch"
+                    />
                   </View>
                   <Text style={styles.progressValue}>1,500/1,600</Text>
                 </View>
@@ -209,9 +218,10 @@ export default function TrackingScreen() {
               style={styles.fab}
               onPress={() => setShowAddEventModal(true)}
             >
-              <Image 
-                source={require('@/assets/images/addIcon.png')}
-                style={{ width: 24, height: 24 }}
+              <IconSymbol 
+                name="plus"
+                size={24}
+                color="white"
               />
             </TouchableOpacity>
           </View>
@@ -424,15 +434,18 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     flex: 1,
-    height: 8,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 4,
+    height: 16,
+    position: 'relative',
     overflow: 'hidden',
   },
-  progressFill: {
+  progressBarBackground: {
+    width: '100%',
     height: '100%',
-    backgroundColor: '#424242',
-    borderRadius: 4,
+    position: 'absolute',
+  },
+  progressBarFilled: {
+    height: '100%',
+    position: 'absolute',
   },
   progressValue: {
     fontSize: 14,

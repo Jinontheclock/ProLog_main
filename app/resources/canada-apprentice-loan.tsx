@@ -3,7 +3,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CanadaApprenticeLoanScreen() {
@@ -13,9 +13,10 @@ export default function CanadaApprenticeLoanScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Image 
-              source={require('@/assets/images/backArrow.png')}
-              style={{ width: 24, height: 24 }}
+            <IconSymbol 
+              name="chevron.left"
+              size={24}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           <Text style={styles.title}>Canada Apprentice Loan</Text>
@@ -143,6 +144,7 @@ const styles = StyleSheet.create({
     color: '#2C2C2C',
     flex: 1,
     textAlign: 'center',
+    fontFamily: 'Roboto-Bold',
   },
   bookmarkButton: {
     padding: 8,
@@ -169,11 +171,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#666',
     marginBottom: 8,
+    fontFamily: 'Roboto-Medium',
   },
   summaryValue: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
+    fontFamily: 'Roboto-Bold',
   },
   sectionCard: {
     backgroundColor: '#F8F8F8',
@@ -192,6 +196,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 16,
+    fontFamily: 'Roboto-Bold',
   },
   bulletPoints: {
     gap: 12,
@@ -203,12 +208,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
+    fontFamily: 'Roboto',
   },
   eligibilitySubtitle: {
     fontSize: 14,
     color: '#666',
     marginBottom: 20,
     lineHeight: 20,
+    fontFamily: 'Roboto',
   },
   criteriaContainer: {
     gap: 12,
@@ -231,5 +238,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     lineHeight: 20,
+    fontFamily: 'Roboto',
   },
 });

@@ -3,7 +3,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function GenerateGuideScreen() {
@@ -13,9 +13,10 @@ export default function GenerateGuideScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Image 
-              source={require('@/assets/images/backArrow.png')}
-              style={{ width: 24, height: 24 }}
+            <IconSymbol 
+              name="chevron.left"
+              size={24}
+              color="#2C2C2C"
             />
           </TouchableOpacity>
           <Text style={styles.title}>Generate Guide</Text>
@@ -127,6 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
+    fontFamily: 'Roboto-Bold',
   },
   guideInfoContainer: {
     paddingHorizontal: 20,
@@ -136,6 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginBottom: 5,
+    fontFamily: 'Roboto',
   },
   guideTitleRow: {
     flexDirection: 'row',
@@ -149,6 +152,7 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
     marginRight: 10,
+    fontFamily: 'Roboto-Bold',
   },
   actionIcons: {
     flexDirection: 'row',
@@ -160,6 +164,7 @@ const styles = StyleSheet.create({
   guideSubtitle: {
     fontSize: 16,
     color: '#666',
+    fontFamily: 'Roboto',
   },
   contentSections: {
     paddingHorizontal: 20,
@@ -181,12 +186,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 10,
+    fontFamily: 'Roboto-Bold',
   },
   sectionText: {
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
     marginBottom: 5,
+    fontFamily: 'Roboto',
   },
   boldText: {
     fontWeight: 'bold',
