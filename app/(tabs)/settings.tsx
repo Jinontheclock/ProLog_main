@@ -1,3 +1,13 @@
+import {
+    BorderRadius,
+    Colors,
+    IconSize,
+    SETTINGS_OPTIONS,
+    Shadow,
+    Spacing,
+    Typography,
+    USER
+} from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -15,15 +25,15 @@ export default function SettingsScreen() {
         {/* User Profile Card */}
         <View style={styles.profileCard}>
           <Image 
-            source={require('@/assets/images/Frame 171.png')} 
+            source={require('@/assets/images/avatar-profile.png')} 
             style={styles.profileIcon}
           />
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>Gilbert Pickles</Text>
-            <Text style={styles.profileEmail}>gpickles69@gmail.com</Text>
+            <Text style={styles.profileName}>{USER.DEFAULT_NAME}</Text>
+            <Text style={styles.profileEmail}>{USER.DEFAULT_EMAIL}</Text>
             <TouchableOpacity style={styles.accountDetails}>
               <Text style={styles.accountDetailsText}>Account details</Text>
-              <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIcon} />
+              <Image source={require('@/assets/images/icon-dropdown-arrow.png')} style={styles.arrowIcon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -34,39 +44,39 @@ export default function SettingsScreen() {
         {/* Settings Options */}
         <View style={styles.settingsList}>
           <TouchableOpacity style={styles.settingItem}>
-            <Image source={require('@/assets/images/account_circle.png')} style={styles.settingIcon} />
-            <Text style={styles.settingText}>Account Settings</Text>
-            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
+            <Image source={require('@/assets/images/icon-account.png')} style={styles.settingIcon} />
+            <Text style={styles.settingText}>{SETTINGS_OPTIONS.ACCOUNT}</Text>
+            <Image source={require('@/assets/images/icon-dropdown-arrow.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <Image source={require('@/assets/images/notifications.png')} style={styles.settingIcon} />
-            <Text style={styles.settingText}>Notification</Text>
-            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
+            <Image source={require('@/assets/images/icon-notifications.png')} style={styles.settingIcon} />
+            <Text style={styles.settingText}>{SETTINGS_OPTIONS.NOTIFICATIONS}</Text>
+            <Image source={require('@/assets/images/icon-dropdown-arrow.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <Image source={require('@/assets/images/accessibility.png')} style={styles.settingIcon} />
-            <Text style={styles.settingText}>Accessibility</Text>
-            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
+            <Image source={require('@/assets/images/icon-accessibility.png')} style={styles.settingIcon} />
+            <Text style={styles.settingText}>{SETTINGS_OPTIONS.ACCESSIBILITY}</Text>
+            <Image source={require('@/assets/images/icon-dropdown-arrow.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <Image source={require('@/assets/images/brightness_6.png')} style={styles.settingIcon} />
-            <Text style={styles.settingText}>Display Settings</Text>
-            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
+            <Image source={require('@/assets/images/icon-brightness.png')} style={styles.settingIcon} />
+            <Text style={styles.settingText}>{SETTINGS_OPTIONS.DISPLAY}</Text>
+            <Image source={require('@/assets/images/icon-dropdown-arrow.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <Image source={require('@/assets/images/language.png')} style={styles.settingIcon} />
-            <Text style={styles.settingText}>Language</Text>
-            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
+            <Image source={require('@/assets/images/icon-language.png')} style={styles.settingIcon} />
+            <Text style={styles.settingText}>{SETTINGS_OPTIONS.LANGUAGE}</Text>
+            <Image source={require('@/assets/images/icon-dropdown-arrow.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.settingItem}>
-            <Image source={require('@/assets/images/exit_to_app.png')} style={styles.settingIcon} />
-            <Text style={styles.settingText}>Logout</Text>
-            <Image source={require('@/assets/images/keyboard_arrow_down.png')} style={styles.arrowIconLarge} />
+            <Image source={require('@/assets/images/icon-logout.png')} style={styles.settingIcon} />
+            <Text style={styles.settingText}>{SETTINGS_OPTIONS.LOGOUT}</Text>
+            <Image source={require('@/assets/images/icon-dropdown-arrow.png')} style={styles.arrowIconLarge} />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -76,103 +86,88 @@ export default function SettingsScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg,
+    paddingBottom: Spacing.base,
   },
   profileCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 20,
-    marginHorizontal: 20,
-    marginBottom: 32,
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.lg,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing['3xl'],
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    ...Shadow.sm,
   },
   profileIcon: {
-    width: 60,
+    width: 60, // Profile icon size
     height: 60,
     borderRadius: 30,
-    marginRight: 16,
+    marginRight: Spacing.base,
   },
   profileInfo: {
     flex: 1,
   },
   profileName: {
-    fontSize: 17,
+    ...Typography.bodyLarge,
     fontWeight: '600',
-    color: '#000000',
-    marginBottom: 2,
-    fontFamily: 'Roboto-Medium',
+    color: Colors.black,
+    marginBottom: Spacing.xxs,
   },
   profileEmail: {
-    fontSize: 13,
-    color: '#8E8E93',
-    marginBottom: 6,
-    fontFamily: 'Roboto',
+    ...Typography.caption,
+    color: Colors.text.secondary,
+    marginBottom: Spacing.xs,
   },
   accountDetails: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: Spacing.xs,
   },
   accountDetailsText: {
-    fontSize: 13,
-    color: '#000000',
-    fontFamily: 'Roboto',
+    ...Typography.caption,
+    color: Colors.black,
   },
   sectionTitle: {
-    fontSize: 15,
-    fontWeight: '400',
-    color: '#8E8E93',
-    marginHorizontal: 20,
-    marginBottom: 12,
-    fontFamily: 'Roboto',
+    ...Typography.body,
+    color: Colors.text.secondary,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.md,
   },
   settingsList: {
-    paddingHorizontal: 20,
-    gap: 12,
-    paddingBottom: 100,
+    paddingHorizontal: Spacing.lg,
+    gap: Spacing.md,
+    paddingBottom: 100, // Extra space for bottom tab bar
   },
   settingItem: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.base,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    ...Shadow.sm,
   },
   settingIcon: {
-    width: 24,
-    height: 24,
-    tintColor: '#000000',
+    width: IconSize.base,
+    height: IconSize.base,
+    tintColor: Colors.black,
   },
   settingText: {
     flex: 1,
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#000000',
-    marginLeft: 16,
-    fontFamily: 'Roboto',
+    ...Typography.bodyLarge,
+    color: Colors.black,
+    marginLeft: Spacing.base,
   },
   arrowIcon: {
-    width: 16,
-    height: 16,
-    tintColor: '#000000',
+    width: IconSize.xs,
+    height: IconSize.xs,
+    tintColor: Colors.black,
   },
   arrowIconLarge: {
-    width: 24,
-    height: 24,
-    tintColor: '#000000',
+    width: IconSize.base,
+    height: IconSize.base,
+    tintColor: Colors.black,
   },
 });

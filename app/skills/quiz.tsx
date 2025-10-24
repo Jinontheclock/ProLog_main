@@ -1,13 +1,40 @@
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { CommonStyles } from '@/lib/common-styles';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function QuizScreen() {
   const router = useRouter();
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const correctAnswer = 2; // "It has constant magnitude"
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+
+  const handleProceed = () => {
+    if (selectedAnswer !== null) {
+      setShowAnswer(true);
+    }
+  };
+
+  useEffect(() => {
+    if (showAnswer) {
+      // 회전 애니메이션 시작
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start(() => {
+        // 1초 후 결과 페이지로 이동
+        router.push('/skills/quiz-result');
+      });
+    }
+  }, [showAnswer]);
+
+  const spin = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   return (
     <SafeAreaView style={CommonStyles.container}>
@@ -15,9 +42,12 @@ export default function QuizScreen() {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={() => router.back()}
+            onPress={() => router.push('/skills/circuit-concepts')}
           >
-            <IconSymbol name="xmark" size={24} color="#2C2C2C" />
+            <Image 
+              source={require('@/assets/images/icon-close.png')} 
+              style={styles.closeIcon}
+            />
           </TouchableOpacity>
           <Text style={styles.questionCounter}>2 of 6</Text>
         </View>
@@ -31,38 +61,88 @@ export default function QuizScreen() {
 
           <View style={styles.optionsContainer}>
             <TouchableOpacity
-              style={styles.option}
-              onPress={() => setSelectedAnswer(0)}
+              style={[
+                styles.option, 
+                selectedAnswer === 0 && !showAnswer && styles.optionSelected,
+                showAnswer && 0 === correctAnswer && styles.optionCorrect,
+                showAnswer && selectedAnswer === 0 && 0 !== correctAnswer && styles.optionIncorrect
+              ]}
+              onPress={() => !showAnswer && setSelectedAnswer(0)}
+              disabled={showAnswer}
             >
-              <Text style={styles.optionText}>It flows in one direction only</Text>
+              <Text style={[
+                styles.optionText, 
+                selectedAnswer === 0 && !showAnswer && styles.optionTextSelected
+              ]}>It flows in one direction only</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.option}
-              onPress={() => setSelectedAnswer(1)}
+              style={[
+                styles.option, 
+                selectedAnswer === 1 && !showAnswer && styles.optionSelected,
+                showAnswer && 1 === correctAnswer && styles.optionCorrect,
+                showAnswer && selectedAnswer === 1 && 1 !== correctAnswer && styles.optionIncorrect
+              ]}
+              onPress={() => !showAnswer && setSelectedAnswer(1)}
+              disabled={showAnswer}
             >
-              <Text style={styles.optionText}>It changes direction periodically</Text>
+              <Text style={[
+                styles.optionText, 
+                selectedAnswer === 1 && !showAnswer && styles.optionTextSelected
+              ]}>It changes direction periodically</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.option, selectedAnswer === 2 && styles.optionSelected]}
-              onPress={() => setSelectedAnswer(2)}
+              style={[
+                styles.option, 
+                selectedAnswer === 2 && !showAnswer && styles.optionSelected,
+                showAnswer && 2 === correctAnswer && styles.optionCorrect,
+                showAnswer && selectedAnswer === 2 && 2 !== correctAnswer && styles.optionIncorrect
+              ]}
+              onPress={() => !showAnswer && setSelectedAnswer(2)}
+              disabled={showAnswer}
             >
-              <Text style={styles.optionText}>It has constant magnitude</Text>
+              <Text style={[
+                styles.optionText, 
+                selectedAnswer === 2 && !showAnswer && styles.optionTextSelected
+              ]}>It has constant magnitude</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.option}
-              onPress={() => setSelectedAnswer(3)}
+              style={[
+                styles.option, 
+                selectedAnswer === 3 && !showAnswer && styles.optionSelected,
+                showAnswer && 3 === correctAnswer && styles.optionCorrect,
+                showAnswer && selectedAnswer === 3 && 3 !== correctAnswer && styles.optionIncorrect
+              ]}
+              onPress={() => !showAnswer && setSelectedAnswer(3)}
+              disabled={showAnswer}
             >
-              <Text style={styles.optionText}>It stops and starts repeatedly</Text>
+              <Text style={[
+                styles.optionText, 
+                selectedAnswer === 3 && !showAnswer && styles.optionTextSelected
+              ]}>It stops and starts repeatedly</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={CommonStyles.whiteButton}>
+            <TouchableOpacity 
+              style={CommonStyles.whiteButton}
+              onPress={handleProceed}
+              disabled={selectedAnswer === null}
+            >
               <Text style={CommonStyles.whiteButtonText}>Proceed to Next</Text>
-              <IconSymbol name="arrow.right" size={20} color="#2C2C2C" />
+              {showAnswer ? (
+                <Animated.Image 
+                  source={require('@/assets/images/icon-progress.png')} 
+                  style={[styles.arrowIcon, { transform: [{ rotate: spin }] }]}
+                />
+              ) : (
+                <Image 
+                  source={require('@/assets/images/icon-arrow-right.png')} 
+                  style={styles.arrowIcon}
+                />
+              )}
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -79,34 +159,39 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 16,
+    position: 'relative',
   },
   closeButton: {
     padding: 4,
+    position: 'absolute',
+    left: 20,
   },
   questionCounter: {
     fontSize: 16,
     color: '#8E8E93',
     fontFamily: 'Roboto',
+    textAlign: 'center',
   },
   scrollView: {
     flex: 1,
   },
   questionContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 40,
-    paddingBottom: 60,
+    paddingHorizontal: 40,
+    minHeight: 300,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   questionText: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '400',
     color: '#000000',
     lineHeight: 32,
     textAlign: 'center',
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'Roboto',
   },
   optionsContainer: {
     paddingHorizontal: 20,
@@ -114,7 +199,7 @@ const styles = StyleSheet.create({
   },
   option: {
     backgroundColor: '#FFFFFF',
-    paddingVertical: 20,
+    paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 16,
     borderWidth: 2,
@@ -128,6 +213,16 @@ const styles = StyleSheet.create({
   optionSelected: {
     backgroundColor: '#4A4A4A',
   },
+  optionCorrect: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#1A963E',
+    borderWidth: 2,
+  },
+  optionIncorrect: {
+    backgroundColor: 'rgba(216, 1, 0, 0.1)',
+    borderColor: '#D80100',
+    borderWidth: 2,
+  },
   optionText: {
     fontSize: 16,
     fontWeight: '400',
@@ -135,10 +230,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Roboto',
   },
+  optionTextSelected: {
+    color: '#FFFFFF',
+  },
   actionContainer: {
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 24,
     paddingBottom: 40,
+  },
+  arrowIcon: {
+    width: 20,
+    height: 20,
+    marginLeft: 6,
+  },
+  closeIcon: {
+    width: 24,
+    height: 24,
   },
 });
 

@@ -1,4 +1,12 @@
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import {
+    AUDIO,
+    BorderRadius,
+    Colors,
+    IconSize,
+    Shadow,
+    Spacing,
+    Typography
+} from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -8,18 +16,21 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function CircuitConceptsScreen() {
   const router = useRouter();
   const [isCompleted, setIsCompleted] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState('1x');
+  const [playbackSpeed, setPlaybackSpeed] = useState(AUDIO.DEFAULT_PLAYBACK_SPEED);
+  const [isAudioModalVisible, setIsAudioModalVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   return (
     <SafeAreaView style={CommonStyles.container}>
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity onPress={() => router.back()} style={CommonStyles.backButtonWithText}>
             <Image 
-              source={require('@/assets/images/backbutton.png')} 
-              style={styles.backIcon}
+              source={require('@/assets/images/icon-back-button.png')} 
+              style={CommonStyles.backIcon}
             />
+            <Text style={CommonStyles.backText}>Back</Text>
           </TouchableOpacity>
           <Text style={styles.headerStatus}>
             {isCompleted ? 'Completed' : 'Incomplete'} Competency
@@ -40,8 +51,14 @@ export default function CircuitConceptsScreen() {
             <View style={styles.tag}>
               <Text style={styles.tagText}>AI Generated</Text>
             </View>
-            <TouchableOpacity style={styles.speakerButton}>
-              <IconSymbol name="speaker.wave.2" size={20} color="#2C2C2C" />
+            <TouchableOpacity 
+              style={styles.speakerButton}
+              onPress={() => setIsAudioModalVisible(true)}
+            >
+              <Image 
+                source={require('@/assets/images/icon-volume.png')} 
+                style={styles.volumeIcon}
+              />
             </TouchableOpacity>
           </View>
 
@@ -55,8 +72,10 @@ export default function CircuitConceptsScreen() {
           <Text style={CommonStyles.bodyText}>
             The principles of alternating current (AC) involve understanding how electrical current periodically reverses direction, how it is generated (usually by rotating machines), and its key characteristics such as frequency, voltage, and waveform. Apprentices should also understand why AC is used—mainly for its efficiency in transmission and voltage transformation—and how it behaves in different types of electrical circuits.
           </Text>
+              </View>
 
           {/* Definition Section */}
+                  <View style={styles.contentCard}>
           <Text style={styles.sectionTitle}>1. Definition of Alternating Current (AC)</Text>
           <View style={styles.bulletList}>
             <View style={styles.bulletItem}>
@@ -87,43 +106,162 @@ export default function CircuitConceptsScreen() {
               </View>
             </View>
           </View>
-        </View>
+          </View>
 
-        {/* Audio Player */}
-        <View style={styles.audioPlayer}>
-          <TouchableOpacity style={styles.speedButton}>
-            <Text style={styles.speedText}>{playbackSpeed}</Text>
-          </TouchableOpacity>
-          <View style={styles.progressBar} />
-          <TouchableOpacity style={styles.infoButton}>
-            <IconSymbol name="info.circle" size={24} color="#2C2C2C" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.closeButton}>
-            <IconSymbol name="xmark" size={24} color="#2C2C2C" />
-          </TouchableOpacity>
-        </View>
+          {/* Generation of AC Section */}
+          <View style={styles.contentCard}>
+          <Text style={styles.sectionTitle}>2. Generation of AC</Text>
+          <View style={styles.bulletList}>
+            <View style={styles.bulletItem}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletTitle}>Produced by:</Text>
+                <Text style={styles.bulletText}>
+                  {' '}Alternators or AC generators.
+                </Text>
+              </View>
+            </View>
+            <View style={styles.bulletItem}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletTitle}>How it works:</Text>
+              </View>
+            </View>
+            <View style={[styles.bulletItem, { paddingLeft: 20 }]}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletText}>
+                  A coil of wire rotates within a magnetic field.
+                </Text>
+              </View>
+            </View>
+            <View style={[styles.bulletItem, { paddingLeft: 20 }]}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletText}>
+                  This rotation induces a voltage that alternates in polarity (positive and negative).
+                </Text>
+              </View>
+            </View>
+            <View style={styles.bulletItem}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletTitle}>Result:</Text>
+                <Text style={styles.bulletText}>
+                  {' '}A sine wave voltage output.
+                </Text>
+              </View>
+            </View>
+          </View>
+          </View>
+
+          {/* Characteristics of AC Section */}
+          <View style={styles.contentCard}>
+          <Text style={styles.sectionTitle}>3. Characteristics of AC</Text>
+          <View style={styles.bulletList}>
+            <View style={styles.bulletItem}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletTitle}>Waveform:</Text>
+                <Text style={styles.bulletText}>
+                  {' '}Most AC systems use a sine wave because it's smooth and efficient for power transmission.
+                </Text>
+              </View>
+            </View>
+            <View style={styles.bulletItem}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletTitle}>Amplitude (Voltage):</Text>
+                <Text style={styles.bulletText}>
+                  {' '}The maximum value (peak) of the voltage or current in a cycle.
+                </Text>
+              </View>
+            </View>
+            <View style={styles.bulletItem}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletTitle}>Root Mean Square (RMS):</Text>
+                <Text style={styles.bulletText}>
+                  {' '}The effective voltage or current value (e.g., 120 V RMS in household outlets).
+                </Text>
+              </View>
+            </View>
+            <View style={styles.bulletItem}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <View style={styles.bulletContent}>
+                <Text style={styles.bulletTitle}>Phase:</Text>
+                <Text style={styles.bulletText}>
+                  {' '}Describes the time relationship between voltage and current waveforms.
+                </Text>
+              </View>
+            </View>
+          </View>
+          </View>
 
         {/* Action Buttons */}
           <View style={styles.actionButtons}>
             <TouchableOpacity
-              style={CommonStyles.whiteButton}
+              style={[CommonStyles.whiteButton, styles.flexButton]}
               onPress={() => router.push('/skills/quiz')}
             >
-              <IconSymbol name="doc.text" size={20} color="#E07843" />
               <Text style={styles.challengeButtonText}>Challenge Quiz</Text>
+              <Image 
+                  source={require('@/assets/images/icon-assignment.png')}
+                style={styles.buttonIcon}
+              />
             </TouchableOpacity>
             
             {!isCompleted && (
               <TouchableOpacity
-                style={CommonStyles.whiteButton}
+                style={[CommonStyles.whiteButton, styles.flexButton]}
                 onPress={() => setIsCompleted(true)}
               >
                 <Text style={CommonStyles.whiteButtonText}>Mark as Complete</Text>
-                <IconSymbol name="checkmark" size={20} color="#2C2C2C" />
+                <Image 
+                  source={require('@/assets/images/icon-volume.png')} 
+                  style={styles.buttonIcon}
+                />
               </TouchableOpacity>
             )}
           </View>
       </ScrollView>
+
+      {/* Audio Control Bar - Fixed Overlay */}
+      {isAudioModalVisible && (
+        <View style={styles.audioControlBarOverlay}>
+          <View style={styles.audioControlBar}>
+            <TouchableOpacity style={styles.speedButton}>
+              <Text style={styles.speedButtonText}>{playbackSpeed}</Text>
+            </TouchableOpacity>
+
+            <View style={styles.progressBarContainer}>
+              <View style={styles.progressBar}>
+                <View style={[styles.progressFill, { width: '30%' }]} />
+              </View>
+            </View>
+
+            <TouchableOpacity 
+              style={styles.playPauseButton}
+              onPress={() => setIsPlaying(!isPlaying)}
+            >
+              <Image 
+                source={require('@/assets/images/icon-pause.png')} 
+                style={styles.playPauseIcon}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.closeModalButton}
+              onPress={() => setIsAudioModalVisible(false)}
+            >
+              <Image 
+                source={require('@/assets/images/icon-close.png')} 
+                style={styles.closeModalIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -133,99 +271,77 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 8,
-    paddingBottom: 16,
-  },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    padding: 8,
-    marginLeft: -8,
-  },
-  backIcon: {
-    width: 24,
-    height: 24,
-    tintColor: '#2C2C2C',
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.sm,
+    paddingBottom: Spacing.base,
   },
   headerStatus: {
-    fontSize: 14,
-    color: '#8E8E93',
-    fontFamily: 'Roboto',
+    ...Typography.bodyBase,
+    color: Colors.text.secondary,
   },
   contentCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    marginHorizontal: 20,
-    marginBottom: 16,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.lg,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.md,
+    paddingTop: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: Spacing.sm,
+    ...Shadow.base,
   },
   subtitle: {
-    fontSize: 13,
-    color: '#8E8E93',
-    marginBottom: 4,
-    fontFamily: 'Roboto',
+    ...Typography.caption,
+    color: Colors.text.secondary,
+    marginBottom: Spacing.xs,
   },
   title: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#000000',
-    marginBottom: 16,
-    fontFamily: 'Roboto-Bold',
+    ...Typography.pageTitle,
+    color: Colors.black,
+    marginBottom: Spacing.base,
   },
   tagsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
+    gap: Spacing.sm,
+    marginBottom: Spacing.base,
   },
   tag: {
-    backgroundColor: '#2C2C2C',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
+    backgroundColor: Colors.dark,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.base,
   },
   tagText: {
-    fontSize: 12,
-    color: '#FFFFFF',
-    fontFamily: 'Roboto',
+    ...Typography.tag,
+    color: Colors.white,
   },
   speakerButton: {
     marginLeft: 'auto',
   },
   description: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#000000',
-    marginBottom: 24,
-    fontFamily: 'Roboto',
+    ...Typography.bodyLarge,
+    color: Colors.black,
+    marginBottom: Spacing.xl,
   },
   sectionTitle: {
-    fontSize: 16,
+    ...Typography.bodyLarge,
     fontWeight: '700',
-    color: '#000000',
-    marginBottom: 12,
-    marginTop: 8,
+    color: Colors.black,
+    marginBottom: Spacing.md,
+    marginTop: Spacing.sm,
     fontFamily: 'Roboto-Bold',
   },
   bulletList: {
-    marginBottom: 16,
+    marginBottom: Spacing.base,
   },
   bulletItem: {
     flexDirection: 'row',
-    marginBottom: 12,
+    marginBottom: Spacing.md,
   },
   bulletPoint: {
-    fontSize: 15,
-    color: '#000000',
-    marginRight: 8,
-    fontFamily: 'Roboto',
+    ...Typography.body,
+    color: Colors.black,
+    marginRight: Spacing.sm,
   },
   bulletContent: {
     flex: 1,
@@ -233,62 +349,132 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   bulletTitle: {
-    fontSize: 15,
+    ...Typography.body,
     fontWeight: '700',
-    color: '#000000',
+    color: Colors.black,
     fontFamily: 'Roboto-Bold',
   },
   bulletText: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#000000',
-    fontFamily: 'Roboto',
+    ...Typography.body,
+    color: Colors.black,
   },
   audioPlayer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 20,
-    marginBottom: 16,
-    padding: 16,
-    borderRadius: 16,
-    gap: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    backgroundColor: Colors.white,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.base,
+    padding: Spacing.base,
+    borderRadius: BorderRadius.base,
+    gap: Spacing.md,
+    ...Shadow.sm,
   },
   speedButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: '#F2F2F2',
-    borderRadius: 8,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    backgroundColor: Colors.grey[50],
+    borderRadius: BorderRadius.sm,
   },
   speedText: {
-    fontSize: 14,
+    ...Typography.bodyBase,
     fontWeight: '600',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto-Medium',
+    color: Colors.text.primary,
   },
   progressBar: {
     flex: 1,
     height: 4,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 2,
+    backgroundColor: Colors.grey[200],
+    borderRadius: BorderRadius.xxs,
   },
   infoButton: {},
-  closeButton: {},
-  actionButtons: {
-    paddingHorizontal: 20,
-    paddingBottom: 100,
-    gap: 12,
+  closeButton: {
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: 100, // Extra space for bottom tab bar
+    gap: Spacing.md,
   },
+    actionButtons: {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',  
+    gap: Spacing.lg,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.lg,
+},
+
   challengeButtonText: {
-    fontSize: 16,
+    ...Typography.bodyLarge,
     fontWeight: '600',
-    color: '#E07843',
-    fontFamily: 'Roboto-Medium',
+    color: Colors.primary,
+    flexShrink: 0,
+  },
+  buttonIcon: {
+    width: IconSize.sm,
+    height: IconSize.sm,
+    marginLeft: Spacing.xs,
+  },
+  flexButton: {
+    flex: 1,
+  },
+  volumeIcon: {
+    width: IconSize.sm,
+    height: IconSize.sm,
+  },
+  audioControlBarOverlay: {
+    position: 'absolute',
+    bottom: 120, // Fixed position above bottom tab bar
+    left: 0,
+    right: 0,
+  },
+  audioControlBar: {
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.lg,
+    marginHorizontal: Spacing.lg,
+    paddingVertical: Spacing.base,
+    paddingHorizontal: Spacing.base,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+    ...Shadow.base,
+  },
+  speedButton: {
+    backgroundColor: Colors.grey[50],
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: BorderRadius.sm,
+  },
+  speedButtonText: {
+    ...Typography.bodyBase,
+    fontWeight: '600',
+    color: Colors.text.primary,
+  },
+  progressBarContainer: {
+    flex: 1,
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: Colors.grey[200],
+    borderRadius: BorderRadius.xxs,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: Colors.text.primary,
+    borderRadius: BorderRadius.xxs,
+  },
+  playPauseButton: {
+    padding: Spacing.sm,
+  },
+  playPauseIcon: {
+    width: IconSize.base,
+    height: IconSize.base,
+  },
+  closeModalButton: {
+    padding: Spacing.sm,
+  },
+  closeModalIcon: {
+    width: IconSize.base,
+    height: IconSize.base,
   },
 });
 

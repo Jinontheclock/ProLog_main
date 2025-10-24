@@ -40,21 +40,9 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        <Stack.Screen name="resources/study-resources" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/financial-resources" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/other-resources" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/generate-guide" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/eligibility-quiz" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/eligibility-quiz-saved" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/canada-apprentice-loan" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/how-to-build-resume" options={{ headerShown: false }} />
-        <Stack.Screen name="resources/series-circuits" options={{ headerShown: false }} />
-        <Stack.Screen name="skills/circuit-concepts" options={{ headerShown: false }} />
-        <Stack.Screen name="skills/quiz" options={{ headerShown: false }} />
-        <Stack.Screen name="skills/quiz-result" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

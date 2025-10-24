@@ -1,23 +1,34 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import {
+    APPRENTICESHIP,
+    BorderRadius,
+    Colors,
+    IconSize,
+    Shadow,
+    Spacing,
+    Typography
+} from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
+  const router = useRouter();
   const trainingHours = 1500;
-  const trainingGoal = 1800;
+  const trainingGoal = APPRENTICESHIP.TRAINING_HOURS_PER_LEVEL;
   const totalHours = 1500;
-  const totalGoal = 6000;
+  const totalGoal = APPRENTICESHIP.TOTAL_HOURS_REQUIRED;
   const competencies = 30;
-  const totalCompetencies = 60;
+  const totalCompetencies = APPRENTICESHIP.TOTAL_COMPETENCIES;
 
   return (
     <SafeAreaView style={CommonStyles.container}>
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Dashboard Title */}
         <View style={styles.dashboardHeader}>
-          <Text style={CommonStyles.mainTitle}>Dashboard</Text>
+          <Text style={CommonStyles.mainTitle}>{APPRENTICESHIP.LEVELS.LEVEL_1.split(' ')[0]}</Text>
         </View>
 
         {/* Level 1 Section */}
@@ -25,14 +36,14 @@ export default function HomeScreen() {
           <View style={styles.levelMainContent}>
             {/* Left Column */}
             <View style={styles.levelLeftColumn}>
-              <Text style={styles.levelTitle}>Level 1</Text>
+              <Text style={styles.levelTitle}>{APPRENTICESHIP.LEVELS.LEVEL_1}</Text>
               <Text style={styles.lastUpdated}>Last updated 2:45PM</Text>
               <Text style={styles.sectionLabel}>Training Hours</Text>
 
               {/* Circular Progress */}
               <View style={styles.circularProgressContainer}>
                 <Image 
-                  source={require('@/assets/images/Frame 376.png')} 
+                  source={require('@/assets/images/chart-circular-progress.png')} 
                   style={styles.circularProgressImage}
                   resizeMode="contain"
                 />
@@ -44,12 +55,12 @@ export default function HomeScreen() {
                 <Text style={styles.totalHoursText}>{totalHours.toLocaleString()}/{totalGoal.toLocaleString()}</Text>
                 <View style={styles.totalHoursBar}>
                   <Image 
-                    source={require('@/assets/images/Frame 101-1.png')} 
+                    source={require('@/assets/images/chart-progress-bar-bg.png')} 
                     style={styles.progressBarBackground}
                     resizeMode="stretch"
                   />
                   <Image 
-                    source={require('@/assets/images/Frame 101.png')} 
+                    source={require('@/assets/images/chart-progress-bar-fill.png')} 
                     style={[styles.progressBarFilled, { width: `${(totalHours / totalGoal) * 100}%` }]}
                     resizeMode="stretch"
                   />
@@ -59,9 +70,12 @@ export default function HomeScreen() {
 
             {/* Right Column - White Card */}
             <View style={styles.levelRightCard}>
-              <TouchableOpacity style={styles.reminderButton}>
+              <TouchableOpacity 
+                style={styles.reminderButton}
+                onPress={() => router.push('/dashboard/reminder')}
+              >
                 <Image 
-                  source={require('@/assets/images/bell.png')} 
+                  source={require('@/assets/images/icon-bell.png')} 
                   style={styles.reminderIcon}
                 />
                 <Text style={styles.reminderButtonText}>Reminder</Text>
@@ -82,7 +96,7 @@ export default function HomeScreen() {
 
               <TouchableOpacity style={styles.addCircleButton}>
                 <Image 
-                  source={require('@/assets/images/add_2.png')} 
+                  source={require('@/assets/images/icon-add.png')} 
                   style={styles.addIcon}
                 />
               </TouchableOpacity>
@@ -98,12 +112,12 @@ export default function HomeScreen() {
               <Text style={styles.competenciesCount}>{competencies}/{totalCompetencies}</Text>
               <View style={styles.competenciesBar}>
                 <Image 
-                  source={require('@/assets/images/Frame 101-1.png')} 
+                  source={require('@/assets/images/chart-progress-bar-bg.png')} 
                   style={styles.progressBarBackground}
                   resizeMode="stretch"
                 />
                 <Image 
-                  source={require('@/assets/images/Frame 101.png')} 
+                  source={require('@/assets/images/chart-progress-bar-fill.png')} 
                   style={[styles.progressBarFilled, { width: `${(competencies / totalCompetencies) * 100}%` }]}
                   resizeMode="stretch"
                 />
@@ -166,85 +180,74 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   dashboardHeader: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg,
+    paddingBottom: Spacing.base,
   },
   levelSection: {
-    marginHorizontal: 20,
-    marginBottom: 20,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.lg,
   },
   levelMainContent: {
     flexDirection: 'row',
-    gap: 16,
+    gap: Spacing.base,
   },
   levelLeftColumn: {
     width: '60%',
-    backgroundColor: '#F2F2F2',
-    padding: 20,
-    borderRadius: 20,
+    backgroundColor: Colors.grey[50],
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.lg,
   },
   levelRightCard: {
     flex: 1,
-    backgroundColor: '#F2F2F2',
-    padding: 20,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 12,
+    backgroundColor: Colors.grey[50],
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.lg,
+    ...Shadow.xl,
     justifyContent: 'space-between',
   },
   levelTitle: {
-    fontSize: 24,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto',
-    marginBottom: 4,
+    ...Typography.pageTitle,
+    color: Colors.text.primary,
+    marginBottom: Spacing.xs,
   },
   reminderButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E07843',
-    paddingHorizontal: 24,
-    paddingVertical: 20,
-    borderRadius: 12,
-    gap: 6,
-    marginBottom: 20,
+    backgroundColor: Colors.primary,
+    paddingHorizontal: Spacing.xl,
+    paddingVertical: Spacing.lg,
+    borderRadius: BorderRadius.base,
+    gap: Spacing.xs,
+    marginBottom: Spacing.lg,
   },
   reminderIcon: {
-    width: 12,
-    height: 12,
+    width: IconSize.xs,
+    height: IconSize.xs,
   },
   reminderButtonText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: '400',
-    fontFamily: 'Roboto',
+    ...Typography.tag,
+    color: Colors.white,
   },
   lastUpdated: {
-    fontSize: 12,
-    color: '#999999',
-    marginBottom: 20,
-    fontFamily: 'Roboto',
+    ...Typography.tag,
+    color: Colors.text.disabled,
+    marginBottom: Spacing.lg,
   },
   sectionLabel: {
-    fontSize: 14,
-    color: '#2C2C2C',
-    marginBottom: 16,
-    fontWeight: '400',
-    fontFamily: 'Roboto',
+    ...Typography.bodyBase,
+    color: Colors.text.primary,
+    marginBottom: Spacing.base,
   },
   circularProgressContainer: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: Spacing.lg,
   },
   circularProgressImage: {
-    width: 180,
+    width: 180, // Custom size for circular progress chart
     height: 180,
   },
   progressTextContainer: {
@@ -254,67 +257,53 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   progressNumbers: {
-    fontSize: 24,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto',
+    ...Typography.pageTitle,
+    color: Colors.text.primary,
   },
   progressDivider: {
-    fontSize: 20,
-    fontWeight: '400',
-    color: '#999999',
-    marginHorizontal: 2,
-    fontFamily: 'Roboto',
+    ...Typography.pageTitleRegular,
+    color: Colors.text.disabled,
+    marginHorizontal: Spacing.xxs,
   },
   progressGoal: {
-    fontSize: 20,
-    fontWeight: '400',
-    color: '#999999',
-    fontFamily: 'Roboto',
+    ...Typography.pageTitleRegular,
+    color: Colors.text.disabled,
   },
   reminderInfo: {
-    marginBottom: 20,
+    marginBottom: Spacing.lg,
     alignItems: 'center',
   },
   reminderDivider: {
     height: 1,
-    backgroundColor: '#E5E5E5',
-    marginVertical: 16,
+    backgroundColor: Colors.grey[100],
+    marginVertical: Spacing.base,
   },
   reminderLabel: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    lineHeight: 20,
-    fontFamily: 'Roboto',
+    ...Typography.bodyBase,
+    color: Colors.text.primary,
     textAlign: 'center',
   },
   reminderDate: {
-    fontSize: 12,
-    color: '#999999',
-    marginTop: 4,
-    fontFamily: 'Roboto',
+    ...Typography.tag,
+    color: Colors.text.disabled,
+    marginTop: Spacing.xs,
     textAlign: 'center',
   },
   totalHoursContainer: {
     marginBottom: 0,
   },
   totalHoursLabel: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    marginBottom: 8,
-    fontFamily: 'Roboto',
+    ...Typography.bodyBase,
+    color: Colors.text.primary,
+    marginBottom: Spacing.sm,
   },
   totalHoursText: {
-    fontSize: 18,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    marginBottom: 8,
-    fontFamily: 'Roboto',
+    ...Typography.sectionTitle,
+    color: Colors.text.primary,
+    marginBottom: Spacing.sm,
   },
   totalHoursBar: {
-    height: 16,
+    height: IconSize.xs,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -329,58 +318,46 @@ const styles = StyleSheet.create({
   },
   addCircleButton: {
     width: '100%',
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: '#F2F2F2',
+    height: IconSize['2xl'],
+    borderRadius: BorderRadius.base,
+    backgroundColor: Colors.grey[50],
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 6,
+    ...Shadow.md,
   },
   addIcon: {
-    width: 24,
-    height: 24,
+    width: IconSize.base,
+    height: IconSize.base,
   },
   competenciesSection: {
-    marginHorizontal: 20,
-    marginBottom: 24,
-    backgroundColor: '#F2F2F2',
-    borderRadius: 20,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 12,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.xl,
+    backgroundColor: Colors.grey[50],
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.base,
+    ...Shadow.xl,
   },
   competenciesContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 20,
+    gap: Spacing.lg,
   },
   competenciesLeft: {
     flex: 1,
   },
   competenciesTitle: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto',
-    marginBottom: 4,
+    ...Typography.bodyLarge,
+    color: Colors.text.primary,
+    marginBottom: Spacing.xs,
   },
   competenciesCount: {
-    fontSize: 24,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto',
-    marginBottom: 8,
+    ...Typography.pageTitle,
+    color: Colors.text.primary,
+    marginBottom: Spacing.sm,
   },
   competenciesBar: {
-    height: 16,
+    height: IconSize.xs,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -388,78 +365,61 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#2C2C2C',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderRadius: 16,
-    gap: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6,
-    minWidth: 110,
+    backgroundColor: Colors.dark,
+    paddingVertical: Spacing.base,
+    paddingHorizontal: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    gap: Spacing.xs,
+    ...Shadow.md,
+    minWidth: 110, // Fixed width for button layout
   },
   checklistButtonText: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: '400',
+    ...Typography.bodyBase,
+    color: Colors.white,
     textAlign: 'center',
-    fontFamily: 'Roboto',
   },
   suggestedSection: {
-    marginBottom: 100,
+    marginBottom: 100, // Extra space for bottom tab bar
   },
   suggestedTitle: {
-    fontSize: 18,
-    fontFamily: 'Roboto',
-    fontWeight: '400',
-    color: '#787878',
-    marginBottom: 16,
-    paddingHorizontal: 20,
+    ...Typography.sectionTitle,
+    color: Colors.grey[500],
+    marginBottom: Spacing.base,
+    paddingHorizontal: Spacing.lg,
   },
   suggestedCardsContainer: {
-    paddingHorizontal: 20,
-    gap: 12,
+    paddingHorizontal: Spacing.lg,
+    gap: Spacing.md,
   },
   suggestedCard: {
-    width: 160,
-    backgroundColor: '#F2F2F2',
-    borderRadius: 16,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 12,
-    marginRight: 12,
+    width: 160, // Fixed card width for horizontal scroll
+    backgroundColor: Colors.grey[50],
+    borderRadius: BorderRadius.md,
+    padding: Spacing.base,
+    ...Shadow.xl,
+    marginRight: Spacing.md,
     position: 'relative',
   },
   cardTag: {
-    fontSize: 11,
-    color: '#999999',
-    marginBottom: 12,
-    fontWeight: '500',
-    fontFamily: 'Roboto-Medium',
+    ...Typography.tag,
+    color: Colors.text.disabled,
+    marginBottom: Spacing.md,
   },
   cardTitle: {
-    fontSize: 16,
+    ...Typography.bodyLarge,
     fontWeight: '700',
-    color: '#2C2C2C',
-    lineHeight: 22,
+    color: Colors.text.primary,
     fontFamily: 'Roboto-Bold',
   },
   cardDescription: {
-    fontSize: 12,
-    color: '#666666',
-    lineHeight: 18,
-    marginTop: 12,
-    marginBottom: 32,
-    fontFamily: 'Roboto',
+    ...Typography.tag,
+    color: Colors.grey[600],
+    marginTop: Spacing.md,
+    marginBottom: Spacing['2xl'],
   },
   cardArrow: {
     position: 'absolute',
-    right: 12,
-    bottom: 12,
+    right: Spacing.md,
+    bottom: Spacing.md,
   },
 });

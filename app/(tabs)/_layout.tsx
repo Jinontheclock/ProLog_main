@@ -59,7 +59,7 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/home.svg')}
+                source={require('@/assets/images/tab-home.svg')}
                 style={{ 
                   width: 24, 
                   height: 24,
@@ -85,7 +85,7 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/event_list.svg')}
+                source={require('@/assets/images/tab-skills.svg')}
                 style={{ 
                   width: 24, 
                   height: 24,
@@ -111,7 +111,7 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/book_2.svg')}
+                source={require('@/assets/images/tab-finances.svg')}
                 style={{ 
                   width: 24, 
                   height: 24,
@@ -137,7 +137,7 @@ export default function TabLayout() {
               width: 52,
             }}>
               <Image 
-                source={require('@/assets/images/brightness_5.svg')}
+                source={require('@/assets/images/tab-settings.svg')}
                 style={{ 
                   width: 24, 
                   height: 24,
@@ -146,24 +146,6 @@ export default function TabLayout() {
               />
             </View>
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="tracking"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="resources"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="saved"
-        options={{
-          href: null,
         }}
       />
     </Tabs>

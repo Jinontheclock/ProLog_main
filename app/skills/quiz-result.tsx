@@ -1,8 +1,7 @@
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { CommonStyles } from '@/lib/common-styles';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function QuizResultScreen() {
@@ -13,15 +12,19 @@ export default function QuizResultScreen() {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.closeButton}
-          onPress={() => router.back()}
+          onPress={() => router.push('/skills/circuit-concepts')}
         >
-          <IconSymbol name="xmark" size={24} color="#2C2C2C" />
+          <Image 
+            source={require('@/assets/images/icon-close.png')} 
+            style={styles.closeIcon}
+          />
         </TouchableOpacity>
 
         <View style={styles.resultContainer}>
-          <View style={styles.resultIcon}>
-            <IconSymbol name="checkmark" size={48} color="#2C2C2C" />
-          </View>
+          <Image 
+            source={require('@/assets/images/icon-bookmark-check.png')} 
+            style={styles.iconImage}
+          />
           
           <Text style={styles.resultTitle}>You've Completed{'\n'}the quiz</Text>
           
@@ -31,17 +34,26 @@ export default function QuizResultScreen() {
             competency one more.
           </Text>
 
-          <TouchableOpacity style={CommonStyles.whiteButton}>
-            <IconSymbol name="arrow.clockwise" size={20} color="#E07843" />
+          <TouchableOpacity 
+            style={[CommonStyles.whiteButton, styles.buttonMargin]}
+            onPress={() => router.push('/skills/quiz')}
+          >
             <Text style={styles.redoButtonText}>Redo Quiz</Text>
+            <Image 
+              source={require('@/assets/images/icon-assignment.png')} 
+              style={styles.buttonIcon}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={CommonStyles.whiteButton}
-            onPress={() => router.back()}
+            style={[CommonStyles.whiteButton, styles.buttonMargin]}
+            onPress={() => router.push('/skills/circuit-concepts')}
           >
             <Text style={CommonStyles.whiteButtonText}>Mark as Complete</Text>
-            <IconSymbol name="checkmark" size={20} color="#2C2C2C" />
+            <Image 
+              source={require('@/assets/images/icon-check.png')} 
+              style={styles.buttonIcon}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -61,25 +73,20 @@ const styles = StyleSheet.create({
     padding: 4,
     zIndex: 1,
   },
+  closeIcon: {
+    width: 24,
+    height: 24,
+  },
   resultContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 40,
   },
-  resultIcon: {
+  iconImage: {
     width: 80,
     height: 80,
-    borderRadius: 40,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: 32,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 6,
   },
   resultTitle: {
     fontSize: 28,
@@ -102,6 +109,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#E07843',
     fontFamily: 'Roboto-Medium',
+    flexShrink: 0,
+  },
+  buttonIcon: {
+    width: 20,
+    height: 20,
+    marginLeft: 6,
+  },
+  buttonMargin: {
+    marginBottom: 12,
+    width: '100%',
   },
 });
 

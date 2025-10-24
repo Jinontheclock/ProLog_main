@@ -1,3 +1,6 @@
+import { Colors } from '@/constants/colors';
+import { BorderRadius, IconSize, Shadow, Spacing } from '@/constants/design-tokens';
+import { Typography } from '@/constants/typography';
 import { StyleSheet } from 'react-native';
 import dimensions from './dimensions';
 
@@ -5,7 +8,13 @@ export const CommonStyles = StyleSheet.create({
   // Base container styles
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: Colors.grey[50],
+    width: dimensions.constrainedWidth,
+    alignSelf: 'center',
+  },
+  whiteContainer: {
+    flex: 1,
+    backgroundColor: Colors.grey[50],
     width: dimensions.constrainedWidth,
     alignSelf: 'center',
   },
@@ -13,146 +22,266 @@ export const CommonStyles = StyleSheet.create({
     flex: 1,
     width: dimensions.constrainedWidth,
   },
+  scrollContent: {
+    paddingBottom: 100,
+  },
   
   // Header styles
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg,
+    paddingBottom: Spacing.lg,
     width: dimensions.constrainedWidth,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: Colors.grey[50],
+  },
+  headerCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingTop: 10,
+    paddingBottom: Spacing.base,
   },
   headerSimple: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg,
+    paddingBottom: Spacing.base,
   },
+  
+  // Back button styles
   backButton: {
-    marginRight: 15,
-    padding: 8,
+    marginRight: Spacing.md,
+    padding: Spacing.sm,
+  },
+  backButtonWithText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    padding: Spacing.sm,
+  },
+  backIcon: {
+    width: IconSize.base,
+    height: IconSize.base,
+  },
+  backText: {
+    ...Typography.bodyLarge,
+    color: Colors.text.primary,
   },
   
   // Title styles
   mainTitle: {
-    fontSize: 50,
-    fontWeight: '400',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto',
+    ...Typography.mainTitle,
+    color: Colors.text.primary,
+  },
+  pageTitle: {
+    ...Typography.pageTitle,
+    color: Colors.text.primary,
+  },
+  pageTitleRegular: {
+    ...Typography.pageTitleRegular,
+    color: Colors.text.primary,
   },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto-Bold',
+    ...Typography.sectionTitle,
+    color: Colors.text.primary,
+    marginBottom: Spacing.base,
+  },
+  sectionTitleGray: {
+    ...Typography.sectionTitleGray,
+    color: Colors.text.secondary,
+    marginBottom: Spacing.base,
   },
   subTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto-Bold',
+    ...Typography.subTitle,
+    color: Colors.text.primary,
   },
   
   // Card styles
   card: {
-    backgroundColor: '#F8F8F8',
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    backgroundColor: Colors.background.card,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.lg,
+    ...Shadow.sm,
   },
   whiteCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.lg,
+    ...Shadow.base,
+  },
+  cardCompact: {
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.base,
+    ...Shadow.base,
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2C2C2C',
-    marginBottom: 8,
-    fontFamily: 'Roboto-Bold',
+    ...Typography.cardTitle,
+    color: Colors.text.primary,
+    marginBottom: Spacing.md,
   },
   cardDescription: {
-    fontSize: 14,
-    color: '#666',
-    lineHeight: 20,
-    fontFamily: 'Roboto',
+    ...Typography.cardDescription,
+    color: Colors.text.secondary,
+  },
+  cardDescriptionDark: {
+    ...Typography.cardDescriptionBase,
+    color: Colors.grey[600],
   },
   
   // Button styles
   primaryButton: {
-    backgroundColor: '#2C2C2C',
-    borderRadius: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
+    backgroundColor: Colors.dark,
+    borderRadius: BorderRadius.base,
+    paddingVertical: Spacing.base,
+    paddingHorizontal: Spacing.lg,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    ...Shadow.sm,
   },
   primaryButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Roboto-Medium',
+    ...Typography.button,
+    color: Colors.white,
   },
   whiteButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 16,
-    borderRadius: 16,
-    gap: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    backgroundColor: Colors.white,
+    paddingVertical: Spacing.base,
+    paddingHorizontal: Spacing.xl,
+    borderRadius: BorderRadius.xl,
+    gap: Spacing.sm,
+    ...Shadow.base,
+    flexWrap: 'nowrap',
   },
   whiteButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2C2C2C',
-    fontFamily: 'Roboto-Medium',
+    ...Typography.button,
+    color: Colors.text.primary,
+    flexShrink: 0,
+  },
+  
+  // Icon styles
+  icon24: {
+    width: IconSize.base,
+    height: IconSize.base,
+  },
+  icon20: {
+    width: IconSize.sm,
+    height: IconSize.sm,
+  },
+  icon16: {
+    width: IconSize.xs,
+    height: IconSize.xs,
+  },
+  iconGray: {
+    tintColor: Colors.text.secondary,
+  },
+  iconBlack: {
+    tintColor: Colors.text.primary,
+  },
+  iconWhite: {
+    tintColor: Colors.white,
+  },
+
+  // Search/Input styles
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.base,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: 10,
+    borderRadius: BorderRadius.base,
+  },
+  searchInput: {
+    ...Typography.bodyLarge,
+    flex: 1,
+    color: Colors.text.primary,
+  },
+  
+  // Filter/Tag styles
+  filterTab: {
+    paddingHorizontal: Spacing.base,
+    paddingVertical: 10,
+    borderRadius: BorderRadius.sm,
+    backgroundColor: Colors.grey[100],
+  },
+  filterTabActive: {
+    backgroundColor: Colors.primary,
+  },
+  filterTabText: {
+    ...Typography.bodyBase,
+    color: Colors.text.primary,
+  },
+  filterTabTextActive: {
+    color: Colors.white,
+  },
+  tag: {
+    backgroundColor: Colors.dark,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: 6,
+    borderRadius: BorderRadius.md,
+  },
+  tagText: {
+    ...Typography.tag,
+    color: Colors.white,
+  },
+
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: Colors.background.overlay,
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    backgroundColor: Colors.white,
+    borderTopLeftRadius: BorderRadius.lg,
+    borderTopRightRadius: BorderRadius.lg,
+    paddingTop: Spacing.lg,
+    paddingBottom: Spacing['3xl'],
+    width: dimensions.constrainedWidth,
+    alignSelf: 'center',
+  },
+  modalHandle: {
+    width: 40,
+    height: 4,
+    backgroundColor: Colors.border.default,
+    borderRadius: BorderRadius.xs,
+    alignSelf: 'center',
+    marginBottom: Spacing.lg,
   },
   
   // Section styles
   section: {
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingHorizontal: Spacing.lg,
+    marginBottom: Spacing.lg,
+  },
+  contentContainer: {
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: 100,
   },
   
   // Content area
   contentPadding: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg,
   },
   
   // Common text styles
   placeholderText: {
-    fontSize: 16,
-    color: '#999999',
+    ...Typography.bodyLarge,
+    color: Colors.text.disabled,
     textAlign: 'center',
-    fontFamily: 'Roboto',
   },
   bodyText: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#000000',
-    fontFamily: 'Roboto',
+    ...Typography.body,
+    color: Colors.black,
+  },
+  grayText: {
+    ...Typography.bodyBase,
+    color: Colors.text.secondary,
   },
 });

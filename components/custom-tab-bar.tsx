@@ -1,19 +1,18 @@
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { IconSymbol } from './ui/icon-symbol';
 
 interface CustomTabBarProps {
-  activeTab?: 'home' | 'tracking' | 'resources' | 'saved' | 'settings';
+  activeTab?: 'home' | 'skills' | 'finances' | 'settings' | 'resources';
 }
 
 export default function CustomTabBar({ activeTab = 'home' }: CustomTabBarProps) {
   const tabs = [
-    { key: 'home', iconName: 'house.fill', route: '/(tabs)/' },
-    { key: 'tracking', iconName: 'chart.bar.fill', route: '/(tabs)/tracking' },
-    { key: 'resources', iconName: 'book.fill', route: '/(tabs)/resources' },
-    { key: 'saved', iconName: 'bookmark.fill', route: '/(tabs)/saved' },
-    { key: 'settings', iconName: 'gearshape.fill', route: '/(tabs)/settings' },
+    { key: 'home', icon: require('@/assets/images/tab-home.svg'), route: '/(tabs)/' },
+    { key: 'skills', icon: require('@/assets/images/tab-skills.svg'), route: '/(tabs)/skills' },
+    { key: 'finances', icon: require('@/assets/images/tab-finances.svg'), route: '/(tabs)/finances' },
+    { key: 'settings', icon: require('@/assets/images/tab-settings.svg'), route: '/(tabs)/settings' },
   ];
 
   return (
@@ -24,10 +23,12 @@ export default function CustomTabBar({ activeTab = 'home' }: CustomTabBarProps) 
           style={styles.tabItem}
           onPress={() => router.push(tab.route as any)}
         >
-          <IconSymbol
-            name={tab.iconName as any}
-            size={24}
-            color={activeTab === tab.key ? '#2C2C2C' : '#999999'}
+          <Image
+            source={tab.icon}
+            style={[
+              styles.tabIcon,
+              { tintColor: activeTab === tab.key ? '#2C2C2C' : '#999999' }
+            ]}
           />
         </TouchableOpacity>
       ))}
@@ -41,10 +42,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     borderRadius: 60,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 12,
     flexDirection: 'row',
     height: 52,
     justifyContent: 'center',
@@ -55,8 +56,10 @@ const styles = StyleSheet.create({
     right: 0,
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: 375,
+    width: 360,
     alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
   },
   tabItem: {
     alignItems: 'center',
@@ -68,5 +71,9 @@ const styles = StyleSheet.create({
     width: 52,
     justifyContent: 'center',
     marginHorizontal: 9,
+  },
+  tabIcon: {
+    width: 24,
+    height: 24,
   },
 });
