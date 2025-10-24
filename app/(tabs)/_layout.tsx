@@ -128,33 +128,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="Settings"
         options={{
-          title: '',
-          href: '/(tabs)/Settings',
-          tabBarIcon: ({ focused }) => (
-            <View style={{
-              alignItems: 'center',
-              backgroundColor: '#F2F2F2',
-              borderRadius: 26,
-              height: 52,
-              justifyContent: 'center',
-              padding: 14,
-              width: 52,
-            }}>
-              <Image 
-                source={require('@/assets/images/tab-settings.svg')}
-                style={{ 
-                  width: 24, 
-                  height: 24,
-                  tintColor: focused ? '#2C2C2C' : '#999999'
-                }}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="_layout"
-        options={{
           href: null,
         }}
       />
