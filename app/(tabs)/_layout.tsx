@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { HapticTab } from '@/components/haptic-tab';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { CommonStyles } from '@/lib/common-styles';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -22,11 +23,6 @@ export default function TabLayout() {
           alignItems: 'center',
           backgroundColor: '#F2F2F2',
           borderRadius: 60,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 8 },
-          shadowOpacity: 0.15,
-          shadowRadius: 16,
-          elevation: 12,
           flexDirection: 'row',
           height: 52,
           justifyContent: 'center',
@@ -41,6 +37,7 @@ export default function TabLayout() {
           alignSelf: 'center',
           borderWidth: 1,
           borderColor: 'rgba(255, 255, 255, 0.5)',
+          ...CommonStyles.neoProjected,
         },
         tabBarLabelStyle: {
           display: 'none',
@@ -60,6 +57,7 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
+              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-home.svg')}
@@ -87,6 +85,7 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
+              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-skills.svg')}
@@ -114,6 +113,7 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
+              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-finances.svg')}
@@ -141,6 +141,7 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
+              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-settings.svg')}
