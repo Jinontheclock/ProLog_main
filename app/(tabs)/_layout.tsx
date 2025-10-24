@@ -48,6 +48,7 @@ export default function TabLayout() {
         name="Journey_Dashboard"
         options={{
           title: '',
+          href: '/(tabs)/Journey_Dashboard',
           tabBarIcon: ({ focused }) => (
             <View style={{
               alignItems: 'center',
@@ -74,6 +75,7 @@ export default function TabLayout() {
         name="My_Skills"
         options={{
           title: '',
+          href: '/(tabs)/My_Skills',
           tabBarIcon: ({ focused }) => (
             <View style={{
               alignItems: 'center',
@@ -100,6 +102,7 @@ export default function TabLayout() {
         name="Finance"
         options={{
           title: '',
+          href: '/(tabs)/Finance',
           tabBarIcon: ({ focused }) => (
             <View style={{
               alignItems: 'center',
@@ -126,6 +129,7 @@ export default function TabLayout() {
         name="Settings"
         options={{
           title: '',
+          href: '/(tabs)/Settings',
           tabBarIcon: ({ focused }) => (
             <View style={{
               alignItems: 'center',
