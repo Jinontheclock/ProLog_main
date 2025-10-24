@@ -284,4 +284,49 @@ export const CommonStyles = StyleSheet.create({
     ...Typography.bodyBase,
     color: Colors.text.secondary,
   },
+
+  // Neomorphism styles - CSS reference from style guide
+  // Note: React Native doesn't support inset shadows, so these are adapted
+  neoProjected: {
+    shadowColor: 'rgba(255, 255, 255, 0.30)',
+    shadowOffset: { width: 0.31, height: 0.31 },
+    shadowOpacity: 1,
+    shadowRadius: 0.62,
+    elevation: 3,
+  },
+  neoSubmerged: {
+    shadowColor: 'rgba(208, 208, 208, 0.20)',
+    shadowOffset: { width: -4.63, height: 4.63 },
+    shadowOpacity: 1,
+    shadowRadius: 9.27,
+    elevation: 5,
+  },
+  tinyProjected: {
+    shadowColor: 'rgba(255, 255, 255, 0.30)',
+    shadowOffset: { width: 0.207, height: 0.207 },
+    shadowOpacity: 1,
+    shadowRadius: 0.413,
+    elevation: 2,
+  },
+  barSubmerged: {
+    shadowColor: 'rgba(208, 208, 208, 0.20)',
+    shadowOffset: { width: -2.701, height: 2.701 },
+    shadowOpacity: 1,
+    shadowRadius: 5.408,
+    elevation: 4,
+  },
+  smallerProjected: {
+    shadowColor: 'rgba(255, 255, 255, 0.30)',
+    shadowOffset: { width: 0.31, height: 0.31 },
+    shadowOpacity: 1,
+    shadowRadius: 0.62,
+    elevation: 3,
+  },
+  dropShadow: {
+    shadowColor: 'rgba(0, 0, 0, 0.25)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 30,
+    elevation: 8,
+  },
 });
