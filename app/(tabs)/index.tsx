@@ -1,12 +1,12 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import {
-  APPRENTICESHIP,
-  BorderRadius,
-  Colors,
-  IconSize,
-  Shadow,
-  Spacing,
-  Typography
+    APPRENTICESHIP,
+    BorderRadius,
+    Colors,
+    IconSize,
+    Shadow,
+    Spacing,
+    Typography
 } from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
 import { useRouter } from 'expo-router';
@@ -72,7 +72,7 @@ export default function HomeScreen() {
             <View style={styles.levelRightCard}>
               <TouchableOpacity 
                 style={styles.reminderButton}
-                onPress={() => router.push('/dashboard/Dashboard_Reminder')}
+                onPress={() => router.push('/dashboard/reminder')}
               >
                 <Image 
                   source={require('@/assets/images/icon-bell.png')} 
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     gap: Spacing.xs,
     ...Shadow.md,
-    minWidth: 110, 
+    minWidth: 110,
   },
   checklistButtonText: {
     ...Typography.bodyBase,
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   suggestedSection: {
-    marginBottom: 100, 
+    marginBottom: 100,
   },
   suggestedTitle: {
     ...Typography.sectionTitle,

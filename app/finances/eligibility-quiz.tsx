@@ -29,7 +29,7 @@ export default function EligibilityQuizScreen() {
     setSelectedOption(option);
     // Navigate to saved page after a short delay
     setTimeout(() => {
-      router.push('/finances/Finance_Resources_Quiz_Results');
+      router.push('/finances/eligibility-quiz-saved');
     }, TIMING.NAVIGATION_DELAY);
   };
 
@@ -38,7 +38,7 @@ export default function EligibilityQuizScreen() {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(null);
     } else {
-      router.push('/finances/Finance_Resources_Quiz_Results');
+      router.push('/finances/eligibility-quiz-saved');
     }
   };
 

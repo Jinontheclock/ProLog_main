@@ -26,7 +26,7 @@ export default function QuizScreen() {
         useNativeDriver: true,
       }).start(() => {
         // 1초 후 결과 페이지로 이동
-        router.push('/skills/Skill_Detail_Quiz_Result');
+        router.push('/skills/quiz-result');
       });
     }
   }, [showAnswer]);
@@ -42,7 +42,7 @@ export default function QuizScreen() {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={() => router.push('/skills/Skill_Details')}
+            onPress={() => router.push('/skills/circuit-concepts')}
           >
             <Image 
               source={require('@/assets/images/icon-close.png')} 

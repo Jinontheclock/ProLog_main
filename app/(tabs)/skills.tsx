@@ -129,7 +129,7 @@ export default function SkillsScreen() {
                     <TouchableOpacity
                       key={itemIdx}
                       style={styles.skillItem}
-                      onPress={() => router.push('/skills/Skill_Details')}
+                      onPress={() => router.push('/skills/circuit-concepts')}
                     >
                       <Image 
                         source={completedItems[item] 

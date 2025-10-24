@@ -12,7 +12,7 @@ export default function QuizResultScreen() {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.closeButton}
-          onPress={() => router.push('/skills/Skill_Details')}
+          onPress={() => router.push('/skills/circuit-concepts')}
         >
           <Image 
             source={require('@/assets/images/icon-close.png')} 
@@ -36,7 +36,7 @@ export default function QuizResultScreen() {
 
           <TouchableOpacity 
             style={[CommonStyles.whiteButton, styles.buttonMargin]}
-            onPress={() => router.push('/skills/Skill_Detail_Quiz')}
+            onPress={() => router.push('/skills/quiz')}
           >
             <Text style={styles.redoButtonText}>Redo Quiz</Text>
             <Image 
@@ -47,7 +47,7 @@ export default function QuizResultScreen() {
 
           <TouchableOpacity
             style={[CommonStyles.whiteButton, styles.buttonMargin]}
-            onPress={() => router.push('/skills/Skill_Details')}
+            onPress={() => router.push('/skills/circuit-concepts')}
           >
             <Text style={CommonStyles.whiteButtonText}>Mark as Complete</Text>
             <Image 

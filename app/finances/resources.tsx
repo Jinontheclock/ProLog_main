@@ -82,7 +82,7 @@ export default function FinancialResourcesScreen() {
               >
                 <TouchableOpacity 
                   style={styles.eligibilityCard}
-                  onPress={() => router.push('/finances/Finance_Resources_Quiz')}
+                  onPress={() => router.push('/finances/eligibility-quiz')}
                 >
                   <View>
                     <Text style={styles.eligibilityCardTitleSmall}>Take</Text>
