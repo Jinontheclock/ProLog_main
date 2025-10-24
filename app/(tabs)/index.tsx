@@ -28,7 +28,7 @@ export default function HomeScreen() {
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Dashboard Title */}
         <View style={styles.dashboardHeader}>
-          <Text style={CommonStyles.mainTitle}>{APPRENTICESHIP.LEVELS.LEVEL_1.split(' ')[0]}</Text>
+          <Text style={CommonStyles.mainTitle}>Dashboard</Text>
         </View>
 
         {/* Level 1 Section */}
