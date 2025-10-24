@@ -202,7 +202,7 @@ export default function CircuitConceptsScreen() {
           <View style={styles.actionButtons}>
             <TouchableOpacity
               style={[CommonStyles.whiteButton, styles.flexButton]}
-              onPress={() => router.push('/skills/quiz')}
+              onPress={() => router.push('/skills/Skill_Detail_Quiz')}
             >
               <Text style={styles.challengeButtonText}>Challenge Quiz</Text>
               <Image 

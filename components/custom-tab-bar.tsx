@@ -9,10 +9,10 @@ interface CustomTabBarProps {
 
 export default function CustomTabBar({ activeTab = 'home' }: CustomTabBarProps) {
   const tabs = [
-    { key: 'home', icon: require('@/assets/images/tab-home.svg'), route: '/(tabs)/' },
-    { key: 'skills', icon: require('@/assets/images/tab-skills.svg'), route: '/(tabs)/skills' },
-    { key: 'finances', icon: require('@/assets/images/tab-finances.svg'), route: '/(tabs)/finances' },
-    { key: 'settings', icon: require('@/assets/images/tab-settings.svg'), route: '/(tabs)/settings' },
+    { key: 'home', icon: require('@/assets/images/tab-home.svg'), route: '/(tabs)/Journey_Dashboard' },
+    { key: 'skills', icon: require('@/assets/images/tab-skills.svg'), route: '/(tabs)/My_Skills' },
+    { key: 'finances', icon: require('@/assets/images/tab-finances.svg'), route: '/(tabs)/Finance' },
+    { key: 'settings', icon: require('@/assets/images/tab-settings.svg'), route: '/(tabs)/Settings' },
   ];
 
   return (

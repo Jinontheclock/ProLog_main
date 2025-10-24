@@ -56,7 +56,7 @@ export default function FinancesScreen() {
           {/* Financial Resources Card */}
           <TouchableOpacity 
             style={styles.resourceCard}
-            onPress={() => router.push('/finances/resources')}
+            onPress={() => router.push('/finances/Finance_Resources')}
           >
             <View style={styles.resourceContent}>
               <View style={styles.resourceTextContainer}>

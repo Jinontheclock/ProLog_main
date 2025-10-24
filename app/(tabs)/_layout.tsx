@@ -45,7 +45,7 @@ export default function TabLayout() {
         },
       }}>
       <Tabs.Screen
-        name="index"
+        name="Journey_Dashboard"
         options={{
           title: '',
           tabBarIcon: ({ focused }) => (
@@ -71,7 +71,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="skills"
+        name="My_Skills"
         options={{
           title: '',
           tabBarIcon: ({ focused }) => (
@@ -97,7 +97,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="finances"
+        name="Finance"
         options={{
           title: '',
           tabBarIcon: ({ focused }) => (
@@ -123,7 +123,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="Settings"
         options={{
           title: '',
           tabBarIcon: ({ focused }) => (

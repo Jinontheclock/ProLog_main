@@ -32,7 +32,7 @@ export default function EligibilityQuizSavedScreen() {
 
           <TouchableOpacity 
             style={styles.goToButton}
-            onPress={() => router.push('/finances/resources')}
+            onPress={() => router.push('/finances/Finance_Resources')}
           >
             <Text style={styles.goToButtonText}>Go to Resources</Text>
           </TouchableOpacity>
