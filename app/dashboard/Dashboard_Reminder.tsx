@@ -1,11 +1,11 @@
 import {
-    BorderRadius,
-    CALENDAR,
-    Colors,
-    IconSize,
-    Shadow,
-    Spacing,
-    Typography
+  BorderRadius,
+  CALENDAR,
+  Colors,
+  IconSize,
+  Shadow,
+  Spacing,
+  Typography
 } from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
 import { dimensions } from '@/lib/dimensions';
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   weekDay: {
     ...Typography.bodyBase,
     color: Colors.text.secondary,
-    width: 40, // Fixed width for calendar grid
+    width: 40,
     textAlign: 'center',
   },
   datesContainer: {
@@ -273,14 +273,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   dateCell: {
-    width: '14.28%', // 7 days in a week
+    width: '14.28%',
     aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Spacing.sm,
   },
   dateCircle: {
-    width: 36, // Calendar date circle size
+    width: 36, 
     height: 36,
     borderRadius: 18,
     alignItems: 'center',
@@ -316,15 +316,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.xl,
     ...Shadow.md,
-    minWidth: 120, // Min button width
+    minWidth: 120,
   },
   addIcon: {
-    width: 28, // Custom icon size for add button
+    width: 28, 
     height: 28,
   },
   remindersListContainer: {
     marginHorizontal: Spacing.lg,
-    marginBottom: 40, // Extra space for scrolling
+    marginBottom: 40, 
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.base,
     padding: Spacing.xs,
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   },
   verticalDivider: {
     width: 1,
-    height: 40, // Divider height
+    height: 40, 
     backgroundColor: Colors.border.default,
     marginRight: Spacing.base,
   },
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: BorderRadius.lg,
     borderTopRightRadius: BorderRadius.lg,
     padding: Spacing.xl,
-    paddingBottom: 40, // Extra space for modal bottom
+    paddingBottom: 40,
     width: dimensions.constrainedWidth,
     alignSelf: 'center',
   },

@@ -56,7 +56,7 @@ export default function FinancesScreen() {
           {/* Financial Resources Card */}
           <TouchableOpacity 
             style={styles.resourceCard}
-            onPress={() => router.push('/finances/resources')}
+            onPress={() => router.push('/finances/Finance_Resources')}
           >
             <View style={styles.resourceContent}>
               <View style={styles.resourceTextContainer}>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   chartImage: {
     width: '100%',
-    height: 280, // Chart image height
+    height: 280,
     marginBottom: Spacing.base,
   },
   description: {
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     maxHeight: '85%',
   },
   modalHandle: {
-    width: 140, // Modal handle width
+    width: 140,
     height: 4,
     backgroundColor: Colors.grey[300],
     borderRadius: BorderRadius.xs,
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   breakdownChart: {
     width: '100%',
-    height: 220, // Chart image height
+    height: 220,
     marginBottom: Spacing.xl,
   },
   sectionContainer: {
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     color: Colors.text.primary,
   },
   arrowImage: {
-    width: 60, // Arrow graphic size
+    width: 60,
     height: 12,
     marginHorizontal: Spacing.base,
   },
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   },
   savingsBar: {
     width: '100%',
-    height: 40, // Progress bar height
+    height: 40,
     marginBottom: Spacing.sm,
   },
   savingsLabels: {

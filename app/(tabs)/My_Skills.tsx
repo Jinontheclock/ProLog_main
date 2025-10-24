@@ -129,7 +129,7 @@ export default function SkillsScreen() {
                     <TouchableOpacity
                       key={itemIdx}
                       style={styles.skillItem}
-                      onPress={() => router.push('/skills/circuit-concepts')}
+                      onPress={() => router.push('/skills/Skill_Details')}
                     >
                       <Image 
                         source={completedItems[item] 
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   },
   sectionsContainer: {
     paddingHorizontal: Spacing.lg,
-    paddingBottom: 100, // Extra space for bottom tab bar
+    paddingBottom: 100,
     gap: Spacing.md,
   },
   sectionWrapper: {
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
   },
   sectionCount: {
-    width: 28, // Badge size
+    width: 28,
     height: 28,
     borderRadius: 14,
     backgroundColor: Colors.white,
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
   },
   sectionItems: {
     backgroundColor: Colors.grey[50],
-    gap: 1, // 1px divider between items
+    gap: 1,
   },
   skillItem: {
     flexDirection: 'row',
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   modalHandle: {
-    width: 130, // Modal handle width
+    width: 130,
     height: 4,
     backgroundColor: Colors.grey[300],
     borderRadius: BorderRadius.xs,

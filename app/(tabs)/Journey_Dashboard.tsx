@@ -1,12 +1,12 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import {
-    APPRENTICESHIP,
-    BorderRadius,
-    Colors,
-    IconSize,
-    Shadow,
-    Spacing,
-    Typography
+  APPRENTICESHIP,
+  BorderRadius,
+  Colors,
+  IconSize,
+  Shadow,
+  Spacing,
+  Typography
 } from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
 import { useRouter } from 'expo-router';
@@ -72,7 +72,7 @@ export default function HomeScreen() {
             <View style={styles.levelRightCard}>
               <TouchableOpacity 
                 style={styles.reminderButton}
-                onPress={() => router.push('/dashboard/reminder')}
+                onPress={() => router.push('/dashboard/Dashboard_Reminder')}
               >
                 <Image 
                   source={require('@/assets/images/icon-bell.png')} 
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   circularProgressImage: {
-    width: 180, // Custom size for circular progress chart
+    width: 180,
     height: 180,
   },
   progressTextContainer: {
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   },
   addCircleButton: {
     width: '100%',
-    height: IconSize['2xl'],
+    height: 40,
     borderRadius: BorderRadius.base,
     backgroundColor: Colors.grey[50],
     justifyContent: 'center',
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xs,
   },
   competenciesCount: {
-    ...Typography.pageTitle,
+    ...Typography.bodyLarge,
     color: Colors.text.primary,
     marginBottom: Spacing.sm,
   },
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     gap: Spacing.xs,
     ...Shadow.md,
-    minWidth: 110, // Fixed width for button layout
+    minWidth: 110, 
   },
   checklistButtonText: {
     ...Typography.bodyBase,
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   suggestedSection: {
-    marginBottom: 100, // Extra space for bottom tab bar
+    marginBottom: 100, 
   },
   suggestedTitle: {
     ...Typography.sectionTitle,
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
   },
   suggestedCard: {
-    width: 160, // Fixed card width for horizontal scroll
+    width: 160,
     backgroundColor: Colors.grey[50],
     borderRadius: BorderRadius.md,
     padding: Spacing.base,

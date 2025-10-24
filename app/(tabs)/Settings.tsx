@@ -1,12 +1,12 @@
 import {
-    BorderRadius,
-    Colors,
-    IconSize,
-    SETTINGS_OPTIONS,
-    Shadow,
-    Spacing,
-    Typography,
-    USER
+  BorderRadius,
+  Colors,
+  IconSize,
+  SETTINGS_OPTIONS,
+  Shadow,
+  Spacing,
+  Typography,
+  USER
 } from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
 import React from 'react';
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     ...Shadow.sm,
   },
   profileIcon: {
-    width: 60, // Profile icon size
+    width: 60,
     height: 60,
     borderRadius: 30,
     marginRight: Spacing.base,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   settingsList: {
     paddingHorizontal: Spacing.lg,
     gap: Spacing.md,
-    paddingBottom: 100, // Extra space for bottom tab bar
+    paddingBottom: 100,
   },
   settingItem: {
     backgroundColor: Colors.white,
