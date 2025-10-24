@@ -12,6 +12,8 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      initialRouteName="Journey_Dashboard"
+      backBehavior="history"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
