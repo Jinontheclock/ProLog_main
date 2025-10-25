@@ -1,6 +1,6 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/colors';
-import { BorderRadius, IconSize, Shadow, Spacing } from '@/constants/design-tokens';
+import { BorderRadius, IconSize, Spacing } from '@/constants/design-tokens';
 import { Typography } from '@/constants/typography';
 import { CommonStyles } from '@/lib/common-styles';
 import dimensions from '@/lib/dimensions';
@@ -70,25 +70,29 @@ export default function SkillsScreen() {
 
         {/* Search and Filter */}
         <View style={styles.searchContainer}>
-          <View style={styles.searchBox}>
-            <Image source={require('@/assets/images/icon-search.png')} style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search"
-              placeholderTextColor={Colors.text.disabled}
-            />
+          <View style={[CommonStyles.neoInsetOuter, { flex: 1, borderRadius: 20 }]}>
+            <View style={[styles.searchBox, CommonStyles.neoInsetInner, { borderRadius: 20 }]}>
+              <Image source={require('@/assets/images/icon-search.png')} style={styles.searchIcon} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search"
+                placeholderTextColor={Colors.text.disabled}
+              />
+            </View>
           </View>
-          <TouchableOpacity 
-            style={styles.filterButton}
-            onPress={() => setIsFilterModalVisible(true)}
-          >
-            <Image source={require('@/assets/images/icon-filter.png')} style={styles.filterIcon} />
-          </TouchableOpacity>
+          <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 20 }]}>
+            <TouchableOpacity 
+              style={[styles.filterButton, CommonStyles.neoDoubleInner, { borderRadius: 20 }]}
+              onPress={() => setIsFilterModalVisible(true)}
+            >
+              <Image source={require('@/assets/images/icon-filter.png')} style={styles.filterIcon} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Level Tabs */}
-        <View style={styles.levelTabsWrapper}>
-          <View style={styles.levelTabsContent}>
+        <View style={[styles.levelTabsWrapper, CommonStyles.neoDoubleOuter]}>
+          <View style={[styles.levelTabsContent, CommonStyles.neoDoubleInner]}>
             {levels.map((level) => (
               <TouchableOpacity
                 key={level}
@@ -114,7 +118,10 @@ export default function SkillsScreen() {
           {skillSections.map((section, idx) => (
             <View key={idx} style={styles.sectionWrapper}>
               <TouchableOpacity
-                style={styles.sectionHeader}
+                style={[
+                  styles.sectionHeader,
+                  !expandedSections[section.title] && styles.sectionHeaderClosed
+                ]}
                 onPress={() => toggleSection(section.title)}
               >
                 <Text style={styles.sectionTitle}>{section.title}</Text>
@@ -176,13 +183,15 @@ export default function SkillsScreen() {
               {/* Line module */}
               <View style={styles.filterSection}>
                 <Text style={styles.filterLabel}>Line module</Text>
-                <TouchableOpacity style={styles.dropdown}>
-                  <Text style={styles.dropdownText}>Level</Text>
-                  <Image 
-                    source={require('@/assets/images/icon-chevron-down.png')} 
-                    style={styles.dropdownIcon}
-                  />
-                </TouchableOpacity>
+                <View style={[CommonStyles.neoInsetOuter, { borderRadius: BorderRadius.base }]}>
+                  <TouchableOpacity style={[styles.dropdown, CommonStyles.neoInsetInner, { borderRadius: BorderRadius.base }]}>
+                    <Text style={styles.dropdownText}>Level</Text>
+                    <Image 
+                      source={require('@/assets/images/icon-chevron-down.png')} 
+                      style={styles.dropdownIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
 
               {/* Competency Completion */}
@@ -235,24 +244,28 @@ export default function SkillsScreen() {
 
               {/* Action Buttons */}
               <View style={styles.modalActions}>
-                <TouchableOpacity 
-                  style={styles.resetButton}
-                  onPress={() => {
-                    setCompletionFilter('All');
-                  setTypeFilter('All');
-                }}
-              >
-                <Text style={[
-                  styles.resetButtonText,
-                  hasFilterChanged && styles.resetButtonTextActive
-                ]}>Reset Filters</Text>
-              </TouchableOpacity>
-                <TouchableOpacity 
-                  style={styles.applyButton}
-                  onPress={() => setIsFilterModalVisible(false)}
-                >
-                  <Text style={styles.applyButtonText}>Apply Filters</Text>
-                </TouchableOpacity>
+                <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.xl, flex: 1 }]}>
+                  <TouchableOpacity 
+                    style={[styles.resetButton, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.xl }]}
+                    onPress={() => {
+                      setCompletionFilter('All');
+                      setTypeFilter('All');
+                    }}
+                  >
+                    <Text style={[
+                      styles.resetButtonText,
+                      hasFilterChanged && styles.resetButtonTextActive
+                    ]}>Reset Filters</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.xl, flex: 1 }]}>
+                  <TouchableOpacity 
+                    style={[styles.applyButton, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.xl }]}
+                    onPress={() => setIsFilterModalVisible(false)}
+                  >
+                    <Text style={styles.applyButtonText}>Apply Filters</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </ScrollView>
           </View>
@@ -275,15 +288,12 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
   },
   searchBox: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.grey[200],
-    borderRadius: BorderRadius.base,
     paddingHorizontal: Spacing.base,
     paddingVertical: Spacing.md,
     gap: Spacing.sm,
-    ...Shadow.base,
+    // flex, backgroundColor, borderRadius, shadow handled by outer View and CommonStyles
   },
   searchInput: {
     ...Typography.bodyLarge,
@@ -291,27 +301,24 @@ const styles = StyleSheet.create({
     color: Colors.text.primary,
   },
   filterButton: {
-    width: IconSize['2xl'],
-    height: IconSize['2xl'],
-    backgroundColor: Colors.grey[200],
-    borderRadius: BorderRadius.base,
+    width: 48,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    ...Shadow.base,
+    // backgroundColor, borderRadius, shadow handled by CommonStyles.neoDoubleOuter/Inner
   },
   levelTabsWrapper: {
-    backgroundColor: Colors.white,
     marginHorizontal: Spacing.lg,
-    borderRadius: BorderRadius.lg,
-    paddingVertical: Spacing.xs,
-    paddingHorizontal: Spacing.lg,
     marginBottom: Spacing.lg,
-    ...Shadow.base,
+    // backgroundColor, borderRadius, shadow handled by CommonStyles.neoDoubleOuter
   },
   levelTabsContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: Spacing.sm,
+    paddingVertical: Spacing.xs,
+    paddingHorizontal: Spacing.lg,
+    // backgroundColor, borderRadius, shadow handled by CommonStyles.neoDoubleInner
   },
   levelTab: {
     flex: 1,
@@ -342,38 +349,42 @@ const styles = StyleSheet.create({
   sectionWrapper: {
     backgroundColor: Colors.dark,
     borderRadius: BorderRadius.md,
-    overflow: 'hidden',
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    borderTopLeftRadius: BorderRadius.md,
+    borderTopRightRadius: BorderRadius.md,
+  },
+  sectionHeaderClosed: {
+    borderBottomLeftRadius: BorderRadius.md,
+    borderBottomRightRadius: BorderRadius.md,
   },
   sectionTitle: {
     ...Typography.bodyLarge,
     flex: 1,
-    fontWeight: '700',
+    fontWeight: '400',
     color: Colors.white,
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'Roboto',
   },
   sectionCount: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: Colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
   sectionCountText: {
     ...Typography.bodyBase,
-    fontWeight: '700',
-    color: Colors.dark,
-    fontFamily: 'Roboto-Bold',
+    fontWeight: '400',
+    color: Colors.grey[300],
   },
   sectionItems: {
     backgroundColor: Colors.grey[50],
     gap: 1,
+    borderBottomLeftRadius: BorderRadius.md,
+    borderBottomRightRadius: BorderRadius.md,
+    overflow: 'hidden',
   },
   skillItem: {
     flexDirection: 'row',
@@ -418,7 +429,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background.overlay,
   },
   filterModal: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.grey[50],
     borderTopLeftRadius: BorderRadius.lg,
     borderTopRightRadius: BorderRadius.lg,
     paddingTop: Spacing.md,
@@ -459,7 +470,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grey[50],
     paddingHorizontal: Spacing.base,
     paddingVertical: Spacing.md,
-    borderRadius: BorderRadius.base,
   },
   dropdownText: {
     ...Typography.bodyLarge,
@@ -503,9 +513,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.lg,
   },
   resetButton: {
-    flex: 1,
     paddingVertical: Spacing.base,
-    borderRadius: BorderRadius.xl,
     alignItems: 'center',
     backgroundColor: Colors.grey[50],
   },
@@ -517,9 +525,7 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   applyButton: {
-    flex: 1,
     paddingVertical: Spacing.base,
-    borderRadius: BorderRadius.xl,
     alignItems: 'center',
     backgroundColor: Colors.grey[50],
   },

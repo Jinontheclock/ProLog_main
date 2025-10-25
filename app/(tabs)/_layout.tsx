@@ -20,6 +20,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
+          ...CommonStyles.neoDoubleOuter,
           alignItems: 'center',
           backgroundColor: '#F2F2F2',
           borderRadius: 60,
@@ -37,7 +38,6 @@ export default function TabLayout() {
           alignSelf: 'center',
           borderWidth: 1,
           borderColor: 'rgba(255, 255, 255, 0.5)',
-          ...CommonStyles.neoProjected,
         },
         tabBarLabelStyle: {
           display: 'none',
@@ -57,7 +57,6 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
-              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-home.svg')}
@@ -85,7 +84,6 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
-              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-skills.svg')}
@@ -113,7 +111,6 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
-              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-finances.svg')}
@@ -141,7 +138,6 @@ export default function TabLayout() {
               justifyContent: 'center',
               padding: 14,
               width: 52,
-              ...CommonStyles.tinyProjected,
             }}>
               <Image 
                 source={require('@/assets/images/tab-settings.svg')}

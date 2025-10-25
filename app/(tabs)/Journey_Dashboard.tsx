@@ -4,7 +4,6 @@ import {
   BorderRadius,
   Colors,
   IconSize,
-  Shadow,
   Spacing,
   Typography
 } from '@/constants';
@@ -25,7 +24,11 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={CommonStyles.container}>
-      <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={CommonStyles.scrollView} 
+        contentContainerStyle={CommonStyles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Dashboard Title */}
         <View style={styles.dashboardHeader}>
           <Text style={CommonStyles.mainTitle}>Dashboard</Text>
@@ -69,65 +72,73 @@ export default function HomeScreen() {
             </View>
 
             {/* Right Column - White Card */}
-            <View style={styles.levelRightCard}>
-              <TouchableOpacity 
-                style={styles.reminderButton}
-                onPress={() => router.push('/dashboard/Dashboard_Reminder')}
-              >
-                <Image 
-                  source={require('@/assets/images/icon-bell.png')} 
-                  style={styles.reminderIcon}
-                />
-                <Text style={styles.reminderButtonText}>Reminder</Text>
-              </TouchableOpacity>
+            <View style={[styles.levelRightCard, CommonStyles.neoDoubleOuter]}>
+              <View style={[CommonStyles.neoDoubleInner, { padding: Spacing.lg, justifyContent: 'space-between', flex: 1, alignItems: 'center' }]}>
+                <TouchableOpacity 
+                  style={styles.reminderButton}
+                  onPress={() => router.push('/dashboard/Dashboard_Reminder')}
+                >
+                  <Image 
+                    source={require('@/assets/images/icon-bell.png')} 
+                    style={styles.reminderIcon}
+                  />
+                  <Text style={styles.reminderButtonText}>Reminder</Text>
+                </TouchableOpacity>
 
-              <View style={styles.reminderInfo}>
-                <Text style={styles.reminderLabel}>WHIMS</Text>
-                <Text style={styles.reminderLabel}>Expiration</Text>
-                <Text style={styles.reminderDate}>Nov 10, 2025</Text>
+                <View style={styles.reminderInfo}>
+                  <Text style={styles.reminderLabel}>WHIMS</Text>
+                  <Text style={styles.reminderLabel}>Expiration</Text>
+                  <Text style={styles.reminderDate}>Nov 10, 2025</Text>
+                </View>
+
+                <View style={styles.reminderDivider} />
+
+                <View style={styles.reminderInfo}>
+                  <Text style={styles.reminderLabel}>Level 2 Exam</Text>
+                  <Text style={styles.reminderDate}>Nov 13, 2025</Text>
+                </View>
+
+                <View style={[CommonStyles.neoDoubleOuter, { width: '100%', borderRadius: 12 }]}>
+                  <TouchableOpacity style={[styles.addCircleButton, CommonStyles.neoDoubleInner, { borderRadius: 12 }]}>
+                    <Image 
+                      source={require('@/assets/images/icon-add.png')} 
+                      style={styles.addIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-
-              <View style={styles.reminderDivider} />
-
-              <View style={styles.reminderInfo}>
-                <Text style={styles.reminderLabel}>Level 2 Exam</Text>
-                <Text style={styles.reminderDate}>Nov 13, 2025</Text>
-              </View>
-
-              <TouchableOpacity style={styles.addCircleButton}>
-                <Image 
-                  source={require('@/assets/images/icon-add.png')} 
-                  style={styles.addIcon}
-                />
-              </TouchableOpacity>
             </View>
           </View>
         </View>
 
         {/* Competencies Section */}
-        <View style={styles.competenciesSection}>
-          <View style={styles.competenciesContent}>
-            <View style={styles.competenciesLeft}>
-              <Text style={styles.competenciesTitle}>Competencies</Text>
-              <Text style={styles.competenciesCount}>{competencies}/{totalCompetencies}</Text>
-              <View style={styles.competenciesBar}>
-                <Image 
-                  source={require('@/assets/images/chart-progress-bar-bg.png')} 
-                  style={styles.progressBarBackground}
-                  resizeMode="stretch"
-                />
-                <Image 
-                  source={require('@/assets/images/chart-progress-bar-fill.png')} 
-                  style={[styles.progressBarFilled, { width: `${(competencies / totalCompetencies) * 100}%` }]}
-                  resizeMode="stretch"
-                />
+        <View style={[styles.competenciesSection, CommonStyles.neoDoubleOuter]}>
+          <View style={[CommonStyles.neoDoubleInner, { padding: Spacing.base }]}>
+            <View style={styles.competenciesContent}>
+              <View style={styles.competenciesLeft}>
+                <Text style={styles.competenciesTitle}>Competencies</Text>
+                <Text style={styles.competenciesCount}>{competencies}/{totalCompetencies}</Text>
+                <View style={styles.competenciesBar}>
+                  <Image 
+                    source={require('@/assets/images/chart-progress-bar-bg.png')} 
+                    style={styles.progressBarBackground}
+                    resizeMode="stretch"
+                  />
+                  <Image 
+                    source={require('@/assets/images/chart-progress-bar-fill.png')} 
+                    style={[styles.progressBarFilled, { width: `${(competencies / totalCompetencies) * 100}%` }]}
+                    resizeMode="stretch"
+                  />
+                </View>
+              </View>
+              <View style={CommonStyles.neoDoubleOuter}>
+                <TouchableOpacity style={[styles.checklistButton, CommonStyles.neoDoubleInner, { backgroundColor: '#323232' }]}>
+                  <IconSymbol name="chevron.right" size={20} color="white" />
+                  <Text style={styles.checklistButtonText}>View</Text>
+                  <Text style={styles.checklistButtonText}>Checklist</Text>
+                </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity style={styles.checklistButton}>
-              <IconSymbol name="chevron.right" size={20} color="white" />
-              <Text style={styles.checklistButtonText}>View</Text>
-              <Text style={styles.checklistButtonText}>Checklist</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -137,40 +148,49 @@ export default function HomeScreen() {
           
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.suggestedCardsContainer}>
             {/* Canada Apprentice Loan Card */}
-            <TouchableOpacity style={styles.suggestedCard}>
-              <Text style={styles.cardTag}>Loan</Text>
-              <Text style={styles.cardTitle}>Canada</Text>
-              <Text style={styles.cardTitle}>Apprentice</Text>
-              <Text style={styles.cardTitle}>Loan</Text>
-              <Text style={styles.cardDescription}>Interest-free loans for each period of technical training</Text>
-              <View style={styles.cardArrow}>
-                <IconSymbol name="arrow.right" size={20} color="#333" />
-              </View>
-            </TouchableOpacity>
+            <View style={CommonStyles.neoDoubleOuter}>
+              <TouchableOpacity style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}>
+                <Text style={styles.cardTag}>Loan</Text>
+                <Text style={styles.cardTitle}>Canada</Text>
+                <Text style={styles.cardTitle}>Apprentice</Text>
+                <Text style={styles.cardTitle}>Loan</Text>
+                <Text style={styles.cardDescription}>Interest-free loans for each period of technical training</Text>
+                <Image 
+                  source={require('@/assets/images/icon-arrow-right.png')}
+                  style={styles.cardArrowImage}
+                />
+              </TouchableOpacity>
+            </View>
 
             {/* Tips Card */}
-            <TouchableOpacity style={styles.suggestedCard}>
-              <Text style={styles.cardTag}>Tips</Text>
-              <Text style={styles.cardTitle}>Strategies</Text>
-              <Text style={styles.cardTitle}>to Increase</Text>
-              <Text style={styles.cardTitle}>Savings</Text>
-              <Text style={styles.cardDescription}>Learn more about saving strategies</Text>
-              <View style={styles.cardArrow}>
-                <IconSymbol name="arrow.right" size={20} color="#333" />
-              </View>
-            </TouchableOpacity>
+            <View style={CommonStyles.neoDoubleOuter}>
+              <TouchableOpacity style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}>
+                <Text style={styles.cardTag}>Tips</Text>
+                <Text style={styles.cardTitle}>Strategies</Text>
+                <Text style={styles.cardTitle}>to Increase</Text>
+                <Text style={styles.cardTitle}>Savings</Text>
+                <Text style={styles.cardDescription}>Learn more about saving strategies</Text>
+                <Image 
+                  source={require('@/assets/images/icon-arrow-right.png')}
+                  style={styles.cardArrowImage}
+                />
+              </TouchableOpacity>
+            </View>
 
             {/* Financial Support Card */}
-            <TouchableOpacity style={styles.suggestedCard}>
-              <Text style={styles.cardTag}>Financial Sup</Text>
-              <Text style={styles.cardTitle}>Employment</Text>
-              <Text style={styles.cardTitle}>Insurance</Text>
-              <Text style={styles.cardTitle}>(EI)</Text>
-              <Text style={styles.cardDescription}>EI benefits that you may be able to apply</Text>
-              <View style={styles.cardArrow}>
-                <IconSymbol name="arrow.right" size={20} color="#333" />
-              </View>
-            </TouchableOpacity>
+            <View style={CommonStyles.neoDoubleOuter}>
+              <TouchableOpacity style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}>
+                <Text style={styles.cardTag}>Financial Sup</Text>
+                <Text style={styles.cardTitle}>Employment</Text>
+                <Text style={styles.cardTitle}>Insurance</Text>
+                <Text style={styles.cardTitle}>(EI)</Text>
+                <Text style={styles.cardDescription}>EI benefits that you may be able to apply</Text>
+                <Image 
+                  source={require('@/assets/images/icon-arrow-right.png')}
+                  style={styles.cardArrowImage}
+                />
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </View>
       </ScrollView>
@@ -200,14 +220,10 @@ const styles = StyleSheet.create({
   },
   levelRightCard: {
     flex: 1,
-    backgroundColor: Colors.grey[50],
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.lg,
-    ...Shadow.xl,
-    justifyContent: 'space-between',
+    // backgroundColor, borderRadius, shadow, padding, justifyContent handled by CommonStyles.neoDoubleOuter/Inner
   },
   levelTitle: {
-    ...Typography.pageTitle,
+    ...Typography.pageTitleRegular,
     color: Colors.text.primary,
     marginBottom: Spacing.xs,
   },
@@ -216,11 +232,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.primary,
-    paddingHorizontal: Spacing.xl,
-    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing['2xl'],
+    paddingVertical: Spacing.xl,
     borderRadius: BorderRadius.base,
-    gap: Spacing.xs,
+    gap: Spacing.sm,
     marginBottom: Spacing.lg,
+    width: 120,
+    height: 60,
   },
   reminderIcon: {
     width: IconSize.xs,
@@ -263,7 +281,7 @@ const styles = StyleSheet.create({
   progressDivider: {
     ...Typography.pageTitleRegular,
     color: Colors.text.disabled,
-    marginHorizontal: Spacing.xxs,
+    marginHorizontal: Spacing.xs,
   },
   progressGoal: {
     ...Typography.pageTitleRegular,
@@ -275,7 +293,8 @@ const styles = StyleSheet.create({
   },
   reminderDivider: {
     height: 1,
-    backgroundColor: Colors.grey[100],
+    width: '100%',
+    backgroundColor: Colors.grey[300],
     marginVertical: Spacing.base,
   },
   reminderLabel: {
@@ -319,12 +338,11 @@ const styles = StyleSheet.create({
   addCircleButton: {
     width: '100%',
     height: 40,
-    borderRadius: BorderRadius.base,
-    backgroundColor: Colors.grey[50],
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    ...Shadow.md,
+    // backgroundColor, shadow handled by CommonStyles.neoDoubleOuter/Inner
   },
   addIcon: {
     width: IconSize.base,
@@ -333,10 +351,8 @@ const styles = StyleSheet.create({
   competenciesSection: {
     marginHorizontal: Spacing.lg,
     marginBottom: Spacing.xl,
-    backgroundColor: Colors.grey[50],
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.base,
-    ...Shadow.xl,
+    // backgroundColor, borderRadius, shadow handled by CommonStyles.neoDoubleOuter
+    // padding handled by CommonStyles.neoDoubleInner
   },
   competenciesContent: {
     flexDirection: 'row',
@@ -365,13 +381,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.dark,
+    backgroundColor: '#323232',
     paddingVertical: Spacing.base,
-    paddingHorizontal: Spacing.lg,
-    borderRadius: BorderRadius.md,
+    paddingHorizontal: Spacing.xl,
     gap: Spacing.xs,
-    ...Shadow.md,
-    minWidth: 110, 
+    minWidth: 130,
+    borderRadius: 20,
+    // shadow handled by CommonStyles.neoDoubleOuter/Inner
   },
   checklistButtonText: {
     ...Typography.bodyBase,
@@ -382,7 +398,8 @@ const styles = StyleSheet.create({
     marginBottom: 100, 
   },
   suggestedTitle: {
-    ...Typography.sectionTitle,
+    ...Typography.sectionTitleGray,
+    fontWeight: '400',
     color: Colors.grey[500],
     marginBottom: Spacing.base,
     paddingHorizontal: Spacing.lg,
@@ -393,12 +410,12 @@ const styles = StyleSheet.create({
   },
   suggestedCard: {
     width: 160,
-    backgroundColor: Colors.grey[50],
-    borderRadius: BorderRadius.md,
-    padding: Spacing.base,
-    ...Shadow.xl,
+    height: 200,
     marginRight: Spacing.md,
     position: 'relative',
+    padding: Spacing.base,
+    borderRadius: 20,
+    // backgroundColor, shadow handled by CommonStyles.neoDoubleOuter/Inner
   },
   cardTag: {
     ...Typography.tag,
@@ -417,9 +434,12 @@ const styles = StyleSheet.create({
     marginTop: Spacing.md,
     marginBottom: Spacing['2xl'],
   },
-  cardArrow: {
+  cardArrowImage: {
     position: 'absolute',
     right: Spacing.md,
     bottom: Spacing.md,
+    width: IconSize.sm,
+    height: IconSize.sm,
+    tintColor: Colors.text.primary,
   },
 });

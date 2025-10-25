@@ -126,24 +126,26 @@ export default function QuizScreen() {
           </View>
 
           <View style={styles.actionContainer}>
-            <TouchableOpacity 
-              style={CommonStyles.whiteButton}
-              onPress={handleProceed}
-              disabled={selectedAnswer === null}
-            >
-              <Text style={CommonStyles.whiteButtonText}>Proceed to Next</Text>
-              {showAnswer ? (
-                <Animated.Image 
-                  source={require('@/assets/images/icon-progress.png')} 
-                  style={[styles.arrowIcon, { transform: [{ rotate: spin }] }]}
-                />
-              ) : (
-                <Image 
-                  source={require('@/assets/images/icon-arrow-right.png')} 
-                  style={styles.arrowIcon}
-                />
-              )}
-            </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 24, width: '100%' }]}>
+              <TouchableOpacity 
+                style={[CommonStyles.whiteButton, CommonStyles.neoDoubleInner, { borderRadius: 24, backgroundColor: '#FFFFFF', paddingVertical: 10, width: '100%' }]}
+                onPress={handleProceed}
+                disabled={selectedAnswer === null}
+              >
+                <Text style={[CommonStyles.whiteButtonText, { fontWeight: '400' }]}>Proceed to Next</Text>
+                {showAnswer ? (
+                  <Animated.Image 
+                    source={require('@/assets/images/icon-progress.png')} 
+                    style={[styles.arrowIcon, { transform: [{ rotate: spin }] }]}
+                  />
+                ) : (
+                  <Image 
+                    source={require('@/assets/images/icon-arrow-right.png')} 
+                    style={styles.arrowIcon}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </View>

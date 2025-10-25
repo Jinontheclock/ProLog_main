@@ -3,12 +3,12 @@ import {
   CALENDAR,
   Colors,
   IconSize,
-  Shadow,
   Spacing,
   Typography
 } from '@/constants';
 import { CommonStyles } from '@/lib/common-styles';
 import { dimensions } from '@/lib/dimensions';
+import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, Modal, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -17,14 +17,15 @@ export default function ReminderScreen() {
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState(10);
   const [currentMonth] = useState('November');
+  const [currentMonthNumber] = useState(11); // November = 11
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [eventName, setEventName] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(11);
   const [selectedDay, setSelectedDay] = useState(22);
   const [selectedYear, setSelectedYear] = useState(2025);
   const [reminders, setReminders] = useState([
-    { date: 'Nov\n10', title: 'WHIMS Expiration' },
-    { date: 'Nov\n13', title: 'Level 2 Exam' },
+    { date: 'Nov\n10', title: 'WHIMS Expiration', day: 10, month: 11, year: 2025 },
+    { date: 'Nov\n13', title: 'Level 2 Exam', day: 13, month: 11, year: 2025 },
   ]);
 
   const handleSaveEvent = () => {
@@ -32,11 +33,19 @@ export default function ReminderScreen() {
       const newReminder = {
         date: `${CALENDAR.MONTH_ABBREVIATIONS[selectedMonth - 1]}\n${selectedDay}`,
         title: eventName,
+        day: selectedDay,
+        month: selectedMonth,
+        year: selectedYear,
       };
       setReminders([...reminders, newReminder]);
       setEventName('');
       setIsAddModalVisible(false);
     }
+  };
+
+  const handleDeleteReminder = (index: number) => {
+    const updatedReminders = reminders.filter((_, i) => i !== index);
+    setReminders(updatedReminders);
   };
 
   const getDaysInMonth = () => {
@@ -71,7 +80,9 @@ export default function ReminderScreen() {
           ))}
           {days.map((day) => {
             const isSelected = day === selectedDate;
-            const hasReminder = day === 10 || day === 13;
+            const hasReminder = reminders.some(
+              reminder => reminder.day === day && reminder.month === currentMonthNumber
+            );
             
             return (
               <TouchableOpacity
@@ -81,12 +92,11 @@ export default function ReminderScreen() {
               >
                 <View style={[
                   styles.dateCircle,
-                  isSelected && styles.dateCircleSelected,
-                  hasReminder && !isSelected && styles.dateCircleWithReminder
+                  (isSelected || hasReminder) && styles.dateCircleSelected
                 ]}>
                   <Text style={[
                     styles.dateText,
-                    isSelected && styles.dateTextSelected
+                    (isSelected || hasReminder) && styles.dateTextSelected
                   ]}>
                     {day}
                   </Text>
@@ -119,34 +129,43 @@ export default function ReminderScreen() {
 
         {/* Add Button */}
         <View style={styles.addButtonContainer}>
-          <TouchableOpacity 
-            style={styles.addButton}
-            onPress={() => setIsAddModalVisible(true)}
-          >
-            <Image 
-                  source={require('@/assets/images/icon-add.png')}
-              style={styles.addIcon}
-            />
-          </TouchableOpacity>
+          <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.xl }]}>
+            <TouchableOpacity 
+              style={[styles.addButton, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.xl, backgroundColor: Colors.white }]}
+              onPress={() => setIsAddModalVisible(true)}
+            >
+              <Image 
+                    source={require('@/assets/images/icon-add.png')}
+                style={styles.addIcon}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Reminders List */}
-        <View style={styles.remindersListContainer}>
-          {reminders.map((reminder, index) => (
-            <View key={index} style={styles.reminderCard}>
-              <View style={styles.reminderDateBox}>
-                <Text style={styles.reminderDateText}>{reminder.date}</Text>
+        <View style={[CommonStyles.neoInsetOuter, { borderRadius: BorderRadius.lg, marginHorizontal: Spacing.lg, marginBottom: 40 }]}>
+          <View style={[styles.remindersListContainer, CommonStyles.neoInsetInner, { borderRadius: BorderRadius.lg }]}>
+            {reminders.map((reminder, index) => (
+              <View key={index} style={styles.reminderCard}>
+                <View style={styles.reminderDateBox}>
+                  <Text style={styles.reminderDateText}>{reminder.date}</Text>
+                </View>
+                <View style={styles.verticalDivider} />
+                <Text style={styles.reminderTitle}>{reminder.title}</Text>
+                <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.sm }]}>
+                  <TouchableOpacity 
+                    style={[styles.deleteButton, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.sm, backgroundColor: Colors.grey[50] }]}
+                    onPress={() => handleDeleteReminder(index)}
+                  >
+                    <Image 
+                      source={require('@/assets/images/icon-delete.png')} 
+                      style={styles.deleteIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={styles.verticalDivider} />
-              <Text style={styles.reminderTitle}>{reminder.title}</Text>
-              <TouchableOpacity style={styles.deleteButton}>
-                <Image 
-                  source={require('@/assets/images/icon-delete.png')} 
-                  style={styles.deleteIcon}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
+            ))}
+          </View>
         </View>
       </ScrollView>
 
@@ -177,45 +196,67 @@ export default function ReminderScreen() {
             <Text style={styles.modalTitle}>Add Event</Text>
 
             <Text style={styles.inputLabel}>Name</Text>
-            <TextInput
-              style={styles.input}
-              value={eventName}
-              onChangeText={setEventName}
-              placeholder="Canada Apprenticeship Loan Applica.."
-              placeholderTextColor={Colors.text.disabled}
-            />
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.md, marginBottom: Spacing.lg }]}>
+              <TextInput
+                style={[styles.input, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.md, backgroundColor: Colors.white, marginBottom: 0 }]}
+                value={eventName}
+                onChangeText={setEventName}
+                placeholder="Canada Apprenticeship Loan Applica.."
+                placeholderTextColor={Colors.text.disabled}
+              />
+            </View>
 
             <Text style={styles.inputLabel}>Date</Text>
             <View style={styles.datePickerRow}>
-              <View style={styles.datePickerItem}>
-                <Text style={styles.datePickerValue}>{selectedMonth}</Text>
-                <Image 
-                  source={require('@/assets/images/icon-chevron-down.png')} 
-                  style={styles.dropdownIcon}
-                />
+              <View style={[CommonStyles.neoDoubleOuter, { flex: 1, borderRadius: BorderRadius.md }]}>
+                <View style={[styles.datePickerItem, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.md, backgroundColor: Colors.white }]}>
+                  <Picker
+                    selectedValue={selectedMonth}
+                    onValueChange={(itemValue: number) => setSelectedMonth(itemValue)}
+                    style={styles.picker}
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month) => (
+                      <Picker.Item key={month} label={month.toString()} value={month} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
-              <View style={styles.datePickerItem}>
-                <Text style={styles.datePickerValue}>{selectedDay}</Text>
-                <Image 
-                  source={require('@/assets/images/icon-chevron-down.png')} 
-                  style={styles.dropdownIcon}
-                />
+              <View style={[CommonStyles.neoDoubleOuter, { flex: 1, borderRadius: BorderRadius.md }]}>
+                <View style={[styles.datePickerItem, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.md, backgroundColor: Colors.white }]}>
+                  <Picker
+                    selectedValue={selectedDay}
+                    onValueChange={(itemValue: number) => setSelectedDay(itemValue)}
+                    style={styles.picker}
+                  >
+                    {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                      <Picker.Item key={day} label={day.toString()} value={day} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
-              <View style={styles.datePickerItem}>
-                <Text style={styles.datePickerValue}>{selectedYear}</Text>
-                <Image 
-                  source={require('@/assets/images/icon-chevron-down.png')} 
-                  style={styles.dropdownIcon}
-                />
+              <View style={[CommonStyles.neoDoubleOuter, { flex: 1, borderRadius: BorderRadius.md }]}>
+                <View style={[styles.datePickerItem, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.md, backgroundColor: Colors.white }]}>
+                  <Picker
+                    selectedValue={selectedYear}
+                    onValueChange={(itemValue: number) => setSelectedYear(itemValue)}
+                    style={styles.picker}
+                  >
+                    {Array.from({ length: 10 }, (_, i) => 2024 + i).map((year) => (
+                      <Picker.Item key={year} label={year.toString()} value={year} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
             </View>
 
-            <TouchableOpacity 
-              style={styles.saveButton}
-              onPress={handleSaveEvent}
-            >
-              <Text style={styles.saveButtonText}>Save</Text>
-            </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.xl }]}>
+              <TouchableOpacity 
+                style={[styles.saveButton, CommonStyles.neoDoubleInner, { borderRadius: BorderRadius.xl, backgroundColor: Colors.white }]}
+                onPress={handleSaveEvent}
+              >
+                <Text style={styles.saveButtonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -289,9 +330,6 @@ const styles = StyleSheet.create({
   dateCircleSelected: {
     backgroundColor: Colors.primary,
   },
-  dateCircleWithReminder: {
-    backgroundColor: Colors.primary,
-  },
   dateText: {
     ...Typography.bodyLarge,
     color: Colors.text.primary,
@@ -315,7 +353,6 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.base,
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.xl,
-    ...Shadow.md,
     minWidth: 120,
   },
   addIcon: {
@@ -323,18 +360,13 @@ const styles = StyleSheet.create({
     height: 28,
   },
   remindersListContainer: {
-    marginHorizontal: Spacing.lg,
-    marginBottom: 40, 
-    backgroundColor: Colors.white,
-    borderRadius: BorderRadius.base,
+    backgroundColor: Colors.grey[50],
     padding: Spacing.xs,
-    ...Shadow.sm,
   },
   reminderCard: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.base,
-    borderRadius: BorderRadius.md,
   },
   reminderDateBox: {
     alignItems: 'center',
@@ -348,10 +380,8 @@ const styles = StyleSheet.create({
   },
   reminderDateText: {
     ...Typography.bodyLarge,
-    fontWeight: '700',
     color: Colors.text.primary,
     textAlign: 'center',
-    fontFamily: 'Roboto-Bold',
   },
   reminderTitle: {
     flex: 1,
@@ -362,8 +392,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grey[50],
     padding: Spacing.sm,
     borderRadius: BorderRadius.sm,
-    borderWidth: 1,
-    borderColor: Colors.border.default,
   },
   deleteIcon: {
     width: IconSize.sm,
@@ -420,7 +448,6 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.md,
     ...Typography.bodyLarge,
     color: Colors.text.primary,
-    marginBottom: Spacing.lg,
   },
   datePickerRow: {
     flexDirection: 'row',
@@ -428,14 +455,15 @@ const styles = StyleSheet.create({
     marginBottom: Spacing['3xl'],
   },
   datePickerItem: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.md,
-    paddingHorizontal: Spacing.base,
-    paddingVertical: Spacing.md,
+    overflow: 'hidden',
+    justifyContent: 'center',
+  },
+  picker: {
+    backgroundColor: Colors.white,
+    color: Colors.text.primary,
+    ...Typography.bodyLarge,
   },
   datePickerValue: {
     ...Typography.bodyLarge,
@@ -449,8 +477,9 @@ const styles = StyleSheet.create({
   saveButton: {
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.xl,
-    paddingVertical: Spacing.base,
+    paddingVertical: Spacing.md,
     alignItems: 'center',
+    width: '100%',
   },
   saveButtonText: {
     ...Typography.bodyLarge,

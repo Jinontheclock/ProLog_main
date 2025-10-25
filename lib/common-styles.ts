@@ -329,4 +329,56 @@ export const CommonStyles = StyleSheet.create({
     shadowRadius: 30,
     elevation: 8,
   },
+
+  // Double shadow neomorphism (requires two nested Views)
+  // Use neoDoubleOuter on parent View and neoDoubleInner on child View
+  neoDoubleOuter: {
+    backgroundColor: Colors.grey[50],
+    borderRadius: 20,
+    // Light shadow (top-left)
+    shadowColor: 'rgba(255, 255, 255, 0.9)',
+    shadowOffset: { width: -6.18, height: -6.18 },
+    shadowOpacity: 1,
+    shadowRadius: 8.36,
+    elevation: 6,
+    // Web support
+    boxShadow: '-6px -6px 16px rgba(255, 255, 255, 0.9)',
+  },
+  neoDoubleInner: {
+    borderRadius: 20,
+    backgroundColor: Colors.grey[50],
+    // Dark shadow (bottom-right)
+    shadowColor: 'rgba(199, 199, 199, 0.8)',
+    shadowOffset: { width: 4.18, height: 4.18 },
+    shadowOpacity: 1,
+    shadowRadius: 4.45,
+    // Web support
+    boxShadow: '6px 6px 16px rgba(199, 199, 199, 0.8)',
+  },
+
+  // Inset/Submerged neomorphism (눌려 들어간 스타일)
+  // Use neoInsetOuter on parent View and neoInsetInner on child View
+  neoInsetOuter: {
+    backgroundColor: Colors.grey[50],
+    borderRadius: 20,
+    // Dark shadow (top-left) - creates inset effect
+    shadowColor: 'rgba(208, 208, 208, 0.9)',
+    shadowOffset: { width: -3.63, height: -3.63 },
+    shadowOpacity: 1,
+    shadowRadius: 4.74,
+    elevation: 4,
+    // Web support
+    boxShadow: '-4px -4px 9px rgba(208, 208, 208, 0.9)',
+  },
+  neoInsetInner: {
+    borderRadius: 20,
+    backgroundColor: Colors.grey[50],
+    // Light shadow (bottom-right) - creates depth
+    shadowColor: 'rgba(255, 255, 255, 0.9)',
+    shadowOffset: { width: 5.63, height: 5.63 },
+    shadowOpacity: 1,
+    shadowRadius: 5.27,
+    // Web support
+    boxShadow: '6px 6px 11px rgba(255, 255, 255, 0.9)',
+  },
 });

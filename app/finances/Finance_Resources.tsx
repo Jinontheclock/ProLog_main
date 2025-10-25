@@ -80,34 +80,38 @@ export default function FinancialResourcesScreen() {
                 style={styles.suggestedScrollView}
                 contentContainerStyle={styles.suggestedRow}
               >
-                <TouchableOpacity 
-                  style={styles.eligibilityCard}
-                  onPress={() => router.push('/finances/Finance_Resources_Quiz')}
-                >
-                  <View>
-                    <Text style={styles.eligibilityCardTitleSmall}>Take</Text>
-                    <Text style={styles.eligibilityCardTitle}>Eligibility</Text>
-                    <Text style={styles.eligibilityCardTitle}>Quiz</Text>
-                  </View>
-                  <View style={styles.eligibilityArrowContainer}>
-                    <Image 
-                      source={require('@/assets/images/icon-arrow-forward.png')}
-                      style={styles.eligibilityArrow}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.tipsCard}>
-                  <View>
-                    <Text style={styles.tipsLabel}>Tips</Text>
-                    <Text style={styles.tipsTitle}>Strategies to{'\n'}Increase Savings</Text>
-                  </View>
-                  <View style={styles.tipsArrowContainer}>
-                    <Image 
-                      source={require('@/assets/images/icon-arrow-forward.png')}
-                      style={styles.tipsArrow}
-                    />
-                  </View>
-                </TouchableOpacity>
+                <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 16 }]}>
+                  <TouchableOpacity 
+                    style={[CommonStyles.neoDoubleInner, styles.eligibilityCard]}
+                    onPress={() => router.push('/finances/Finance_Resources_Quiz')}
+                  >
+                    <View>
+                      <Text style={styles.eligibilityCardTitleSmall}>Take</Text>
+                      <Text style={styles.eligibilityCardTitle}>Eligibility</Text>
+                      <Text style={styles.eligibilityCardTitle}>Quiz</Text>
+                    </View>
+                    <View style={styles.eligibilityArrowContainer}>
+                      <Image 
+                        source={require('@/assets/images/icon-arrow-forward.png')}
+                        style={styles.eligibilityArrow}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 16 }]}>
+                  <TouchableOpacity style={[CommonStyles.neoDoubleInner, styles.tipsCard]}>
+                    <View>
+                      <Text style={styles.tipsLabel}>Tips</Text>
+                      <Text style={styles.tipsTitle}>Strategies to{'\n'}Increase Savings</Text>
+                    </View>
+                    <View style={styles.tipsArrowContainer}>
+                      <Image 
+                        source={require('@/assets/images/icon-arrow-forward.png')}
+                        style={styles.tipsArrow}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </ScrollView>
             </>
           )}
@@ -117,31 +121,35 @@ export default function FinancialResourcesScreen() {
             <>
               <Text style={CommonStyles.sectionTitleGray}>Financial Support</Text>
               <View style={styles.cardsGrid}>
-            <View style={styles.resourceCard}>
-              <Text style={styles.cardTitle}>WorkBC{'\n'}Apprentice{'\n'}Services</Text>
-              <Text style={styles.cardDescription}>
-                Financial support for travel, childcare and relocation
-              </Text>
-              <TouchableOpacity style={styles.readMoreButton}>
-                <Text style={styles.readMoreText}>Read more</Text>
-                <Image 
-                  source={require('@/assets/images/icon-arrow-right.png')}
-                  style={styles.readMoreArrow}
-                />
-              </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 16, width: '48%' }]}>
+              <View style={[CommonStyles.neoDoubleInner, styles.resourceCard]}>
+                <Text style={styles.cardTitle}>WorkBC{'\n'}Apprentice{'\n'}Services</Text>
+                <Text style={styles.cardDescription}>
+                  Financial support for travel, childcare and relocation
+                </Text>
+                <TouchableOpacity style={styles.readMoreButton}>
+                  <Text style={styles.readMoreText}>Read more</Text>
+                  <Image 
+                    source={require('@/assets/images/icon-arrow-right.png')}
+                    style={styles.readMoreArrow}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.resourceCard}>
-              <Text style={styles.cardTitle}>Provincial{'\n'}Tuition Waiver{'\n'}Program</Text>
-              <Text style={styles.cardDescription}>
-                Covers tuition and fees for dependents during training
-              </Text>
-              <TouchableOpacity style={styles.readMoreButton}>
-                <Text style={styles.readMoreText}>Read more</Text>
-                <Image 
-                  source={require('@/assets/images/icon-arrow-right.png')}
-                  style={styles.readMoreArrow}
-                />
-              </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 16, width: '48%' }]}>
+              <View style={[CommonStyles.neoDoubleInner, styles.resourceCard]}>
+                <Text style={styles.cardTitle}>Provincial{'\n'}Tuition Waiver{'\n'}Program</Text>
+                <Text style={styles.cardDescription}>
+                  Covers tuition and fees for dependents during training
+                </Text>
+                <TouchableOpacity style={styles.readMoreButton}>
+                  <Text style={styles.readMoreText}>Read more</Text>
+                  <Image 
+                    source={require('@/assets/images/icon-arrow-right.png')}
+                    style={styles.readMoreArrow}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
               </View>
             </>
@@ -152,22 +160,24 @@ export default function FinancialResourcesScreen() {
             <>
               <Text style={CommonStyles.sectionTitleGray}>Loan</Text>
               <View style={styles.cardsGrid}>
-            <TouchableOpacity 
-              style={styles.resourceCard}
-              onPress={() => router.push('/finances/canada-apprentice-loan')}
-            >
-              <Text style={styles.cardTitle}>Canada{'\n'}Apprentice{'\n'}Loan</Text>
-              <Text style={styles.cardDescription}>
-                Interest-free loans for each period of technical training
-              </Text>
-              <View style={styles.readMoreButton}>
-                <Text style={styles.readMoreText}>Read more</Text>
-                <Image 
-                  source={require('@/assets/images/icon-arrow-right.png')}
-                  style={styles.readMoreArrow}
-                />
-              </View>
-            </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 16, width: '48%' }]}>
+              <TouchableOpacity 
+                style={[CommonStyles.neoDoubleInner, styles.resourceCard]}
+                onPress={() => router.push('/finances/canada-apprentice-loan')}
+              >
+                <Text style={styles.cardTitle}>Canada{'\n'}Apprentice{'\n'}Loan</Text>
+                <Text style={styles.cardDescription}>
+                  Interest-free loans for each period of technical training
+                </Text>
+                <View style={styles.readMoreButton}>
+                  <Text style={styles.readMoreText}>Read more</Text>
+                  <Image 
+                    source={require('@/assets/images/icon-arrow-right.png')}
+                    style={styles.readMoreArrow}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
               </View>
             </>
           )}
@@ -177,31 +187,35 @@ export default function FinancialResourcesScreen() {
             <>
               <Text style={CommonStyles.sectionTitleGray}>Tax Credit</Text>
               <View style={styles.cardsGrid}>
-            <View style={styles.resourceCard}>
-              <Text style={styles.cardTitle}>B.C. Training{'\n'}Tax Credit for{'\n'}Apprentices</Text>
-              <Text style={styles.cardDescription}>
-                Provides refundable income tax credits for apprentices
-              </Text>
-              <TouchableOpacity style={styles.readMoreButton}>
-                <Text style={styles.readMoreText}>Read more</Text>
-                <Image 
-                  source={require('@/assets/images/icon-arrow-right.png')}
-                  style={styles.readMoreArrow}
-                />
-              </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 16, width: '48%' }]}>
+              <View style={[CommonStyles.neoDoubleInner, styles.resourceCard]}>
+                <Text style={styles.cardTitle}>B.C. Training{'\n'}Tax Credit for{'\n'}Apprentices</Text>
+                <Text style={styles.cardDescription}>
+                  Provides refundable income tax credits for apprentices
+                </Text>
+                <TouchableOpacity style={styles.readMoreButton}>
+                  <Text style={styles.readMoreText}>Read more</Text>
+                  <Image 
+                    source={require('@/assets/images/icon-arrow-right.png')}
+                    style={styles.readMoreArrow}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.resourceCard}>
-              <Text style={styles.cardTitle}>Canada{'\n'}Training{'\n'}Credit</Text>
-              <Text style={styles.cardDescription}>
-                Claim a tax credit for tuition and exam fees
-              </Text>
-              <TouchableOpacity style={styles.readMoreButton}>
-                <Text style={styles.readMoreText}>Read more</Text>
-                <Image 
-                  source={require('@/assets/images/icon-arrow-right.png')}
-                  style={styles.readMoreArrow}
-                />
-              </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 16, width: '48%' }]}>
+              <View style={[CommonStyles.neoDoubleInner, styles.resourceCard]}>
+                <Text style={styles.cardTitle}>Canada{'\n'}Training{'\n'}Credit</Text>
+                <Text style={styles.cardDescription}>
+                  Claim a tax credit for tuition and exam fees
+                </Text>
+                <TouchableOpacity style={styles.readMoreButton}>
+                  <Text style={styles.readMoreText}>Read more</Text>
+                  <Image 
+                    source={require('@/assets/images/icon-arrow-right.png')}
+                    style={styles.readMoreArrow}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
               </View>
             </>
@@ -209,7 +223,7 @@ export default function FinancialResourcesScreen() {
 
           {/* Employment Support Section */}
           {(selectedFilter === 'All' || selectedFilter === 'Employment Support') && (
-            <Text style={styles.sectionTitle}>Employment Support</Text>
+            <Text style={CommonStyles.sectionTitleGray}>Employment Support</Text>
           )}
         </View>
       </ScrollView>
@@ -244,7 +258,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 100,
     backgroundColor: '#2C2C2C',
-    borderRadius: 16,
     padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -275,8 +288,6 @@ const styles = StyleSheet.create({
   tipsCard: {
     width: 200,
     height: 100,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
     padding: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -311,9 +322,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   resourceCard: {
-    width: '48%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
     padding: 16,
     minHeight: 230,
   },

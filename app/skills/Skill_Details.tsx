@@ -200,28 +200,32 @@ export default function CircuitConceptsScreen() {
 
         {/* Action Buttons */}
           <View style={styles.actionButtons}>
-            <TouchableOpacity
-              style={[CommonStyles.whiteButton, styles.flexButton]}
-              onPress={() => router.push('/skills/Skill_Detail_Quiz')}
-            >
-              <Text style={styles.challengeButtonText}>Challenge Quiz</Text>
-              <Image 
-                  source={require('@/assets/images/icon-assignment.png')}
-                style={styles.buttonIcon}
-              />
-            </TouchableOpacity>
-            
-            {!isCompleted && (
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 24, width: '100%' }]}>
               <TouchableOpacity
-                style={[CommonStyles.whiteButton, styles.flexButton]}
-                onPress={() => setIsCompleted(true)}
+                style={[CommonStyles.whiteButton, CommonStyles.neoDoubleInner, { borderRadius: 24, backgroundColor: Colors.white, paddingVertical: 10, width: '100%' }]}
+                onPress={() => router.push('/skills/Skill_Detail_Quiz')}
               >
-                <Text style={CommonStyles.whiteButtonText}>Mark as Complete</Text>
+                <Text style={[styles.challengeButtonText, { fontWeight: '400' }]}>Challenge Quiz</Text>
                 <Image 
-                  source={require('@/assets/images/icon-volume.png')} 
+                    source={require('@/assets/images/icon-assignment.png')}
                   style={styles.buttonIcon}
                 />
               </TouchableOpacity>
+            </View>
+            
+            {!isCompleted && (
+              <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 24, width: '100%' }]}>
+                <TouchableOpacity
+                  style={[CommonStyles.whiteButton, CommonStyles.neoDoubleInner, { borderRadius: 24, backgroundColor: Colors.white, paddingVertical: 10, width: '100%' }]}
+                  onPress={() => setIsCompleted(true)}
+                >
+                  <Text style={[CommonStyles.whiteButtonText, { fontWeight: '400' }]}>Mark as Complete</Text>
+                  <Image 
+                    source={require('@/assets/images/icon-volume.png')} 
+                    style={styles.buttonIcon}
+                  />
+                </TouchableOpacity>
+              </View>
             )}
           </View>
       </ScrollView>
@@ -394,7 +398,7 @@ const styles = StyleSheet.create({
   },
     actionButtons: {
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',  
     gap: Spacing.lg,
@@ -435,7 +439,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.md,
-    ...Shadow.base,
+    ...CommonStyles.dropShadow,
   },
   speedButton: {
     backgroundColor: Colors.grey[50],

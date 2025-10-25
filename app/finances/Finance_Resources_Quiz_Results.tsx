@@ -1,6 +1,7 @@
 import { Colors } from '@/constants/colors';
 import { BorderRadius, Spacing } from '@/constants/design-tokens';
 import { Typography } from '@/constants/typography';
+import { CommonStyles } from '@/lib/common-styles';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React from 'react';
@@ -30,12 +31,14 @@ export default function EligibilityQuizSavedScreen() {
             The eligibility section of the financial resources will now automatically show your eligibility.
           </Text>
 
-          <TouchableOpacity 
-            style={styles.goToButton}
-            onPress={() => router.push('/finances/Finance_Resources')}
-          >
-            <Text style={styles.goToButtonText}>Go to Resources</Text>
-          </TouchableOpacity>
+          <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.xl, width: '100%' }]}>
+            <TouchableOpacity 
+              style={[CommonStyles.neoDoubleInner, styles.goToButton]}
+              onPress={() => router.push('/finances/Finance_Resources')}
+            >
+              <Text style={styles.goToButtonText}>Go to Resources</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -88,13 +91,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
   },
   goToButton: {
-    backgroundColor: Colors.white,
     paddingHorizontal: 80,
     paddingVertical: Spacing.md,
-    borderRadius: BorderRadius.xl,
-    borderWidth: 1,
-    borderColor: Colors.grey[100],
-    width: '100%',
     alignItems: 'center',
   },
   goToButtonText: {

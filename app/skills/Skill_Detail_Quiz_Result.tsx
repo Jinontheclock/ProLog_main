@@ -34,27 +34,31 @@ export default function QuizResultScreen() {
             competency one more.
           </Text>
 
-          <TouchableOpacity 
-            style={[CommonStyles.whiteButton, styles.buttonMargin]}
-            onPress={() => router.push('/skills/Skill_Detail_Quiz')}
-          >
-            <Text style={styles.redoButtonText}>Redo Quiz</Text>
-            <Image 
-              source={require('@/assets/images/icon-assignment.png')} 
-              style={styles.buttonIcon}
-            />
-          </TouchableOpacity>
+          <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 24, width: '100%', marginBottom: 12 }]}>
+            <TouchableOpacity 
+              style={[CommonStyles.whiteButton, CommonStyles.neoDoubleInner, { borderRadius: 24, backgroundColor: '#FFFFFF', paddingVertical: 10, width: '100%' }]}
+              onPress={() => router.push('/skills/Skill_Detail_Quiz')}
+            >
+              <Text style={[styles.redoButtonText, { fontWeight: '400' }]}>Redo Quiz</Text>
+              <Image 
+                source={require('@/assets/images/icon-assignment.png')} 
+                style={styles.buttonIcon}
+              />
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity
-            style={[CommonStyles.whiteButton, styles.buttonMargin]}
-            onPress={() => router.push('/skills/Skill_Details')}
-          >
-            <Text style={CommonStyles.whiteButtonText}>Mark as Complete</Text>
-            <Image 
-              source={require('@/assets/images/icon-check.png')} 
-              style={styles.buttonIcon}
-            />
-          </TouchableOpacity>
+          <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 24, width: '100%' }]}>
+            <TouchableOpacity
+              style={[CommonStyles.whiteButton, CommonStyles.neoDoubleInner, { borderRadius: 24, backgroundColor: '#FFFFFF', paddingVertical: 10, width: '100%' }]}
+              onPress={() => router.push('/skills/Skill_Details')}
+            >
+              <Text style={[CommonStyles.whiteButtonText, { fontWeight: '400' }]}>Mark as Complete</Text>
+              <Image 
+                source={require('@/assets/images/icon-check.png')} 
+                style={styles.buttonIcon}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>

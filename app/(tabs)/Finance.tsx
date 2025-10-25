@@ -1,5 +1,5 @@
 import { Colors } from '@/constants/colors';
-import { BorderRadius, IconSize, Shadow, Spacing } from '@/constants/design-tokens';
+import { BorderRadius, IconSize, Spacing } from '@/constants/design-tokens';
 import { Typography } from '@/constants/typography';
 import { CommonStyles } from '@/lib/common-styles';
 import { dimensions } from '@/lib/dimensions';
@@ -21,28 +21,32 @@ export default function FinancesScreen() {
         
         <View style={CommonStyles.contentPadding}>
           {/* Chart Card */}
-          <View style={styles.chartCard}>
-            <Image 
-              source={require('@/assets/images/chart-income-comparison.png')}
-              style={styles.chartImage}
-              resizeMode="contain"
-            />
-            
-            <Text style={styles.description}>
-              Getting an education helps you progress to the next level, thus also increasing pay by <Text style={styles.highlightText}>10%</Text>.
-            </Text>
-            
-            <View style={styles.costRow}>
-              <Text style={styles.costLabel}>Est. Education Cost</Text>
-              <Text style={styles.costValue}>$ 1900 / Level</Text>
+          <View style={[CommonStyles.neoInsetOuter, { borderRadius: BorderRadius.lg }]}>
+            <View style={[CommonStyles.neoInsetInner, styles.chartCard]}>
+              <Image 
+                source={require('@/assets/images/chart-income-comparison.png')}
+                style={styles.chartImage}
+                resizeMode="contain"
+              />
+              
+              <Text style={styles.description}>
+                Getting an education helps you progress to the next level, thus also increasing pay by <Text style={styles.highlightText}>10%</Text>.
+              </Text>
+              
+              <View style={styles.costRow}>
+                <Text style={styles.costLabel}>Est. Education Cost</Text>
+                <Text style={styles.costValue}>$ 1900 / Level</Text>
+              </View>
+              
+              <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.base }]}>
+                <TouchableOpacity 
+                  style={[CommonStyles.neoDoubleInner, styles.detailsButton]}
+                  onPress={() => setShowDetails(true)}
+                >
+                  <Text style={styles.detailsButtonText}>Show Details</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            
-            <TouchableOpacity 
-              style={styles.detailsButton}
-              onPress={() => setShowDetails(true)}
-            >
-              <Text style={styles.detailsButtonText}>Show Details</Text>
-            </TouchableOpacity>
           </View>
 
           {/* Note Section */}
@@ -54,21 +58,23 @@ export default function FinancesScreen() {
           </View>
 
           {/* Financial Resources Card */}
-          <TouchableOpacity 
-            style={styles.resourceCard}
-            onPress={() => router.push('/finances/Finance_Resources')}
-          >
-            <View style={styles.resourceContent}>
-              <View style={styles.resourceTextContainer}>
-                <Text style={styles.resourceTitle}>Financial{'\n'}Resources</Text>
-                <Text style={styles.resourceSubtitle}>Scholarship, grants, bursaries, EI, and more</Text>
+          <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.lg }]}>
+            <TouchableOpacity 
+              style={[CommonStyles.neoDoubleInner, styles.resourceCard]}
+              onPress={() => router.push('/finances/Finance_Resources')}
+            >
+              <View style={styles.resourceContent}>
+                <View style={styles.resourceTextContainer}>
+                  <Text style={styles.resourceTitle}>Financial{'\n'}Resources</Text>
+                  <Text style={styles.resourceSubtitle}>Scholarship, grants, bursaries, EI, and more</Text>
+                </View>
+                <Image 
+                  source={require('@/assets/images/icon-arrow-forward.png')}
+                  style={styles.arrowIcon}
+                />
               </View>
-              <Image 
-                source={require('@/assets/images/icon-arrow-forward.png')}
-                style={styles.arrowIcon}
-              />
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
 
@@ -147,12 +153,14 @@ export default function FinancesScreen() {
                 </Text>
               </View>
               
-              <TouchableOpacity 
-                style={styles.closeDetailsButton}
-                onPress={() => setShowDetails(false)}
-              >
-                <Text style={styles.closeDetailsButtonText}>Close Details</Text>
-              </TouchableOpacity>
+              <View style={[CommonStyles.neoDoubleOuter, { borderRadius: BorderRadius.base }]}>
+                <TouchableOpacity 
+                  style={[CommonStyles.neoDoubleInner, styles.closeDetailsButton]}
+                  onPress={() => setShowDetails(false)}
+                >
+                  <Text style={styles.closeDetailsButtonText}>Close Details</Text>
+                </TouchableOpacity>
+              </View>
             </ScrollView>
           </View>
         </View>
@@ -163,11 +171,9 @@ export default function FinancesScreen() {
 
 const styles = StyleSheet.create({
   chartCard: {
-    backgroundColor: Colors.white,
-    borderRadius: BorderRadius.lg,
+    backgroundColor: Colors.grey[50],
     padding: Spacing.lg,
     marginBottom: Spacing.lg,
-    ...Shadow.base,
   },
   chartImage: {
     width: '100%',
@@ -199,9 +205,7 @@ const styles = StyleSheet.create({
     color: Colors.text.primary,
   },
   detailsButton: {
-    backgroundColor: Colors.grey[50],
     paddingVertical: Spacing.md,
-    borderRadius: BorderRadius.base,
     alignItems: 'center',
   },
   detailsButtonText: {
@@ -226,11 +230,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.border.default,
   },
   resourceCard: {
-    backgroundColor: Colors.white,
-    borderRadius: BorderRadius.lg,
     padding: Spacing.xl,
     paddingVertical: Spacing['2xl'],
-    ...Shadow.base,
   },
   resourceContent: {
     flexDirection: 'row',
@@ -328,10 +329,12 @@ const styles = StyleSheet.create({
     ...Typography.caption,
     color: Colors.text.secondary,
     marginBottom: Spacing.sm,
+    fontWeight: '400',
   },
   incomeValue: {
     ...Typography.sectionTitle,
     color: Colors.text.primary,
+    fontWeight: '700',
   },
   arrowImage: {
     width: 60,
@@ -368,18 +371,14 @@ const styles = StyleSheet.create({
   },
   boldText: {
     ...Typography.bodyBase,
-    fontWeight: '600',
+    fontWeight: '800',
     color: Colors.text.primary,
   },
   closeDetailsButton: {
-    backgroundColor: Colors.grey[50],
     paddingVertical: Spacing.md,
-    borderRadius: BorderRadius.base,
     alignItems: 'center',
     marginTop: Spacing.sm,
     marginBottom: Spacing.sm,
-    borderWidth: 1,
-    borderColor: Colors.border.default,
   },
   closeDetailsButtonText: {
     ...Typography.bodyLarge,

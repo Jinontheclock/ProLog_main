@@ -1,11 +1,12 @@
 import {
-    Colors,
-    ELIGIBILITY,
-    QUIZ,
-    Spacing,
-    TIMING,
-    Typography
+  Colors,
+  ELIGIBILITY,
+  QUIZ,
+  Spacing,
+  TIMING,
+  Typography
 } from '@/constants';
+import { CommonStyles } from '@/lib/common-styles';
 import dimensions from '@/lib/dimensions';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -71,12 +72,14 @@ export default function EligibilityQuizScreen() {
             </Text>
             
             {/* Start Button */}
-            <TouchableOpacity 
-              style={styles.startButton}
-              onPress={() => setQuizStarted(true)}
-            >
-              <Text style={styles.startButtonText}>Start</Text>
-            </TouchableOpacity>
+            <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 40, width: '100%' }]}>
+              <TouchableOpacity 
+                style={[CommonStyles.neoDoubleInner, styles.startButton]}
+                onPress={() => setQuizStarted(true)}
+              >
+                <Text style={styles.startButtonText}>Start</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </SafeAreaView>
@@ -216,8 +219,6 @@ const styles = StyleSheet.create({
   startButton: {
     backgroundColor: '#2C2C2C',
     paddingVertical: 14,
-    width: '100%',
-    borderRadius: 40,
     alignItems: 'center',
   },
   startButtonText: {

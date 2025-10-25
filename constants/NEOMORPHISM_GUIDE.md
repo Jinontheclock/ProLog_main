@@ -85,13 +85,27 @@ In React Native, use the adapted styles from `CommonStyles`:
 ```typescript
 import { CommonStyles } from '@/lib/common-styles';
 
-// Usage examples:
+// Single shadow examples:
 <View style={[styles.button, CommonStyles.neoProjected]}>
   {/* Button content */}
 </View>
 
 <View style={[styles.card, CommonStyles.dropShadow]}>
   {/* Card content */}
+</View>
+
+// Double shadow example (requires nested Views):
+<View style={[styles.container, CommonStyles.neoDoubleOuter]}>
+  <View style={[CommonStyles.neoDoubleInner, { padding: 16 }]}>
+    {/* Content here */}
+  </View>
+</View>
+
+// Inset shadow example (눌려 들어간 스타일):
+<View style={[styles.container, CommonStyles.neoInsetOuter]}>
+  <View style={[CommonStyles.neoInsetInner, { padding: 16 }]}>
+    {/* Content here */}
+  </View>
 </View>
 ```
 
@@ -103,6 +117,10 @@ import { CommonStyles } from '@/lib/common-styles';
 - `CommonStyles.barSubmerged` - Navigation bar submerged effect
 - `CommonStyles.smallerProjected` - Alternative projected effect
 - `CommonStyles.dropShadow` - Standard drop shadow
+- `CommonStyles.neoDoubleOuter` - Double shadow effect (outer layer with light shadow)
+- `CommonStyles.neoDoubleInner` - Double shadow effect (inner layer with dark shadow)
+- `CommonStyles.neoInsetOuter` - Inset shadow effect (outer layer with dark shadow) - 눌려 들어간 스타일
+- `CommonStyles.neoInsetInner` - Inset shadow effect (inner layer with light shadow) - 눌려 들어간 스타일
 
 ## Notes
 
@@ -115,6 +133,12 @@ import { CommonStyles } from '@/lib/common-styles';
 
 1. **Light Source**: All shadows assume a light source from the top-left
 2. **Subtlety**: Neomorphism is about subtle depth, not dramatic shadows
-3. **Background**: Always use on light gray backgrounds for best effect
+3. **Background**: Always use on light gray backgrounds (#F2F2F2) for best effect
 4. **Contrast**: Maintain sufficient contrast for accessibility
+5. **Double Shadow (Raised)**: For stronger raised neomorphism effects, use nested Views with `neoDoubleOuter` and `neoDoubleInner`
+   - Outer View: Light shadow from top-left (simulates raised surface catching light)
+   - Inner View: Dark shadow from bottom-right (simulates cast shadow)
+6. **Inset Shadow (Pressed)**: For pressed/sunken effects, use nested Views with `neoInsetOuter` and `neoInsetInner`
+   - Outer View: Dark shadow from top-left (simulates recessed surface)
+   - Inner View: Light shadow from bottom-right (simulates depth and ambient light)
 
