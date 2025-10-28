@@ -19,6 +19,7 @@ export default function SkillsScreen() {
     'Analyze series circuits': true,
   });
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  
   const [completionFilter, setCompletionFilter] = useState('All');
   const [typeFilter, setTypeFilter] = useState('All');
   
@@ -39,6 +40,8 @@ export default function SkillsScreen() {
   };
 
   const levels = ['Level 1', 'Level 2', 'Level 3', 'Level 4'];
+
+  
 
   const skillSections = [
     {
@@ -165,7 +168,7 @@ export default function SkillsScreen() {
       <Modal
         visible={isFilterModalVisible}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setIsFilterModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
@@ -271,6 +274,8 @@ export default function SkillsScreen() {
           </View>
         </View>
       </Modal>
+
+      
     </SafeAreaView>
   );
 }

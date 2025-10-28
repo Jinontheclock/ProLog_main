@@ -25,7 +25,7 @@ export default function CircuitConceptsScreen() {
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={CommonStyles.backButtonWithText}>
+          <TouchableOpacity onPress={() => router.push('/(tabs)/My_Skills')} style={CommonStyles.backButtonWithText}>
             <Image 
               source={require('@/assets/images/icon-back-button.png')} 
               style={CommonStyles.backIcon}
@@ -217,11 +217,14 @@ export default function CircuitConceptsScreen() {
               <View style={[CommonStyles.neoDoubleOuter, { borderRadius: 24, width: '100%' }]}>
                 <TouchableOpacity
                   style={[CommonStyles.whiteButton, CommonStyles.neoDoubleInner, { borderRadius: 24, backgroundColor: Colors.white, paddingVertical: 10, width: '100%' }]}
-                  onPress={() => setIsCompleted(true)}
+                  onPress={() => {
+                    setIsCompleted(true);
+                    router.push('/(tabs)/My_Skills');
+                  }}
                 >
                   <Text style={[CommonStyles.whiteButtonText, { fontWeight: '400' }]}>Mark as Complete</Text>
                   <Image 
-                    source={require('@/assets/images/icon-volume.png')} 
+                    source={require('@/assets/images/icon-check.png')} 
                     style={styles.buttonIcon}
                   />
                 </TouchableOpacity>

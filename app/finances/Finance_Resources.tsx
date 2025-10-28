@@ -18,7 +18,7 @@ export default function FinancialResourcesScreen() {
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={CommonStyles.headerCompact}>
-          <TouchableOpacity onPress={() => router.back()} style={CommonStyles.backButton}>
+          <TouchableOpacity onPress={() => router.push('/(tabs)/Finance')} style={CommonStyles.backButton}>
             <Image 
               source={require('@/assets/images/icon-back-button.png')}
               style={CommonStyles.backIcon}

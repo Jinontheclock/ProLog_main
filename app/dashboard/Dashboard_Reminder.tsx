@@ -173,7 +173,7 @@ export default function ReminderScreen() {
       <Modal
         visible={isAddModalVisible}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setIsAddModalVisible(false)}
       >
         <View style={styles.modalOverlay}>

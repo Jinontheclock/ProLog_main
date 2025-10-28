@@ -82,7 +82,7 @@ export default function FinancesScreen() {
       <Modal
         visible={showDetails}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setShowDetails(false)}
       >
         <View style={styles.modalOverlay}>

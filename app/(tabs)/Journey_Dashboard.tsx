@@ -99,7 +99,10 @@ export default function HomeScreen() {
                 </View>
 
                 <View style={[CommonStyles.neoDoubleOuter, { width: '100%', borderRadius: 12 }]}>
-                  <TouchableOpacity style={[styles.addCircleButton, CommonStyles.neoDoubleInner, { borderRadius: 12 }]}>
+                  <TouchableOpacity
+                    style={[styles.addCircleButton, CommonStyles.neoDoubleInner, { borderRadius: 12 }]}
+                    onPress={() => router.push('/dashboard/Dashboard_Reminder')}
+                  >
                     <Image 
                       source={require('@/assets/images/icon-add.png')} 
                       style={styles.addIcon}
@@ -132,7 +135,10 @@ export default function HomeScreen() {
                 </View>
               </View>
               <View style={CommonStyles.neoDoubleOuter}>
-                <TouchableOpacity style={[styles.checklistButton, CommonStyles.neoDoubleInner, { backgroundColor: '#323232' }]}>
+                <TouchableOpacity
+                  style={[styles.checklistButton, CommonStyles.neoDoubleInner, { backgroundColor: '#323232' }]}
+                  onPress={() => router.push('/(tabs)/My_Skills')}
+                >
                   <IconSymbol name="chevron.right" size={20} color="white" />
                   <Text style={styles.checklistButtonText}>View</Text>
                   <Text style={styles.checklistButtonText}>Checklist</Text>
@@ -149,7 +155,10 @@ export default function HomeScreen() {
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.suggestedCardsContainer}>
             {/* Canada Apprentice Loan Card */}
             <View style={CommonStyles.neoDoubleOuter}>
-              <TouchableOpacity style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}>
+              <TouchableOpacity
+                style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}
+                onPress={() => router.push('/finances/Finance_Resources')}
+              >
                 <Text style={styles.cardTag}>Loan</Text>
                 <Text style={styles.cardTitle}>Canada</Text>
                 <Text style={styles.cardTitle}>Apprentice</Text>
@@ -164,7 +173,10 @@ export default function HomeScreen() {
 
             {/* Tips Card */}
             <View style={CommonStyles.neoDoubleOuter}>
-              <TouchableOpacity style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}>
+              <TouchableOpacity
+                style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}
+                onPress={() => router.push('/finances/Finance_Resources')}
+              >
                 <Text style={styles.cardTag}>Tips</Text>
                 <Text style={styles.cardTitle}>Strategies</Text>
                 <Text style={styles.cardTitle}>to Increase</Text>
@@ -179,7 +191,10 @@ export default function HomeScreen() {
 
             {/* Financial Support Card */}
             <View style={CommonStyles.neoDoubleOuter}>
-              <TouchableOpacity style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}>
+              <TouchableOpacity
+                style={[styles.suggestedCard, CommonStyles.neoDoubleInner]}
+                onPress={() => router.push('/finances/Finance_Resources')}
+              >
                 <Text style={styles.cardTag}>Financial Sup</Text>
                 <Text style={styles.cardTitle}>Employment</Text>
                 <Text style={styles.cardTitle}>Insurance</Text>
