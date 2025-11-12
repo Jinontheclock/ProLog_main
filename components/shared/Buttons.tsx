@@ -11,6 +11,7 @@ interface ButtonProps {
   onPress?: () => void;
   variant?: ButtonVariant;
   disabled?: boolean;
+  centered?: boolean;
 }
 
 const variantStyles = {
@@ -35,6 +36,7 @@ export const Button: React.FC<ButtonProps> = ({
   onPress,
   variant = 'primary',
   disabled = false,
+  centered = false,
 }) => {
   const { backgroundColor, textColor } = variantStyles[variant];
   const iconSource = variant === 'light' && iconBlack ? iconBlack : icon;
@@ -45,6 +47,7 @@ export const Button: React.FC<ButtonProps> = ({
         styles.button,
         {
           backgroundColor: disabled ? '#E0E0E0' : backgroundColor,
+          alignSelf: centered ? 'center' : 'flex-start',
         },
       ]}
       onPress={onPress}

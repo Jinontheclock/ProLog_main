@@ -1,10 +1,10 @@
-import { Image } from 'expo-image';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Dimensions, Text, View } from 'react-native';
+import { Dimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
+import { NavBarItem } from '@/components/NavBar';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { CommonStyles } from '@/lib/common-styles';
@@ -56,31 +56,12 @@ export default function TabLayout() {
           title: '',
           href: '/(tabs)/School',
           tabBarIcon: ({ focused }) => (
-            <View style={{
-              alignItems: 'center',
-              backgroundColor: '#F2F2F2',
-              borderRadius: 26,
-              height: 70,
-              justifyContent: 'center',
-              padding: 8,
-              width: 60,
-            }}>
-              <Image 
-                source={focused ? require('@/assets/images/school_on.png') : require('@/assets/images/school_off.png')}
-                style={{ 
-                  width: 20, 
-                  height: 20,
-                }}
-              />
-              <Text style={{
-                fontSize: 10,
-                marginTop: 4,
-                color: focused ? '#2C2C2C' : '#D5D5D5',
-                fontWeight: focused ? '600' : '400',
-              }}>
-                School
-              </Text>
-            </View>
+            <NavBarItem 
+              label="School"
+              iconOn={require('@/assets/images/school_on.png')}
+              iconOff={require('@/assets/images/school_off.png')}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -90,31 +71,12 @@ export default function TabLayout() {
           title: '',
           href: '/(tabs)/Work',
           tabBarIcon: ({ focused }) => (
-            <View style={{
-              alignItems: 'center',
-              backgroundColor: '#F2F2F2',
-              borderRadius: 26,
-              height: 70,
-              justifyContent: 'center',
-              padding: 8,
-              width: 60,
-            }}>
-              <Image 
-                source={focused ? require('@/assets/images/electric_bolt_on.png') : require('@/assets/images/electric_bolt_off.png')}
-                style={{ 
-                  width: 20, 
-                  height: 20,
-                }}
-              />
-              <Text style={{
-                fontSize: 10,
-                marginTop: 4,
-                color: focused ? '#2C2C2C' : '#D5D5D5',
-                fontWeight: focused ? '600' : '400',
-              }}>
-                Work
-              </Text>
-            </View>
+            <NavBarItem 
+              label="Work"
+              iconOn={require('@/assets/images/construction_on.png')}
+              iconOff={require('@/assets/images/construction_off.png')}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -124,31 +86,12 @@ export default function TabLayout() {
           title: '',
           href: '/(tabs)/Dashboard',
           tabBarIcon: ({ focused }) => (
-            <View style={{
-              alignItems: 'center',
-              backgroundColor: '#F2F2F2',
-              borderRadius: 26,
-              height: 70,
-              justifyContent: 'center',
-              padding: 8,
-              width: 60,
-            }}>
-              <Image 
-                source={focused ? require('@/assets/images/route_on.png') : require('@/assets/images/route_off.png')}
-                style={{ 
-                  width: 20, 
-                  height: 20,
-                }}
-              />
-              <Text style={{
-                fontSize: 10,
-                marginTop: 4,
-                color: focused ? '#2C2C2C' : '#D5D5D5',
-                fontWeight: focused ? '600' : '400',
-              }}>
-                Dashboard
-              </Text>
-            </View>
+            <NavBarItem 
+              label="Dashboard"
+              iconOn={require('@/assets/images/route_on.png')}
+              iconOff={require('@/assets/images/route_off.png')}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -158,31 +101,12 @@ export default function TabLayout() {
           title: '',
           href: '/(tabs)/My_Skills',
           tabBarIcon: ({ focused }) => (
-            <View style={{
-              alignItems: 'center',
-              backgroundColor: '#F2F2F2',
-              borderRadius: 26,
-              height: 70,
-              justifyContent: 'center',
-              padding: 8,
-              width: 60,
-            }}>
-              <Image 
-                source={focused ? require('@/assets/images/construction_on.png') : require('@/assets/images/construction_off.png')}
-                style={{ 
-                  width: 20, 
-                  height: 20,
-                }}
-              />
-              <Text style={{
-                fontSize: 10,
-                marginTop: 4,
-                color: focused ? '#2C2C2C' : '#D5D5D5',
-                fontWeight: focused ? '600' : '400',
-              }}>
-                Skills
-              </Text>
-            </View>
+            <NavBarItem 
+              label="Skills"
+              iconOn={require('@/assets/images/electric_bolt_on.png')}
+              iconOff={require('@/assets/images/electric_bolt_off.png')}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -192,51 +116,13 @@ export default function TabLayout() {
           title: '',
           href: '/(tabs)/Resources',
           tabBarIcon: ({ focused }) => (
-            <View style={{
-              alignItems: 'center',
-              backgroundColor: '#F2F2F2',
-              borderRadius: 26,
-              height: 70,
-              justifyContent: 'center',
-              padding: 8,
-              width: 60,
-            }}>
-              <Image 
-                source={focused ? require('@/assets/images/library_books_on.png') : require('@/assets/images/library_books_off.png')}
-                style={{ 
-                  width: 20, 
-                  height: 20,
-                }}
-              />
-              <Text style={{
-                fontSize: 10,
-                marginTop: 4,
-                color: focused ? '#2C2C2C' : '#D5D5D5',
-                fontWeight: focused ? '600' : '400',
-              }}>
-                Resources
-              </Text>
-            </View>
+            <NavBarItem 
+              label="Resources"
+              iconOn={require('@/assets/images/library_books_on.png')}
+              iconOff={require('@/assets/images/library_books_off.png')}
+              focused={focused}
+            />
           ),
-        }}
-      />
-      {/* Hide old tabs but keep them for backward compatibility */}
-      <Tabs.Screen
-        name="Journey_Dashboard"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="Finance"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="Settings"
-        options={{
-          href: null,
         }}
       />
     </Tabs>

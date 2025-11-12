@@ -1,23 +1,23 @@
 import {
-    APPRENTICESHIP,
-    BorderRadius,
-    Colors,
-    FINANCIAL,
-    IconSize,
-    Shadow,
-    Spacing,
-    Typography,
+  APPRENTICESHIP,
+  BorderRadius,
+  Colors,
+  FINANCIAL,
+  IconSize,
+  Shadow,
+  Spacing,
+  Typography,
 } from "@/constants";
 import { CommonStyles } from "@/lib/common-styles";
 import { router } from "expo-router";
 import React from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -32,7 +32,7 @@ export default function CanadaApprenticeLoanScreen() {
                 {/* Header */}
                 <View style={CommonStyles.headerCompact}>
                     <TouchableOpacity
-                        onPress={() => router.push("/(tabs)/Finance")}
+                        onPress={() => router.push("/(tabs)/Resources")}
                         style={CommonStyles.backButtonWithText}
                     >
                         <Image
@@ -161,7 +161,7 @@ export default function CanadaApprenticeLoanScreen() {
                 {/* Apply Now Button */}
                 <TouchableOpacity
                     style={styles.applyButton}
-                    onPress={() => router.push("/(tabs)/Finance")}
+                    onPress={() => router.push("/(tabs)/Resources")}
                 >
                     <Text style={styles.applyButtonText}>Apply Now</Text>
                 </TouchableOpacity>

@@ -18,7 +18,7 @@ export default function FinancialResourcesScreen() {
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={CommonStyles.headerCompact}>
-          <TouchableOpacity onPress={() => router.push('/(tabs)/Finance')} style={CommonStyles.backButton}>
+          <TouchableOpacity onPress={() => router.push('/(tabs)/Resources')} style={CommonStyles.backButton}>
             <Image 
               source={require('@/assets/images/icon-back-button.png')}
               style={CommonStyles.backIcon}
@@ -229,7 +229,7 @@ export default function FinancialResourcesScreen() {
       </ScrollView>
       
       {/* Tab Navigation */}
-      <CustomTabBar activeTab="finances" />
+      <CustomTabBar activeTab="resources" />
     </SafeAreaView>
   );
 }

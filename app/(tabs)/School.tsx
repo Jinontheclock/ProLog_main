@@ -159,6 +159,7 @@ export default function SchoolScreen() {
               text="View Checklist"
               icon={require('@/assets/images/arrow_forward.png')}
               variant="dark"
+              centered={true}
               onPress={() => console.log('View Checklist pressed')}
             />
           </>
