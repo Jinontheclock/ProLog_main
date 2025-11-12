@@ -1,8 +1,8 @@
 import {
-    Roboto_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
-    useFonts
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+  useFonts
 } from '@expo-google-fonts/roboto';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
@@ -18,7 +18,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 SplashScreen.preventAutoHideAsync();
 
 export const unstable_settings = {
-  anchor: '(tabs)',
+  initialRouteName: '(tabs)',
 };
 
 export default function RootLayout() {
