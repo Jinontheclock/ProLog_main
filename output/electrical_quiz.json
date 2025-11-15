@@ -1,0 +1,67 @@
+[
+    {
+        "number": 1,
+        "question": "A substance that is made up of atoms of more than one type is a ____.",
+        "options": ["Protons", "Compound", "Recommendation", "Conductors"],
+        "answer": "Compound"
+    },
+    {
+        "number": 2,
+        "question": "Anything that occupies space or has mass is referred to as ____.",
+        "options": ["False", "True", "Matter", "Atom"],
+        "answer": "Matter"
+    },
+    {
+        "number": 3,
+        "question": "The atomic number of an element refers to the number of ____ in the ____ of the atom.",
+        "options": [
+            "Protons; nucleus",
+            "Not sure",
+            "Not applicable",
+            "Protons"
+        ],
+        "answer": "Protons; nucleus"
+    },
+    {
+        "number": 4,
+        "question": "What is the maximum number of electrons that can be in the valence orbital of an atom?",
+        "options": ["0", "2", "1", "8"],
+        "answer": "8"
+    },
+    {
+        "number": 5,
+        "question": "In orbits farther from the nucleus, the energy possessed by the electrons: (a) increases (b) decreases",
+        "options": ["Increases", "False", "Free", "Conductors"],
+        "answer": "Increases"
+    },
+    {
+        "number": 6,
+        "question": "An electron that has broken loose from its atom is a ____ electron.",
+        "options": ["Four", "True", "False", "Free"],
+        "answer": "Free"
+    },
+    {
+        "number": 7,
+        "question": "Semiconductors contain ____ valence electrons.",
+        "options": ["Four", "Conductors", "Not sure", "Free"],
+        "answer": "Four"
+    },
+    {
+        "number": 8,
+        "question": "Most metals are good ____.",
+        "options": ["Compound", "Recommendation", "Conductors", "6000 hours"],
+        "answer": "Conductors"
+    },
+    {   
+        "number": 9,
+        "question": "The smallest independent portion that a substance can be broken down into and still possess the properties of the substance is a ____.",
+        "options": ["Compound", "Four", "Molecule", "Free"],
+        "answer": "Molecule"
+    },
+    {
+        "number": 10,
+        "question": "The smallest portion an element can be broken down into and still possess the properties of that element is referred to as an ____.",
+        "options": ["Compound", "Matter", "Atom", "Protons"],
+        "answer": "Atom"
+    }
+]
