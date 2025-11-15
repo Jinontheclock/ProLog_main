@@ -1,6 +1,6 @@
 import { CommonStyles } from "@/lib/common-styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
     Animated,
     Image,
@@ -11,6 +11,7 @@ import {
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getRandomQuestionsAsync, getAllTitles } from "@/lib/quiz-loader";
 
 export default function QuizScreen() {
     const router = useRouter();
@@ -19,32 +20,124 @@ export default function QuizScreen() {
 
     const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
     const [showAnswer, setShowAnswer] = useState(false);
-        const [isProcessing, setIsProcessing] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
     const [quiz, setQuiz] = useState<any | null>(null);
+    const [questionPool, setQuestionPool] = useState<any[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [score, setScore] = useState(0);
     const [loading, setLoading] = useState(false);
     const rotateAnim = useRef(new Animated.Value(0)).current;
+    // refs and timers
+    const advanceTimerRef = useRef<any>(null);
 
     const handleProceed = () => {
-        if (selectedAnswer !== null) {
+        try {
+            const choices = quiz?.choices ?? [];
+
+            // ignore if no selection
+            if (selectedAnswer === null) return;
+
+            const sel = choices[selectedAnswer];
+            const willBeCorrect = !!sel?.isCorrect;
+
+            // reveal answer and compute new score deterministically
             setShowAnswer(true);
+            const newScore = willBeCorrect ? score + 1 : score;
+            setScore(newScore);
+
+            // show processing state briefly then advance deterministically
+            setIsProcessing(true);
+            // clear any existing timer
+            try {
+                if (advanceTimerRef.current)
+                    clearTimeout(advanceTimerRef.current);
+            } catch (e) {}
+
+            const newScoreForNav = newScore;
+
+            // If this is the last question, navigate deterministically after a short reveal.
+            if (questionPool && currentIndex === questionPool.length - 1) {
+                try {
+                    // ensure answer is visible for a brief moment
+                    setShowAnswer(true);
+                    if (advanceTimerRef.current) {
+                        try {
+                            clearTimeout(advanceTimerRef.current);
+                        } catch (e) {}
+                        advanceTimerRef.current = null;
+                    }
+                    advanceTimerRef.current = setTimeout(() => {
+                        setIsProcessing(false);
+                        try {
+                            router.push(`/skills/Skill_Detail_Quiz_Result?score=${newScoreForNav}&total=${questionPool.length}`);
+                        } catch (e) {
+                            console.error("navigation error", e);
+                        }
+                    }, 300);
+                } catch (e) {
+                    console.error("final navigation error", e);
+                    try {
+                        router.push(`/skills/Skill_Detail_Quiz_Result?score=${newScoreForNav}&total=${questionPool.length}`);
+                    } catch (err) {
+                        console.error("navigation error", err);
+                    }
+                }
+                return;
+            }
+
+            // Not last question: advance after short delay for feedback
+            if (advanceTimerRef.current) {
+                try {
+                    clearTimeout(advanceTimerRef.current);
+                } catch (e) {}
+                advanceTimerRef.current = null;
+            }
+
+            advanceTimerRef.current = setTimeout(() => {
+                setIsProcessing(false);
+                rotateAnim.setValue(0);
+                const nextIndex = currentIndex + 1;
+                if (questionPool && nextIndex < questionPool.length) {
+                    // advance to next question after feedback
+                    const q = questionPool[nextIndex];
+                    setQuiz({ question: q.question, choices: q.choices });
+                    setCurrentIndex(nextIndex);
+                    setSelectedAnswer(null);
+                    setShowAnswer(false);
+                } else {
+                    // final - navigate to results deterministically
+                    const url = `/skills/Skill_Detail_Quiz_Result?score=${newScoreForNav}&total=${questionPool.length}`;
+                    try {
+                        router.push(url);
+                    } catch (e) {
+                        console.error("navigation error", e);
+                    }
+                }
+            }, 500);
+        } catch (err) {
+            console.error("handleProceed error", err);
+            // fallback immediate advance
+            try {
+                if (questionPool && currentIndex < questionPool.length - 1)
+                    advanceToNextQuestion();
+                else
+                    router.push(
+                        `/skills/Skill_Detail_Quiz_Result?score=${score}&total=${questionPool.length}`
+                    );
+            } catch (e) {
+                console.error("fallback navigation error", e);
+            }
         }
     };
 
-        useEffect(() => {
-            if (showAnswer) {
-                // show a brief processing/spin when the answer is revealed
-                setIsProcessing(true);
-                Animated.timing(rotateAnim, {
-                    toValue: 1,
-                    duration: 600,
-                    useNativeDriver: true,
-                }).start(() => {
-                    // stop processing after the spin completes so the arrow returns
-                    setIsProcessing(false);
-                    rotateAnim.setValue(0);
-                });
-            }
-        }, [showAnswer]);
+    useEffect(() => {
+        return () => {
+            try {
+                if (advanceTimerRef.current)
+                    clearTimeout(advanceTimerRef.current);
+            } catch (e) {}
+        };
+    }, []);
 
     const spin = rotateAnim.interpolate({
         inputRange: [0, 1],
@@ -52,19 +145,22 @@ export default function QuizScreen() {
     });
 
     const fetchOutputQuestion = async () => {
+        // load local questions from competency_summaries.json
         setLoading(true);
         setSelectedAnswer(null);
         setShowAnswer(false);
         try {
-            const body: any = {};
-            if (sectionParam) body.section = sectionParam;
-            const res = await fetch("http://localhost:3000/api/output-quiz", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
-            });
-            const data = await res.json();
-            setQuiz(data);
+            const pool = await getRandomQuestionsAsync(6);
+            setQuestionPool(pool);
+            setCurrentIndex(0);
+            setScore(0);
+            const allTitles = getAllTitles();
+            if (pool.length > 0) {
+                const first = pool[0];
+                setQuiz({ question: first.question, choices: first.choices });
+            } else {
+                setQuiz(null);
+            }
         } catch (e) {
             console.error(e);
             setQuiz(null);
@@ -74,9 +170,38 @@ export default function QuizScreen() {
     };
 
     useEffect(() => {
-        // load one question 
+        // load question pool on mount
         fetchOutputQuestion();
     }, []);
+
+    const advanceToNextQuestion = useCallback(() => {
+        // clear any pending advance timer to avoid duplicate advances
+        try {
+            if (advanceTimerRef.current) {
+                clearTimeout(advanceTimerRef.current);
+                advanceTimerRef.current = null;
+            }
+        } catch (e) {}
+
+        const nextIndex = currentIndex + 1;
+        const pool = questionPool;
+        if (nextIndex < pool.length) {
+            const allTitles = getAllTitles();
+            const q = pool[nextIndex];
+            setQuiz({ question: q.question, choices: q.choices });
+            setCurrentIndex(nextIndex);
+            setSelectedAnswer(null);
+            setShowAnswer(false);
+        } else {
+            // final - navigate to result with params
+            const url = `/skills/Skill_Detail_Quiz_Result?score=${score}&total=${pool.length}`;
+            router.push(url);
+        }
+    }, [currentIndex, questionPool, score, router]);
+
+    // Intercept router.push path to reuse existing button logic without changing JSX.
+    // Removed router.push monkeypatching. Use explicit advance/navigation logic
+    // to avoid interception pitfalls and ensure deterministic behavior.
 
     return (
         <SafeAreaView style={CommonStyles.container}>
@@ -91,7 +216,14 @@ export default function QuizScreen() {
                             style={styles.closeIcon}
                         />
                     </TouchableOpacity>
-                    <Text style={styles.questionCounter}>2 of 6</Text>
+                    <Text style={styles.questionCounter}>
+                        {loading
+                            ? "..."
+                            : `${Math.min(
+                                  questionPool.length ? currentIndex + 1 : 0,
+                                  questionPool.length
+                              )} of ${questionPool.length || 0}`}
+                    </Text>
                 </View>
 
                 <ScrollView
@@ -112,17 +244,28 @@ export default function QuizScreen() {
                                 key={i}
                                 style={[
                                     styles.option,
-                                    selectedAnswer === i && !showAnswer && styles.optionSelected,
-                                    showAnswer && c.isCorrect && styles.optionCorrect,
-                                    showAnswer && selectedAnswer === i && !c.isCorrect && styles.optionIncorrect,
+                                    selectedAnswer === i &&
+                                        !showAnswer &&
+                                        styles.optionSelected,
+                                    showAnswer &&
+                                        c.isCorrect &&
+                                        styles.optionCorrect,
+                                    showAnswer &&
+                                        selectedAnswer === i &&
+                                        !c.isCorrect &&
+                                        styles.optionIncorrect,
                                 ]}
-                                onPress={() => !showAnswer && setSelectedAnswer(i)}
+                                onPress={() =>
+                                    !showAnswer && setSelectedAnswer(i)
+                                }
                                 disabled={showAnswer}
                             >
                                 <Text
                                     style={[
                                         styles.optionText,
-                                        selectedAnswer === i && !showAnswer && styles.optionTextSelected,
+                                        selectedAnswer === i &&
+                                            !showAnswer &&
+                                            styles.optionTextSelected,
                                     ]}
                                 >
                                     {c.text}
@@ -149,18 +292,16 @@ export default function QuizScreen() {
                                         width: "100%",
                                     },
                                 ]}
-                                onPress={async () => {
-                                    if (!showAnswer) {
+                                onPress={() => {
+                                    try {
                                         handleProceed();
-                                    } else {
-                                        // Show the same redo / mark as complete
-                                        router.push(
-                                            "/skills/Skill_Detail_Quiz_Result"
-                                        );
+                                    } catch (e) {
+                                        console.error("proceed press error", e);
                                     }
                                 }}
                                 disabled={
-                                    selectedAnswer === null && !showAnswer
+                                    (selectedAnswer === null && !showAnswer) ||
+                                    isProcessing
                                 }
                             >
                                 <Text

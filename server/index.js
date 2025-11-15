@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 // Minimal OpenAI proxy server. Keep your OPENAI_API_KEY in environment variables.
+// Load .env when present
+try {
+    require("dotenv").config();
+} catch (e) {}
 const http = require("http");
 const url = require("url");
 
@@ -379,6 +383,10 @@ const server = http.createServer(async (req, res) => {
     }
 
     // default: small help text
+    if (req.method === "GET" && parsed.pathname === "/api/health") {
+        return sendJson(res, 200, { status: "ok" });
+    }
+
     if (req.method === "GET" && parsed.pathname === "/") {
         res.writeHead(200, { "Content-Type": "text/plain" });
         return res.end("OpenAI proxy server. POST /api/openai { prompt }");
