@@ -1,60 +1,71 @@
 import React, { useState } from "react";
-import { Audio } from "expo-av";
 
-const SkillDetailTextSpeech = () => {
+const SkillDetailTextSpeech = ({ content, skill }) => {
   const [speaking, setSpeaking] = useState(false);
+  const [paused, setPaused] = useState(false);
 
-  const handleSpeak = async (text) => {
-    if (!text) return;
+  const speakText = () => {
+    if (typeof window === "undefined" || !window.speechSynthesis) {
+      console.warn("Speech synthesis not supported on this platform.");
+      return;
+    }
 
-    setSpeaking(true);
+    const textToRead =
+      content?.description || content?.body || skill?.content || "";
+    const trimmedText = textToRead.trim();
+
+    if (!trimmedText) return;
 
     try {
-      const apiKey = "YOUR_API_KEY"; // Replace with your actual API key
-      const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
+      window.speechSynthesis.cancel(); // Cancel any ongoing speech
 
-      const requestBody = {
-        input: { text },
-        voice: { languageCode: "en-US", ssmlGender: "FEMALE" },
-        audioConfig: { audioEncoding: "MP3" },
+      const utterance = new SpeechSynthesisUtterance(trimmedText);
+      utterance.lang = "en-US";
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      utterance.onend = () => {
+        setSpeaking(false);
+        setPaused(false);
       };
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      });
+      utterance.onerror = () => {
+        setSpeaking(false);
+        setPaused(false);
+      };
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch audio from TTS API");
-      }
+      setSpeaking(true);
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.error("TTS error", e);
+    }
+  };
 
-      const data = await response.json();
-      const audioContent = data.audioContent;
+  const pauseSpeech = () => {
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.pause();
+      setPaused(true);
+    }
+  };
 
-      const { sound } = await Audio.Sound.createAsync({
-        uri: `data:audio/mp3;base64,${audioContent}`,
-      });
-
-      await sound.playAsync();
-
-      // Unload the sound after playback
-      sound.setOnPlaybackStatusUpdate((status) => {
-        if (status.didJustFinish) {
-          sound.unloadAsync();
-        }
-      });
-    } catch (error) {
-      console.error("TTS error:", error);
-    } finally {
-      setSpeaking(false);
+  const resumeSpeech = () => {
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+      setPaused(false);
     }
   };
 
   return (
     <div>
-      <button onClick={() => handleSpeak("Hello, this is a test.")} disabled={speaking}>
-        {speaking ? "Speaking..." : "Speak"}
+      <button onClick={speakText} disabled={speaking}>
+        {speaking ? "Speaking..." : "🔊 Read Aloud"}
+      </button>
+      <button onClick={pauseSpeech} disabled={!speaking || paused}>
+        Pause
+      </button>
+      <button onClick={resumeSpeech} disabled={!paused}>
+        Resume
       </button>
     </div>
   );
