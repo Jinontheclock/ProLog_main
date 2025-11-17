@@ -1,61 +1,63 @@
+import React, { useState } from "react";
 import { Audio } from "expo-av";
-import React, { useState, useEffect } from "react";
 
-const [speaking, setSpeaking] = useState(false);
+const SkillDetailTextSpeech = () => {
+  const [speaking, setSpeaking] = useState(false);
 
-// Function to handle Text-to-Speech API call
-const speechToText = async (text, language) => {
-    const key = YOUR_API_KEY; // Replace with actual API key
-    const address = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${key}`;
-    const payload = createRequest(text, language);
+  const handleSpeak = async (text) => {
+    if (!text) return;
+
+    setSpeaking(true);
 
     try {
-        const response = await fetch(address, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
+      const apiKey = "YOUR_API_KEY"; // Replace with your actual API key
+      const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch audio");
+      const requestBody = {
+        input: { text },
+        voice: { languageCode: "en-US", ssmlGender: "FEMALE" },
+        audioConfig: { audioEncoding: "MP3" },
+      };
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch audio from TTS API");
+      }
+
+      const data = await response.json();
+      const audioContent = data.audioContent;
+
+      const { sound } = await Audio.Sound.createAsync({
+        uri: `data:audio/mp3;base64,${audioContent}`,
+      });
+
+      await sound.playAsync();
+
+      // Unload the sound after playback
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.didJustFinish) {
+          sound.unloadAsync();
         }
-
-        const result = await response.json();
-        await playBase64Audio(result.audioContent);
-    } catch (err) {
-        console.warn(err);
+      });
+    } catch (error) {
+      console.error("TTS error:", error);
+    } finally {
+      setSpeaking(false);
     }
+  };
+
+  return (
+    <div>
+      <button onClick={() => handleSpeak("Hello, this is a test.")} disabled={speaking}>
+        {speaking ? "Speaking..." : "Speak"}
+      </button>
+    </div>
+  );
 };
 
-async function playBase64Audio(base64) {
-    try {
-        const sound = new Audio.Sound();
-
-        const source = {
-            uri: `data:audio/mp3;base64,${base64}`,
-        };
-
-        await sound.loadAsync(source);
-        await sound.playAsync();
-
-        // optional: unload after playback
-        sound.setOnPlaybackStatusUpdate((status) => {
-            if (!status.isLoaded) return;
-            if (status.didJustFinish) sound.unloadAsync();
-        });
-    } catch (e) {
-        console.error("Audio play error", e);
-    }
-}
-
-const createRequest = (text, language) => ({
-    input: {
-        text,
-    },
-    voice: {
-        languageCode: language,
-    },
-    audioConfig: {
-        audioEncoding: "MP3",
-    },
-});
+export default SkillDetailTextSpeech;

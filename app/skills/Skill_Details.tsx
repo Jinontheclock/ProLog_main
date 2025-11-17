@@ -59,6 +59,22 @@ export default function CircuitConceptsScreen() {
         }
     };
 
+    const speakText = (text) => {
+        if (typeof window === "undefined" || !window.speechSynthesis) {
+            console.warn("Speech synthesis not supported on this platform.");
+            return;
+        }
+
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        window.speechSynthesis.speak(utterance);
+    };
+
     return (
         <SafeAreaView style={CommonStyles.container}>
             <ScrollView
