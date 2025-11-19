@@ -4,33 +4,41 @@
  */
 
 export const FontFamily = {
-  regular: 'Roboto',
-  medium: 'Roboto-Medium',
-  bold: 'Roboto-Bold',
+  roboto: {
+    thin: 'Roboto-Thin',
+    light: 'Roboto-Light',
+    regular: 'Roboto',
+    medium: 'Roboto-Medium',
+    bold: 'Roboto-Bold',
+    black: 'Roboto-Black',
+  },
+  spaceGrotesk: {
+    light: 'SpaceGrotesk-Light',
+    regular: 'SpaceGrotesk-Regular',
+    medium: 'SpaceGrotesk-Medium',
+    semiBold: 'SpaceGrotesk-SemiBold',
+    bold: 'SpaceGrotesk-Bold',
+  },
 } as const;
 
 export const FontSize = {
-  xs: 12,    // Extra small - tags, labels
-  sm: 13,    // Small - card descriptions
-  base: 14,  // Base - body text, secondary text
-  md: 15,    // Medium - body text
-  lg: 16,    // Large - buttons, inputs, titles
-  xl: 18,    // Extra large - section titles
-  '2xl': 20, // 2X large - page titles
-  '3xl': 24, // 3X large - major titles
-  '4xl': 50, // 4X large - main dashboard title
-} as const;
-
-export const FontWeight = {
-  regular: '400',
-  medium: '600',
-  bold: '700',
+  xs: 12,
+  sm: 13,
+  base: 14,
+  md: 15,
+  lg: 16,
+  xl: 18,
+  '2xl': 20,
+  '3xl': 24,
+  '4xl': 36,
 } as const;
 
 export const LineHeight = {
-  tight: 18,   // For small text
-  normal: 20,  // For base text
-  relaxed: 22, // For comfortable reading
+  zero: 0,
+  five: 0.05,
+  tight: 1.15,
+  normal: 1.5,
+  relaxed: 1.75,
 } as const;
 
 /**
@@ -38,110 +46,91 @@ export const LineHeight = {
  * Common text style combinations for consistency
  */
 export const Typography = {
-  // Heading styles
-  mainTitle: {
-    fontSize: FontSize['4xl'],
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
+  captionLight: {
+    fontFamily: FontFamily.roboto.light,
+    fontSize: FontSize.sm,
+    lineHeight: FontSize.sm * 1.05,
   },
-  pageTitle: {
-    fontSize: FontSize['3xl'],
-    fontWeight: FontWeight.bold,
-    fontFamily: FontFamily.bold,
+  captionBold: {
+    fontFamily: FontFamily.roboto.bold,
+    fontSize: FontSize.sm,
+    lineHeight: FontSize.sm * 1.05,
   },
-  pageTitleRegular: {
-    fontSize: FontSize['2xl'],
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
+  smBody: {
+    fontFamily: FontFamily.roboto.regular,
+    fontSize: FontSize.sm,
+    lineHeight: FontSize.sm * 1.05,
   },
-  sectionTitle: {
-    fontSize: FontSize.xl,
-    fontWeight: FontWeight.bold,
-    fontFamily: FontFamily.bold,
+  contentSubtitle: {
+    fontFamily: FontFamily.roboto.medium,
+    fontSize: FontSize.base,
+    lineHeight: FontSize.base * 1.05,
   },
-  sectionTitleGray: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
+  contentSuffix: {
+    fontFamily: FontFamily.roboto.light,
+    fontSize: FontSize.base,
+    lineHeight: FontSize.base * 1.05,
   },
-  subTitle: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.medium,
-    fontFamily: FontFamily.medium,
-  },
-  
-  // Body text styles
-  body: {
+  contentMedium: {
+    fontFamily: FontFamily.roboto.medium,
     fontSize: FontSize.md,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
-    lineHeight: LineHeight.relaxed,
+    lineHeight: FontSize.md * 1.05,
   },
-  bodyLarge: {
+  contentRegular: {
+    fontFamily: FontFamily.roboto.regular,
+    fontSize: FontSize.md,
+    lineHeight: FontSize.md * 1.05,
+  },
+  contentBold: {
+    fontFamily: FontFamily.roboto.bold,
+    fontSize: FontSize.md,
+    lineHeight: FontSize.md * 1.05,
+  },
+  buttonText: {
+    fontFamily: FontFamily.roboto.medium,
     fontSize: FontSize.lg,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
+    lineHeight: FontSize.lg * 1.05,
   },
-  bodyBase: {
-    fontSize: FontSize.base,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
-  },
-  
-  // Button & interactive styles
-  button: {
+  bgBody: {
+    fontFamily: FontFamily.roboto.regular,
     fontSize: FontSize.lg,
-    fontWeight: FontWeight.medium,
-    fontFamily: FontFamily.medium,
+    lineHeight: FontSize.lg * 1.05,
   },
-  buttonLarge: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.medium,
-    fontFamily: FontFamily.medium,
+  contentTitle: {
+    fontFamily: FontFamily.roboto.bold,
+    fontSize: FontSize.xl,
+    lineHeight: FontSize.xl * 1.05,
   },
-  
-  // Card styles
-  cardTitle: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.medium,
-    fontFamily: FontFamily.medium,
-    lineHeight: LineHeight.relaxed,
+  lineCompletion: {
+    fontFamily: FontFamily.spaceGrotesk.light,
+    fontSize: FontSize['2xl'],
+    lineHeight: FontSize['2xl'] * 1.05,
   },
-  cardDescription: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
-    lineHeight: LineHeight.tight,
+  sectionHeader: {
+    fontFamily: FontFamily.roboto.medium,
+    fontSize: FontSize['2xl'],
+    lineHeight: FontSize['2xl'] * 1.05,
   },
-  cardDescriptionBase: {
-    fontSize: FontSize.base,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
-    lineHeight: LineHeight.normal,
+  discrepancyTracking: {
+    fontFamily: FontFamily.spaceGrotesk.regular,
+    fontSize: FontSize['3xl'],
+    lineHeight: FontSize['3xl'] * 1.05,
   },
-  
-  // Small text styles
-  label: {
-    fontSize: FontSize.base,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
+  title: {
+    fontFamily: FontFamily.spaceGrotesk.bold,
+    fontSize: FontSize['3xl'],
+    lineHeight: FontSize['3xl'] * 1.05,
   },
-  tag: {
-    fontSize: FontSize.xs,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
-  },
-  caption: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.regular,
-    fontFamily: FontFamily.regular,
+  workingHours: {
+    fontFamily: FontFamily.spaceGrotesk.bold,
+    fontSize: FontSize['4xl'],
+    lineHeight: FontSize['4xl'] * 1.05,
   },
 } as const;
 
 // Type exports
 export type FontFamilyKey = keyof typeof FontFamily;
 export type FontSizeKey = keyof typeof FontSize;
-export type FontWeightKey = keyof typeof FontWeight;
 export type LineHeightKey = keyof typeof LineHeight;
 export type TypographyKey = keyof typeof Typography;
 

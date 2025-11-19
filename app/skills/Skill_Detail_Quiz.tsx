@@ -1,17 +1,17 @@
 import { CommonStyles } from "@/lib/common-styles";
+import { getAllTitles, getRandomQuestionsAsync } from "@/lib/quiz-loader";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-    Animated,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getRandomQuestionsAsync, getAllTitles } from "@/lib/quiz-loader";
 
 export default function QuizScreen() {
     const router = useRouter();
