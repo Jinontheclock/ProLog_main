@@ -14,6 +14,7 @@ interface ButtonProps {
   variant?: ButtonVariant;
   disabled?: boolean;
   centered?: boolean;
+  fullWidth?: boolean;
 }
 
 const variantStyles = {
@@ -44,6 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   disabled = false,
   centered = false,
+  fullWidth = false,
 }) => {
   const { backgroundColor } = variantStyles[variant];
   let textColorOverride: string = Colors.white;
@@ -56,12 +58,14 @@ export const Button: React.FC<ButtonProps> = ({
         styles.button,
         {
           backgroundColor: disabled ? Colors.grey[200] : backgroundColor,
-          alignSelf: centered ? 'center' : 'flex-start',
+          alignSelf: fullWidth ? 'stretch' : (centered ? 'center' : 'flex-start'),
+          width: fullWidth ? '100%' : undefined,
         },
       ]}
       onPress={onPress}
       disabled={disabled}
     >
+      {iconComponent && iconComponent}
       <Text
         style={[
           Typography.buttonText,
@@ -70,7 +74,7 @@ export const Button: React.FC<ButtonProps> = ({
           },
         ]}
       >
-        Proceed to Next
+        {text}
       </Text>
     </TouchableOpacity>
   );

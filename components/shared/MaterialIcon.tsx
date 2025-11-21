@@ -27,6 +27,8 @@ export const ICON_NAMES = {
   'icon-check': 'check',
   'check_box': 'check-box',
   'icon-bookmark-check': 'bookmark',
+  'icon-cached': 'cached',
+  'cached': 'cached',
   
   // Info & Status icons
   'info': 'info',

@@ -1,31 +1,88 @@
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface SectionHeadingProps {
   level: string;
+  icon_action?: keyof typeof import('./MaterialIcon').ICON_NAMES;
   title: string;
   currentHours: number;
   totalHours: number;
   percentage: number;
+  onIconPress?: () => void;
+  isLoading?: boolean;
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
   level,
+  icon_action,
   title,
   currentHours,
   totalHours,
   percentage,
+  onIconPress,
+  isLoading = false,
 }) => {
+  const progressAnimation = useRef(new Animated.Value(0)).current;
+  const skeletonOpacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (isLoading) {
+      // Start skeleton pulsing animation
+      const pulseAnimation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(skeletonOpacity, {
+            toValue: 0.3,
+            duration: 800,
+            useNativeDriver: false,
+          }),
+          Animated.timing(skeletonOpacity, {
+            toValue: 1,
+            duration: 800,
+            useNativeDriver: false,
+          }),
+        ])
+      );
+      pulseAnimation.start();
+
+      return () => pulseAnimation.stop();
+    } else {
+      // Animate progress bar to new percentage
+      Animated.timing(progressAnimation, {
+        toValue: percentage,
+        duration: 1500,
+        useNativeDriver: false,
+      }).start();
+      
+      // Reset skeleton opacity
+      skeletonOpacity.setValue(1);
+    }
+  }, [isLoading, percentage]);
+
+  // Initialize progress animation on mount
+  useEffect(() => {
+    progressAnimation.setValue(percentage);
+  }, []);
+
+  const SkeletonText = ({ width, height }: { width: number; height: number }) => (
+    <Animated.View 
+      style={[
+        styles.skeletonText,
+        { width, height, opacity: skeletonOpacity }
+      ]} 
+    />
+  );
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <Text style={styles.level}>{level}</Text>
-        <TouchableOpacity style={styles.searchButton}>
-          <MaterialIcon name="icon-search" size={24} color={Colors.black} />
-        </TouchableOpacity>
+        {icon_action && (
+          <TouchableOpacity style={styles.searchButton} onPress={onIconPress}>
+            <MaterialIcon name={icon_action} size={24} color={Colors.black} />
+          </TouchableOpacity>
+        )}
       </View>
       <Text style={styles.title}>{title}</Text>
       
@@ -36,23 +93,47 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           color={Colors.grey[500]}
         />
         <View style={{ width: 8 }} />
-        <Text style={styles.hoursText}>
-          {currentHours.toLocaleString()} / {totalHours.toLocaleString()} 
-        </Text>
+        <View style={styles.hoursTextContainer}>
+          {isLoading ? (
+            <SkeletonText width={140} height={29} />
+          ) : (
+            <Text style={styles.hoursText}>
+              {currentHours.toLocaleString()} / {totalHours.toLocaleString()} 
+            </Text>
+          )}
+        </View>
         <View style={{ width: 8 }} />
         <Text style={styles.hrsText}>hrs</Text>
       </View>
 
       <View style={styles.progressBarContainer}>
         <View style={styles.progressBarBackground}>
-          <View 
+          <Animated.View 
             style={[
               styles.progressBarFill, 
-              { width: `${percentage}%` }
+              { 
+                width: isLoading 
+                  ? progressAnimation.interpolate({
+                      inputRange: [0, 100],
+                      outputRange: ['0%', '100%'],
+                      extrapolate: 'clamp'
+                    })
+                  : progressAnimation.interpolate({
+                      inputRange: [0, 100],
+                      outputRange: ['0%', '100%'],
+                      extrapolate: 'clamp'
+                    })
+              }
             ]} 
           />
         </View>
-        <Text style={styles.percentageText}>{percentage}%</Text>
+        <View style={styles.percentageContainer}>
+          {isLoading ? (
+            <SkeletonText width={40} height={19} />
+          ) : (
+            <Text style={styles.percentageText}>{percentage}%</Text>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -73,6 +154,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
+    minHeight: 185, // Fixed container height to prevent jumping
   },
   headerRow: {
     flexDirection: 'row',
@@ -144,5 +226,19 @@ const styles = StyleSheet.create({
     color: Colors.black,
     minWidth: 40,
     textAlign: 'right',
+  },
+  hoursTextContainer: {
+    minHeight: 29, // contentRegular lineHeight: 28 * 1.05 = ~29.4px
+    justifyContent: 'center',
+  },
+  percentageContainer: {
+    minHeight: 19, // contentSubtitle lineHeight: 18 * 1.05 = ~18.9px
+    minWidth: 40,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  skeletonText: {
+    backgroundColor: Colors.grey[200],
+    borderRadius: 4,
   },
 });

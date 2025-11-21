@@ -112,7 +112,7 @@ export const Typography = {
         lineHeight: 16 * 1.05,
     },
     sectionHeader: {
-        fontFamily: FontFamily.roboto.regular,
+        fontFamily: FontFamily.spaceGrotesk.regular,
         fontSize: 20,
         lineHeight: 20 * 1.05,
     },

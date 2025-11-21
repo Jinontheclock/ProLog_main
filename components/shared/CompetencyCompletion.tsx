@@ -1,9 +1,9 @@
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
-import { Image } from 'expo-image';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 
 interface CompetencyCompletionProps {
   title?: string;
@@ -24,6 +24,12 @@ export const CompetencyCompletion: React.FC<CompetencyCompletionProps> = ({
   lastUpdated,
   progressImage,
 }) => {
+  const percentage = (current / total) * 100;
+  const size = 88;
+  const strokeWidth = 8;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
   return (
     <>
       <View style={styles.sectionHeader}>
@@ -57,10 +63,34 @@ export const CompetencyCompletion: React.FC<CompetencyCompletionProps> = ({
         </View>
         
         <View style={styles.circularProgress}>
-          <Image 
-            source={progressImage}
-            style={styles.progressCircleImage}
-          />
+          <Svg width={size} height={size} style={styles.progressCircle}>
+            {/* Background circle */}
+            <Circle
+              cx={size / 2}
+              cy={size / 2}
+              r={radius}
+              stroke="#E5E7EB"
+              strokeWidth={strokeWidth}
+              fill="transparent"
+            />
+            {/* Progress circle */}
+            <Circle
+              cx={size / 2}
+              cy={size / 2}
+              r={radius}
+              stroke={Colors.orange[400]}
+              strokeWidth={strokeWidth}
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
+              fill="transparent"
+              transform={`rotate(-90 ${size / 2} ${size / 2})`}
+            />
+          </Svg>
+          {/* Percentage text in center */}
+          <View style={styles.progressText}>
+            <Text style={styles.percentageText}>{Math.round(percentage)}%</Text>
+          </View>
         </View>
       </View>
     </>
@@ -141,6 +171,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 0,
+    position: 'relative',
+  },
+  progressCircle: {
+    position: 'absolute',
+  },
+  progressText: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  percentageText: {
+    ...Typography.sectionHeader,
+    color: Colors.orange[400],
   },
   progressCircleImage: {
     width: 88,
