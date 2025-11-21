@@ -2,6 +2,8 @@
 
 # dependencies
 node_modules/
+package-lock.json.bak
+yarn.lock
 
 # VS Code History
 .history/
@@ -29,6 +31,10 @@ expo-env.d.ts
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+*.log
+
+# npm cache
+.npm/
 
 # macOS
 .DS_Store
