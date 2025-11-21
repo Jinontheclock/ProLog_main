@@ -18,7 +18,7 @@ import dimensions from '@/lib/dimensions';
 export default function SchoolScreen() {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  const [selectedTab, setSelectedTab] = useState('hour');
+  const [selectedTab, setSelectedTab] = useState('program');
   const [expandedExpense, setExpandedExpense] = useState<number | null>(3);
 
   return (
@@ -36,6 +36,7 @@ export default function SchoolScreen() {
         {/* Top Card */}
         <SectionHeading 
           level="Level 2"
+          icon_action="cached"
           title="Technical Training"
           currentHours={0}
           totalHours={10}
@@ -45,11 +46,12 @@ export default function SchoolScreen() {
 
         {/* Tab Navigation */}
         <PageSwitch
+          key="school-tabs"
           tabs={[
             {
-              id: 'hour',
+              id: 'program',
               label: 'Program',
-              iconName: 'house',
+              iconName: 'home',
             },
             {
               id: 'skills',
@@ -66,7 +68,7 @@ export default function SchoolScreen() {
           onTabChange={setSelectedTab}
         />
 
-        {selectedTab === 'hour' && (
+        {selectedTab === 'program' && (
           <>
             {/* Enrollment Status Card */}
             <View style={styles.enrollmentPrompt}>
@@ -91,8 +93,8 @@ export default function SchoolScreen() {
               </View>
             </TouchableOpacity>
 
-            {/* Discrepancy Tracking */}
-            <View style={styles.discrepancyHeader}>
+            {/* Open School Slots */}
+            <View style={styles.nextEnrollmentHeader}>
               <Text style={styles.sectionTitle}>Discrepancy Tracking</Text>
               <MaterialIcon name="info" size={20} color="#999" />
             </View>
@@ -131,7 +133,7 @@ export default function SchoolScreen() {
               title="Completion Details"
               showInfoIcon={true}
               checkboxLabel="Theoretical Competencies"
-              current={25}
+              current={12}
               total={50}
               lastUpdated="Mar 12, 2025"
               progressImage={require('@/assets/images/Group 46.png')}
@@ -319,12 +321,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#2C2C2C',
   },
-  discrepancyHeader: {
+  nextEnrollmentHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    width: "100%",
     marginBottom: 16,
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
   },
   infoIcon: {
     width: 20,

@@ -1,3 +1,4 @@
+import dimensions from '@/lib/dimensions';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React from 'react';
@@ -43,24 +44,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     borderRadius: 60,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 12,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 8,
     flexDirection: 'row',
     height: 52,
     justifyContent: 'center',
     paddingHorizontal: 6,
     position: 'absolute',
     bottom: 20,
-    left: 0,
-    right: 0,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: 360,
-    alignSelf: 'center',
+    left: '50%',
+    marginLeft: -180, // Half of width (360/2)
+    width: Math.min(360, dimensions.constrainedWidth - 40), // Max 360 or constrained width minus padding
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.5)',
+    // Ensure shadow doesn't overflow
+    overflow: 'visible',
   },
   tabItem: {
     alignItems: 'center',

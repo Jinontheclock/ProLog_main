@@ -7,7 +7,6 @@ import { HapticTab } from '@/components/shared/haptic-tab';
 import { NAVBAR_TABS, NavBarItem } from '@/components/shared/NavBar';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { CommonStyles } from '@/lib/common-styles';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -25,7 +24,6 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
-          ...CommonStyles.neoDoubleOuter,
           alignItems: 'center',
           backgroundColor: '#FFFFFF',
           borderTopLeftRadius: 20,
@@ -39,12 +37,22 @@ export default function TabLayout() {
           paddingBottom: insets.bottom,
           position: 'absolute',
           bottom: 0,
-          left: '50%',
-          marginLeft: -(appWidth / 2),
-          width: appWidth,
+          left: 0,
+          right: 0,
+          marginHorizontal: 'auto',
+          maxWidth: appWidth,
+          alignSelf: 'center',
           borderWidth: 0,
           borderTopWidth: 1,
           borderColor: '#D5D5D5',
+          // Controlled shadow that stays within bounds
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.08,
+          shadowRadius: 4,
+          elevation: 4,
+          // Ensure the shadow doesn't overflow the app container
+          overflow: 'visible',
         },
         tabBarLabelStyle: {
           display: 'none',

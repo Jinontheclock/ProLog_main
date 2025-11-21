@@ -14,7 +14,7 @@ interface ButtonProps {
   variant?: ButtonVariant;
   disabled?: boolean;
   centered?: boolean;
-  customStyle?: any;
+  fullWidth?: boolean;
 }
 
 const variantStyles = {
@@ -60,7 +60,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   disabled = false,
   centered = false,
-  customStyle,
+  fullWidth = false,
 }) => {
   const styleObj = variantStyles[variant] || variantStyles['primary'];
   const { backgroundColor, textColor, borderColor, borderWidth } = styleObj;
@@ -73,15 +73,15 @@ export const Button: React.FC<ButtonProps> = ({
         styles.button,
         {
           backgroundColor: disabled ? Colors.grey[200] : backgroundColor,
-          alignSelf: centered ? 'center' : 'flex-start',
-          borderColor: borderColor,
-          borderWidth: borderWidth,
+          alignSelf: fullWidth ? 'stretch' : (centered ? 'center' : 'flex-start'),
+          width: fullWidth ? '100%' : undefined,
         },
         customStyle,
       ]}
       onPress={onPress}
       disabled={disabled}
     >
+      {iconComponent && iconComponent}
       <Text
         style={[
           Typography.buttonText,
