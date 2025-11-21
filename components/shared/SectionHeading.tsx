@@ -10,6 +10,10 @@ interface SectionHeadingProps {
   currentHours: number;
   totalHours: number;
   percentage: number;
+  iconName?: string;
+  iconColor?: string;
+  hoursUnit?: string;
+  onIconPress?: () => void;
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
@@ -18,13 +22,19 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   currentHours,
   totalHours,
   percentage,
+  iconName = 'cached',
+  iconColor = Colors.grey[900],
+  hoursUnit = 'weeks',
+  onIconPress,
 }) => {
+  const isZero = currentHours === 0 && totalHours === 10;
+  
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <Text style={styles.level}>{level}</Text>
-        <TouchableOpacity style={styles.searchButton}>
-          <MaterialIcon name="icon-search" size={24} color={Colors.black} />
+        <TouchableOpacity style={styles.searchButton} onPress={onIconPress}>
+          <MaterialIcon name={iconName} size={24} color={iconColor} />
         </TouchableOpacity>
       </View>
       <Text style={styles.title}>{title}</Text>
@@ -36,11 +46,17 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           color={Colors.grey[500]}
         />
         <View style={{ width: 8 }} />
-        <Text style={styles.hoursText}>
+        <Text style={[
+          styles.hoursText,
+          isZero && { color: Colors.grey[300] }
+        ]}>
           {currentHours.toLocaleString()} / {totalHours.toLocaleString()} 
         </Text>
         <View style={{ width: 8 }} />
-        <Text style={styles.hrsText}>hrs</Text>
+        <Text style={[
+          styles.hrsText,
+          isZero && { color: Colors.grey[300] }
+        ]}>{hoursUnit}</Text>
       </View>
 
       <View style={styles.progressBarContainer}>
@@ -114,11 +130,11 @@ const styles = StyleSheet.create({
   },
   hoursText: {
     ...Typography.contentRegular,
-    color: Colors.black,
+    color: Colors.grey[300],
   },
   hrsText: {
     ...Typography.contentSuffix,
-    color: Colors.black,
+    color: Colors.grey[300],
   },
   progressBarContainer: {
     flexDirection: 'row',

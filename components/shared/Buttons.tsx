@@ -3,7 +3,7 @@ import { Typography } from '@/constants/typography';
 import React, { ReactNode } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-type ButtonVariant = 'primary' | 'dark' | 'light' | 'grey200';
+type ButtonVariant = 'primary' | 'dark' | 'light' | 'grey200' | 'secondary';
 
 interface ButtonProps {
   text: string;
@@ -14,24 +14,40 @@ interface ButtonProps {
   variant?: ButtonVariant;
   disabled?: boolean;
   centered?: boolean;
+  customStyle?: any;
 }
 
 const variantStyles = {
   primary: {
     backgroundColor: Colors.orange[400],
     textColor: Colors.white,
+    borderColor: undefined,
+    borderWidth: 0,
   },
   dark: {
     backgroundColor: Colors.grey[700],
     textColor: Colors.white,
+    borderColor: undefined,
+    borderWidth: 0,
   },
   light: {
     backgroundColor: Colors.white,
     textColor: Colors.grey[900],
+    borderColor: undefined,
+    borderWidth: 0,
   },
   grey200: {
     backgroundColor: Colors.grey[200],
     textColor: Colors.grey[900],
+    borderColor: undefined,
+    borderWidth: 0,
+  },
+  secondary: {
+    backgroundColor: Colors.white,
+    textColor: Colors.orange[400],
+    borderColor: Colors.orange[400],
+  // removed stray bracket
+    borderWidth: 1,
   },
 };
 
@@ -44,12 +60,13 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   disabled = false,
   centered = false,
+  customStyle,
 }) => {
-  const { backgroundColor } = variantStyles[variant];
-  let textColorOverride: string = Colors.white;
+  const styleObj = variantStyles[variant] || variantStyles['primary'];
+  const { backgroundColor, textColor, borderColor, borderWidth } = styleObj;
+  let textColorOverride: string = textColor || Colors.white;
   if (variant === 'grey200') textColorOverride = Colors.grey[900];
   if (variant === 'light') textColorOverride = Colors.grey[900];
-
   return (
     <TouchableOpacity
       style={[
@@ -57,7 +74,10 @@ export const Button: React.FC<ButtonProps> = ({
         {
           backgroundColor: disabled ? Colors.grey[200] : backgroundColor,
           alignSelf: centered ? 'center' : 'flex-start',
+          borderColor: borderColor,
+          borderWidth: borderWidth,
         },
+        customStyle,
       ]}
       onPress={onPress}
       disabled={disabled}
@@ -66,12 +86,13 @@ export const Button: React.FC<ButtonProps> = ({
         style={[
           Typography.buttonText,
           {
-            color: disabled ? Colors.grey[300] : textColorOverride,
+            color: disabled ? Colors.grey[400] : textColorOverride,
           },
         ]}
       >
-        Proceed to Next
+        {text}
       </Text>
+      {iconComponent && iconComponent}
     </TouchableOpacity>
   );
 };

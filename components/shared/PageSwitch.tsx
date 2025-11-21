@@ -22,6 +22,7 @@ const getIconName = (iconName: string) => {
     'schedule': 'schedule',
     'electric_bolt': 'flash-on',
     'paid': 'attach-money',
+    'house': 'home',
   };
   return iconMap[iconName] || 'help-outline';
 };
@@ -76,14 +77,15 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   tabActive: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.orange[500],
+    backgroundColor: Colors.orange[400],
     borderRadius: 50,
     paddingVertical: 12,
     paddingHorizontal: 16,
+    width: 115,
+    height: 34,
   },
   tabInactive: {
     flex: 1,

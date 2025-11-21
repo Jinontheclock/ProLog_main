@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/shared/Buttons';
 import { CompetencyCompletion } from '@/components/shared/CompetencyCompletion';
 import { CompletedLines } from '@/components/shared/CompletedLines';
-import { ContentDataFormats } from '@/components/shared/ContentDataFormats';
 import { ExpenseCard } from '@/components/shared/ExpenseCard';
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { PageSwitch } from '@/components/shared/PageSwitch';
 import { SchoolSlots } from '@/components/shared/SchoolSlots';
 import { SectionHeading } from '@/components/shared/SectionHeading';
-import { Tags } from '@/components/shared/Tags';
+import { Colors } from '@/constants/colors';
+import { Typography } from '@/constants/typography';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import dimensions from '@/lib/dimensions';
 
@@ -22,7 +22,12 @@ export default function SchoolScreen() {
   const [expandedExpense, setExpandedExpense] = useState<number | null>(3);
 
   return (
-    <View style={[styles.container, { backgroundColor: '#F5F5F5' }]}>
+    <View style={[styles.container, { backgroundColor: '#F0F0F0' }]}>
+      <Image 
+        source={require('@/assets/images/background-grid 1.svg')}
+        style={{ position: 'absolute', width: '100%', height: '100%', opacity: 0.5 }}
+        resizeMode="cover"
+      />
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={{ paddingBottom: 70 + insets.bottom + 20 }}
@@ -32,9 +37,10 @@ export default function SchoolScreen() {
         <SectionHeading 
           level="Level 2"
           title="Technical Training"
-          currentHours={9}
+          currentHours={0}
           totalHours={10}
-          percentage={72}
+          percentage={0}
+          iconName="icon-refresh"
         />
 
         {/* Tab Navigation */}
@@ -42,8 +48,8 @@ export default function SchoolScreen() {
           tabs={[
             {
               id: 'hour',
-              label: 'Hours',
-              iconName: 'schedule',
+              label: 'Program',
+              iconName: 'house',
             },
             {
               id: 'skills',
@@ -62,31 +68,28 @@ export default function SchoolScreen() {
 
         {selectedTab === 'hour' && (
           <>
-            {/* Hour Details */}
-            <Text style={styles.sectionTitle}>Hour Details</Text>
-            <ContentDataFormats
-              mainItems={[
-                { label: 'Sponsor', value: 'Industrial Electrician, APPR.' },
-                { label: 'Institute', value: 'British Columbia Institute of Technology' },
-              ]}
-              dateItems={[
-                { label: 'Start Date', value: 'Sep 4, 2025' },
-                { label: 'Est. End Date', value: 'Nov 14, 2025' },
-              ]}
-            />
-
-            {/* Standard Exam */}
-            <Text style={styles.sectionTitle}>Standard Exam</Text>
-            <View style={styles.examCard}>
-              <View style={styles.examLeft}>
-                <Text style={styles.examTitle}>Attempt 1</Text>
-                <Text style={styles.examDate}>Mar 12, 2025</Text>
-                <Tags label="Registered" />
+            {/* Enrollment Status Card */}
+            <View style={styles.enrollmentPrompt}>
+              <View style={styles.iconTitleWrapper}>
+                <MaterialIcon name="help_outline" size={24} color="#616161" />
+                <Text style={styles.promptTitle}>Have you enrolled yet?</Text>
               </View>
-              <View style={styles.examRight}>
-                <Text style={styles.examScore}>-</Text>
-              </View>
+              <Text style={styles.promptDescription}>
+                Technical training is required to proceed to the next level. Check out the available enrollments below.
+              </Text>
             </View>
+
+            <TouchableOpacity style={styles.addEnrollmentCard}>
+              <View style={styles.addEnrollmentContent}>
+                <Text style={styles.addEnrollmentTitle}>Add{'\n'}Enrollment Status</Text>
+                <Text style={styles.addEnrollmentDescription}>
+                  Add your enrolment status to start tracking your progress in technical training
+                </Text>
+              </View>
+              <View style={styles.addIconCircle}>
+                <MaterialIcon name="icon-add" size={32} color="#FFFFFF" />
+              </View>
+            </TouchableOpacity>
 
             {/* Discrepancy Tracking */}
             <View style={styles.discrepancyHeader}>
@@ -339,5 +342,76 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#999',
     marginTop: 4,
+  },
+  enrollmentPrompt: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 24,
+    paddingTop: 12,
+    marginTop: 20,
+    marginBottom: 16,
+    marginHorizontal: 20,
+    width: 354,
+    height: 122,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  iconTitleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  promptTitle: {
+    ...Typography.contentTitle,
+    color: Colors.grey[900],
+    marginLeft: 12,
+  },
+  promptDescription: {
+    ...Typography.buttonText,
+    color: Colors.grey[400],
+    lineHeight: 20,
+  },
+  addEnrollmentCard: {
+    backgroundColor: '#E67E50',
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 24,
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  addEnrollmentContent: {
+    flex: 1,
+  },
+  addEnrollmentTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 12,
+    lineHeight: 40,
+  },
+  addEnrollmentDescription: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    lineHeight: 24,
+  },
+  addIconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
   },
 });
