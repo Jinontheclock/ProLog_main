@@ -1,7 +1,7 @@
-import { Image } from 'expo-image';
+import { Image as ExpoImage } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import workData from '@/data/work-data.json';
@@ -71,7 +71,12 @@ export default function WorkScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: '#F5F5F5' }]}>
+    <View style={[styles.container, { backgroundColor: '#F0F0F0' }]}>
+      <Image 
+        source={require('@/assets/images/background-grid 1.svg')}
+        style={{ position: 'absolute', width: '100%', height: '100%', opacity: 0.5 }}
+        resizeMode="cover"
+      />
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={{ paddingBottom: 70 + insets.bottom + 20 }}
@@ -182,7 +187,7 @@ export default function WorkScreen() {
                 </View>
                 <Text style={styles.averageUnit}>hrs</Text>
               </View>
-              <Image 
+              <ExpoImage 
                 source={require('@/assets/images/Frame 794.png')}
                 style={styles.chartGraphImage}
                 contentFit="contain"
@@ -221,7 +226,7 @@ export default function WorkScreen() {
                   )}
                 </View>
               </View>
-              <Image 
+              <ExpoImage 
                 source={require('@/assets/images/Frame 793.png')}
                 style={styles.chartGraphImage}
                 contentFit="contain"

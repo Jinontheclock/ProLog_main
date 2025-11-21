@@ -102,7 +102,7 @@ export const Typography = {
 
     // Title styles
     contentTitle: {
-        fontFamily: FontFamily.roboto.regular,
+        fontFamily: FontFamily.roboto.medium,
         fontSize: 16,
         lineHeight: 20 * 1.05,
     },
@@ -130,6 +130,17 @@ export const Typography = {
         fontFamily: FontFamily.spaceGrotesk.medium,
         fontSize: 36,
         lineHeight: 36 * 1.05,
+    },
+
+    bigBody: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: 16,
+        lineHeight: 20 * 1.05,
+    },
+    competencyTitle: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: 28,
+        lineHeight: 32 * 1.05,
     },
 } as const;
 

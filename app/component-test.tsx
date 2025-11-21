@@ -1,16 +1,24 @@
 import { AudioPlayer } from '@/components/shared/AudioPlayer';
+import { ButtonButtonBar } from '@/components/shared/ButtonButtonBar';
 import { Button } from '@/components/shared/Buttons';
 import { CompetencyCompletion } from '@/components/shared/CompetencyCompletion';
+import { CompetencyListItem } from '@/components/shared/CompetencyListItem';
 import { CompletedLines } from '@/components/shared/CompletedLines';
 import { ContentDataFormats } from '@/components/shared/ContentDataFormats';
 import { DetailsHeading } from '@/components/shared/DetailsHeading';
+import { DetailsSectionContent } from '@/components/shared/DetailsSectionContent';
 import { ExamResults } from '@/components/shared/ExamResults';
 import { ExpenseCard } from '@/components/shared/ExpenseCard';
 import { HourDiscrepancy } from '@/components/shared/HourDiscrepancy';
 import { IconButton } from '@/components/shared/IconButton';
+import { InformationalMessage } from '@/components/shared/InformationalMessage';
+import { LineCarousel } from '@/components/shared/LineCarousel';
+import { LineDescription } from '@/components/shared/LineDescription';
 import { MaterialIcon } from '@/components/shared/MaterialIcon';
 import { PageSwitch } from '@/components/shared/PageSwitch';
 import { PaystubCard } from '@/components/shared/PaystubCard';
+import { PromptMessage } from '@/components/shared/PromptMessage';
+import { Recents } from '@/components/shared/Recents';
 import { SchoolSlots } from '@/components/shared/SchoolSlots';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { SmallDataCard } from '@/components/shared/SmallDataCard';
@@ -18,8 +26,25 @@ import { Tags } from '@/components/shared/Tags';
 import dimensions from '@/lib/dimensions';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AddReminderDialogueBox } from '../components/shared/AddReminderDialogueBox';
+import { DashboardData } from '../components/shared/DashboardData';
+import { DialogueBox } from '../components/shared/DialogueBox';
+import ExamPrep from '../components/shared/ExamPrep';
+import { FilterDropdown } from '../components/shared/FilterDropdown';
+import { LoadingQuiz } from '../components/shared/LoadingQuiz';
+import { Ranking } from '../components/shared/Ranking';
+import { RecentsList } from '../components/shared/RecentsList';
+import { Reminder } from '../components/shared/Reminder';
+import { ReminderFullView } from '../components/shared/ReminderFullView';
+import { Search } from '../components/shared/Search';
+import { SearchingPagesBox } from '../components/shared/SearchingPagesBox';
+import { Colors } from '../constants/colors';
+import { Typography } from '../constants/typography';
 
 export default function ComponentTest() {
+      // ...existing code...
+    const [dialogueVisible, setDialogueVisible] = useState(true);
+  const [addReminderVisible, setAddReminderVisible] = useState(true);
   const [selectedTab, setSelectedTab] = useState('program');
   const [expandedExpense, setExpandedExpense] = useState<number | null>(1);
 
@@ -47,10 +72,71 @@ export default function ComponentTest() {
     },
   ];
 
+  // Example usage for visual test
+  const [filter, setFilter] = useState('All');
+  const [searchValue, setSearchValue] = useState('');
+  const [searchState, setSearchState] = useState<'idle' | 'typing' | 'done'>('idle');
+  const [lineFilter, setLineFilter] = useState('Line');
+  const [typeFilter, setTypeFilter] = useState('Theoretical/Practical');
+
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Line Carousel</Text>
+        <LineCarousel onLineSelect={(line) => console.log('Selected line:', line)} />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Prompt Message</Text>
+        <PromptMessage
+          title="Level 3 Unlocked"
+          description="Congratulations – you have achieved all the requirements for Level 2. Press the button below to continue your trades journey."
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Reminder Full View</Text>
+        <ReminderFullView
+          onPrevMonth={() => console.log('Previous month')}
+          onNextMonth={() => console.log('Next month')}
+          onAddReminder={() => console.log('Add reminder')}
+          onDeleteReminder={(index) => console.log('Delete reminder', index)}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Dashboard Data</Text>
+        <DashboardData />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Reminder</Text>
+        <Reminder onViewMore={() => console.log('View more pressed')} />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Add Reminder Dialogue Box</Text>
+        <AddReminderDialogueBox
+          visible={addReminderVisible}
+          onClose={() => setAddReminderVisible(false)}
+          onAdd={(name, date) => {
+            console.log('Add reminder:', name, date);
+            setAddReminderVisible(false);
+          }}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Ranking</Text>
+        <Ranking />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Exam Prep</Text>
+        <ExamPrep />
+      </View>
       <Text style={styles.header}>Component Test Page</Text>
-      
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Section Heading</Text>
         <SectionHeading 
@@ -264,20 +350,16 @@ export default function ComponentTest() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Audio Player</Text>
         {/* AudioPlayer play/pause test: toggles icon on press */}
-        {(() => {
-          const [isPlaying, setIsPlaying] = useState(false);
-          return (
-            <AudioPlayer
-              duration="5:20"
-              currentTime="1:12"
-              isPlaying={isPlaying}
-              onPlayPause={() => setIsPlaying(!isPlaying)}
-              onVolume={() => {}}
-              onMenu={() => {}}
-              progress={0.25}
-            />
-          );
-        })()}
+        {/* For demo, always show paused */}
+        <AudioPlayer
+          duration="5:20"
+          currentTime="1:12"
+          isPlaying={false}
+          onPlayPause={() => {}}
+          onVolume={() => {}}
+          onMenu={() => {}}
+          progress={0.25}
+        />
       </View>
 
       <View style={styles.section}>
@@ -288,6 +370,133 @@ export default function ComponentTest() {
           tag="Theoretical"
           onBack={() => {}}
         />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Details Section Content</Text>
+        <DetailsSectionContent
+          title="Summary"
+          content={
+            `AC is electricity that changes direction repeatedly, unlike DC which flows in only one direction. Each full reversal is a cycle, and the number of cycles per second is the frequency (Hz). In North America, standard frequency is 60 Hz.`
+          }
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Button Button Bar</Text>
+        <ButtonButtonBar
+          onComplete={() => {}}
+          onChallenge={() => {}}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Competency List Item</Text>
+        <CompetencyListItem text="Describe the principles of alternating current" />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Recents</Text>
+        <Recents />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Informational Message</Text>
+        <InformationalMessage message="Informational Message, which pops open as an overlay to show additional info to the user." />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Prompt Message</Text>
+        <PromptMessage
+          title="Have you enrolled yet?"
+          description="Technical training is required to proceed to the next level. Check out the available enrollments below."
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Line Description</Text>
+        <LineDescription
+          title="Line A"
+          description="Description"
+          content="Apply the principles of alternating current."
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Filter Dropdown</Text>
+        <FilterDropdown
+          options={["All", "Complete", "Incomplete"]}
+          selected={filter}
+          onSelect={setFilter}
+          placeholder="All"
+        />
+      </View>
+
+      <View style={[styles.section, { alignItems: 'flex-end' }]}> 
+        <Text style={styles.sectionTitle}>Search</Text>
+        <View style={{ width: 353, alignItems: 'flex-end' }}>
+          <Search
+            value={searchValue}
+            onChange={text => {
+              setSearchValue(text);
+              setSearchState(text.length === 0 ? 'idle' : 'typing');
+            }}
+            onClear={() => {
+              setSearchValue('');
+              setSearchState('idle');
+            }}
+            onBack={() => {/* handle back */}}
+            placeholder="Search by keyword"
+            state={searchState}
+            onSubmitEditing={() => setSearchState('done')}
+          />
+          {searchState === 'idle' && (
+            <RecentsList
+              items={["circuit", "alternating current", "hazards"]}
+              onSelect={item => setSearchValue(item)}
+            />
+          )}
+          {searchState === 'typing' && (
+            <SearchingPagesBox />
+          )}
+          {searchState === 'done' && (
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 24, width: 353 }}>
+              <Text style={{ ...Typography.sectionHeader, color: Colors.grey[700], marginRight: 'auto' }}>Results</Text>
+              <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-end' }}>
+                <FilterDropdown
+                  options={["Line", "Other"]}
+                  selected={lineFilter}
+                  onSelect={setLineFilter}
+                  placeholder="Line"
+                  style={{ width: 70, height: 30, marginRight: 8 }}
+                />
+                <FilterDropdown
+                  options={["Theoretical/Practical", "Other"]}
+                  selected={typeFilter}
+                  onSelect={setTypeFilter}
+                  placeholder="Theoretical/Practical"
+                  style={{ width: 164, height: 30 }}
+                />
+              </View>
+            </View>
+          )}
+        </View>
+      </View>
+
+      <View style={{ marginTop: 32 }}>
+        {/* LoadingQuiz test block */}
+        <Text style={styles.sectionTitle}>Loading Quiz</Text>
+        <LoadingQuiz />
+      </View>
+
+      <View style={{ marginTop: 32 }}>
+        <Text style={styles.sectionTitle}>Dialogue Box</Text>
+        <DialogueBox
+          visible={dialogueVisible}
+          onClose={() => setDialogueVisible(false)}
+          onExit={() => setDialogueVisible(false)}
+        />
+        <Button text="Show Dialogue" variant="primary" onPress={() => setDialogueVisible(true)} />
       </View>
     </ScrollView>
   );

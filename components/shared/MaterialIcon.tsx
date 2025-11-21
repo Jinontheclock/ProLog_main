@@ -32,6 +32,7 @@ export const ICON_NAMES = {
   
   // Info & Status icons
   'info': 'info',
+  'help_outline': 'help-outline',
   'warning_amber': 'warning',
   'more_horiz': 'more-horiz',
   
@@ -50,6 +51,8 @@ export const ICON_NAMES = {
   'icon-volume': 'volume-up',
   'icon-pause': 'pause',
   'icon-progress': 'autorenew',
+  'cached': 'autorenew',
+  'icon-refresh': 'autorenew',
   
     // Audio player icons
     'play_arrow': 'play-arrow',
@@ -66,6 +69,8 @@ export const ICON_NAMES = {
   // Other icons
   'icon-bell': 'notifications',
   'icon-search': 'search',
+  'house': 'home',
+  'icon-house': 'home',
 } as const;
 
 interface MaterialIconProps {

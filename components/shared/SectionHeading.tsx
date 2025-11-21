@@ -103,7 +103,10 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           )}
         </View>
         <View style={{ width: 8 }} />
-        <Text style={styles.hrsText}>hrs</Text>
+        <Text style={[
+          styles.hrsText,
+          isZero && { color: Colors.grey[300] }
+        ]}>{hoursUnit}</Text>
       </View>
 
       <View style={styles.progressBarContainer}>
@@ -196,11 +199,11 @@ const styles = StyleSheet.create({
   },
   hoursText: {
     ...Typography.contentRegular,
-    color: Colors.black,
+    color: Colors.grey[300],
   },
   hrsText: {
     ...Typography.contentSuffix,
-    color: Colors.black,
+    color: Colors.grey[300],
   },
   progressBarContainer: {
     flexDirection: 'row',

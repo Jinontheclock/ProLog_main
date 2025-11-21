@@ -8,19 +8,26 @@ export const CommonStyles = StyleSheet.create({
   // Base container styles
   container: {
     flex: 1,
-    backgroundColor: Colors.grey[50],
+    backgroundColor: '#F0F0F0',
     width: dimensions.constrainedWidth,
     alignSelf: 'center',
   },
+  backgroundImage: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.5,
+  },
   whiteContainer: {
     flex: 1,
-    backgroundColor: Colors.grey[50],
+    backgroundColor: '#F0F0F0',
     width: dimensions.constrainedWidth,
     alignSelf: 'center',
   },
   scrollView: {
     flex: 1,
     width: dimensions.constrainedWidth,
+    paddingHorizontal: 20,
   },
   scrollContent: {
     paddingBottom: 100,
@@ -34,7 +41,7 @@ export const CommonStyles = StyleSheet.create({
     paddingTop: Spacing.lg,
     paddingBottom: Spacing.lg,
     width: dimensions.constrainedWidth,
-    backgroundColor: Colors.grey[50],
+    backgroundColor: '#F0F0F0',
   },
   headerCompact: {
     flexDirection: 'row',

@@ -19,8 +19,10 @@ const styles = StyleSheet.create({
   tag: {
     backgroundColor: Colors.grey[700],
     borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    width: 112,
+    height: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
     alignSelf: 'flex-start',
   },
   tagText: {
