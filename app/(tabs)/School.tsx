@@ -19,7 +19,7 @@ import dimensions from '@/lib/dimensions';
 export default function SchoolScreen() {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  const [selectedTab, setSelectedTab] = useState('hour');
+  const [selectedTab, setSelectedTab] = useState('program');
   const [expandedExpense, setExpandedExpense] = useState<number | null>(3);
   const [showEnrollmentModal, setShowEnrollmentModal] = useState(false);
   const [showInstitutionDropdown, setShowInstitutionDropdown] = useState(false);
@@ -59,6 +59,7 @@ export default function SchoolScreen() {
         {/* Top Card */}
         <SectionHeading 
           level="Level 2"
+          icon_action="cached"
           title="Technical Training"
           currentHours={isProgramRegistered ? 9 : 0}
           totalHours={10}
@@ -68,11 +69,12 @@ export default function SchoolScreen() {
 
         {/* Tab Navigation */}
         <PageSwitch
+          key="school-tabs"
           tabs={[
             {
-              id: 'hour',
+              id: 'program',
               label: 'Program',
-              iconName: 'house',
+              iconName: 'home',
             },
             {
               id: 'skills',
@@ -89,7 +91,7 @@ export default function SchoolScreen() {
           onTabChange={setSelectedTab}
         />
 
-        {selectedTab === 'hour' && (
+        {selectedTab === 'program' && (
           <>
             {/* Show loading or program details if registered */}
             {isLoadingProgram ? (
@@ -633,13 +635,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  discrepancyHeader: {
+  examScore: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#2C2C2C',
+  },
+  nextEnrollmentHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    width: "100%",
     marginBottom: 16,
-    marginLeft: 40,
-    marginRight: 40,
+    // marginHorizontal: 20,
   },
   infoIcon: {
     width: 20,

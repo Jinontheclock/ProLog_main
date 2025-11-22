@@ -19,7 +19,7 @@ export const NavBarItem: React.FC<NavBarItemProps> = ({ label, iconName, focused
       height: 70,
       justifyContent: 'center',
       padding: 8,
-      width: 60,
+      width: 80,
     }}>
       <MaterialIcons
         name={iconName as any}

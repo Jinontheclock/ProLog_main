@@ -1,8 +1,9 @@
+import { Button } from '@/components/shared/Buttons';
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React from 'react';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 interface HourItem {
   title: string;
@@ -15,14 +16,26 @@ interface HourDiscrepancyProps {
   items: HourItem[];
   discrepancy: string;
   onReportError?: () => void;
+  isLoading?: boolean;
 }
 
 export const HourDiscrepancy: React.FC<HourDiscrepancyProps> = ({
   items,
   discrepancy,
   onReportError,
+  isLoading = false,
 }) => {
   const isNegative = Number(discrepancy) < 0;
+  const hasDiscrepancy = Number(discrepancy) !== 0;
+
+  const SkeletonText = ({ width, height }: { width: number; height: number }) => (
+    <View 
+      style={[
+        styles.skeletonText,
+        { width, height }
+      ]} 
+    />
+  );
 
   // Sort items: SkilledTradedBC first, Paystub second
   const sortedItems = [...items].sort((a, b) => {
@@ -43,10 +56,22 @@ export const HourDiscrepancy: React.FC<HourDiscrepancyProps> = ({
               <View style={[styles.card, styles.shadow]}>
                 <Text style={styles.cardTitle}>{item.title}</Text>
                 <View style={styles.valueRow}>
-                  <Text style={styles.value}>{item.hours}</Text>
+                  <View style={styles.valueContainer}>
+                    {isLoading ? (
+                      <SkeletonText width={80} height={28} />
+                    ) : (
+                      <Text style={styles.value}>{item.hours}</Text>
+                    )}
+                  </View>
                   <Text style={styles.unit}> {item.unit}</Text>
                 </View>
-                <Text style={styles.lastUpdated}>Last updated: {item.lastUpdated}</Text>
+                <View style={styles.lastUpdatedContainer}>
+                  {isLoading ? (
+                    <SkeletonText width={120} height={16} />
+                  ) : (
+                    <Text style={styles.lastUpdated}>Last updated: {item.lastUpdated}</Text>
+                  )}
+                </View>
               </View>
               {index < sortedItems.length - 1 && <View style={styles.spacer} />}
             </React.Fragment>
@@ -56,22 +81,36 @@ export const HourDiscrepancy: React.FC<HourDiscrepancyProps> = ({
         {/* Right discrepancy card - positioned absolutely to overlap */}
         <View style={[styles.discrepancyCard, styles.shadow]}>
           <View style={styles.discrepancyHeader}>
-            <MaterialIcon
-              name="warning_amber"
-              size={18}
-              color="#D92D20"
-            />
             <Text style={styles.discrepancyLabel}>Discrepancy</Text>
+            {hasDiscrepancy && (
+              <MaterialIcon
+                name="warning_amber"
+                size={18}
+                color="#D92D20"
+              />
+            )}
           </View>
           
           <View style={styles.valueRow}>
-            <Text style={[styles.value, isNegative && styles.negativeValue]}>{discrepancy}</Text>
-            <Text style={styles.unit}> days</Text>
+            <View style={styles.valueContainer}>
+              {isLoading ? (
+                <SkeletonText width={60} height={28} />
+              ) : (
+                <Text style={[styles.value, isNegative && styles.negativeValue]}>{discrepancy}</Text>
+              )}
+            </View>
+            <Text style={styles.unit}>hrs</Text>
           </View>
           
-          <TouchableOpacity style={styles.reportButton} onPress={onReportError} activeOpacity={0.8}>
-            <Text style={styles.reportButtonText} numberOfLines={1}>Report Error</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <Button
+              text="Report Error"
+              variant={hasDiscrepancy ? 'light' : 'grey200'}
+              onPress={onReportError}
+              disabled={!hasDiscrepancy || isLoading}
+              fullWidth
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -130,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: RADIUS,
     padding: 18,
-    width: 160,
+    width: 180,
     position: 'absolute',
     right: 0,
     top: '50%',
@@ -160,23 +199,9 @@ const styles = StyleSheet.create({
   negativeValue: {
     color: '#111827',
   },
-  reportButton: {
+  buttonContainer: {
     marginTop: 12,
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 999,
-    backgroundColor: Colors.white,
-    flexWrap: 'nowrap',
-  },
-  reportButtonText: {
-    ...Typography.buttonText,
-    color: Colors.grey[900],
+    width: '100%',
   },
   shadow: {
     ...Platform.select({
@@ -191,5 +216,18 @@ const styles = StyleSheet.create({
       },
       default: {},
     }),
+  },
+  valueContainer: {
+    minHeight: 28,
+    justifyContent: 'center',
+  },
+  lastUpdatedContainer: {
+    minHeight: 16,
+    justifyContent: 'center',
+  },
+  skeletonText: {
+    backgroundColor: '#E5E7EB',
+    borderRadius: 4,
+    opacity: 0.6,
   },
 });

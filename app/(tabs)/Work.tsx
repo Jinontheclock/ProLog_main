@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import workData from '@/data/work-data.json';
+
 import { Button } from '@/components/shared/Buttons';
 import { CompetencyCompletion } from '@/components/shared/CompetencyCompletion';
 import { CompletedLines } from '@/components/shared/CompletedLines';
@@ -22,6 +24,54 @@ export default function WorkScreen() {
   const insets = useSafeAreaInsets();
   const [selectedTab, setSelectedTab] = useState('hours');
   const [expandedExpenseCard, setExpandedExpenseCard] = useState<number | null>(1);
+  const [demoState, setDemoState] = useState<'before' | 'after'>('before');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Helper function to get current data based on demo state
+  const getCurrentData = (dataPath: any) => {
+    if (typeof dataPath === 'object' && dataPath !== null && !Array.isArray(dataPath)) {
+      if (dataPath.before !== undefined && dataPath.after !== undefined) {
+        return dataPath[demoState];
+      }
+    }
+    return dataPath;
+  };
+
+  // Toggle demo state function with loading animation
+  const toggleDemoState = () => {
+    setIsLoading(true);
+    
+    // Simulate loading delay for better UX
+    setTimeout(() => {
+      setDemoState(current => current === 'before' ? 'after' : 'before');
+      
+      // End loading after state change
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 800); // Additional time for progress bar animation
+    }, 300);
+  };
+
+  // Get work page data
+  const workPageData = workData['level 2'].Work_page;
+
+  // Skeleton loading component for text
+  const SkeletonText = ({ width = 100, height = 16 }: { width?: number; height?: number }) => (
+    <View 
+      style={[
+        styles.skeletonText, 
+        { width, height }
+      ]} 
+    />
+  );
+
+  // Helper to render text or skeleton based on loading state
+  const renderTextOrSkeleton = (text: string | number, skeletonWidth = 60) => {
+    if (isLoading) {
+      return <SkeletonText width={skeletonWidth} />;
+    }
+    return typeof text === 'string' ? text : text.toString();
+  };
   const [showEndDateInfoModal, setShowEndDateInfoModal] = useState(false);
   const [showDiscrepancyInfoModal, setShowDiscrepancyInfoModal] = useState(false);
   const [showCompletionDetailsInfoModal, setShowCompletionDetailsInfoModal] = useState(false);
@@ -41,11 +91,14 @@ export default function WorkScreen() {
       >
         {/* Top Card */}
         <SectionHeading 
-          level="Level 2"
-          title="Working Hours"
-          currentHours={1545}
-          totalHours={1800}
-          percentage={72}
+          level={workPageData.sectionHeading.level}
+          icon_action="cached"
+          title={workPageData.sectionHeading.title}
+          currentHours={getCurrentData(workPageData.sectionHeading.currentHours)}
+          totalHours={workPageData.sectionHeading.totalHours}
+          percentage={getCurrentData(workPageData.sectionHeading.percentage)}
+          onIconPress={toggleDemoState}
+          isLoading={isLoading}
         />
 
         {/* Tab Navigation */}
@@ -77,13 +130,14 @@ export default function WorkScreen() {
             <Text style={styles.sectionTitle}>Apprenticeship Details</Text>
             <ContentDataFormats
               mainItems={[
-                { label: 'Sponsor', value: 'Burquos Mills Incorporated' },
-                { label: 'Countdown (Est.)', value: '18 days' },
+                { label: 'Sponsor', value: workPageData.apprenticeshipDetails.sponsor },
+                { label: 'Countdown (Est.)', value: getCurrentData(workPageData.apprenticeshipDetails.estimatedDaysToGo) },
               ]}
               dateItems={[
-                { label: 'Start Date', value: 'May 14, 2024' },
-                { label: 'Est. End Date', value: 'Sep 20, 2026' },
+                { label: 'Start Date', value: workPageData.apprenticeshipDetails.startDate },
+                { label: 'Est. End Date', value: getCurrentData(workPageData.apprenticeshipDetails.estimatedEndDate) },
               ]}
+              isLoading={isLoading}
               onInfoPress={() => setShowEndDateInfoModal(true)}
             />
 
@@ -97,11 +151,25 @@ export default function WorkScreen() {
 
             <HourDiscrepancy
               items={[
-                { title: 'Paystub', hours: '1,790', unit: 'hrs', lastUpdated: 'Mar 12, 2025' },
-                { title: 'SkilledTradedBC', hours: '1,545', unit: 'hrs', lastUpdated: 'Mar 12, 2025' },
+                { 
+                  title: 'Paystub', 
+                  hours: getCurrentData(workPageData.discrepancyTracking.paystubHours), 
+                  unit: 'hrs', 
+                  lastUpdated: getCurrentData(workPageData.discrepancyTracking.paystubDate) 
+                },
+                { 
+                  title: 'SkilledTradedBC', 
+                  hours: getCurrentData(workPageData.discrepancyTracking.skilledTradeBCHours), 
+                  unit: 'hrs', 
+                  lastUpdated: getCurrentData(workPageData.discrepancyTracking.skilledTradeBCDate) 
+                },
               ]}
-              discrepancy="-230"
-              onReportError={() => console.log('Report error pressed')}
+              discrepancy={getCurrentData(workPageData.discrepancyTracking.discrepancy)}
+              onReportError={() => {
+                console.log("Button pressed - showing alert");
+                alert("Your employer and mentor have been contacted regarding the error. Please give it a few days before checking in with them regarding this issue.");
+              }}
+              isLoading={isLoading}
             />
 
             {/* Paystub Records */}
@@ -127,7 +195,13 @@ export default function WorkScreen() {
               </View>
               <View style={styles.chartAverage}>
                 <Text style={styles.averageLabel}>Avg.</Text>
-                <Text style={styles.averageValue}>187</Text>
+                <View style={styles.averageValueContainer}>
+                  {isLoading ? (
+                    <SkeletonText width={80} height={38} />
+                  ) : (
+                    <Text style={styles.averageValue}>{getCurrentData(workPageData.paystubRecord.workingHoursAvg)}</Text>
+                  )}
+                </View>
                 <Text style={styles.averageUnit}>hrs</Text>
               </View>
               <ExpoImage 
@@ -136,8 +210,20 @@ export default function WorkScreen() {
                 contentFit="contain"
               />
               <View style={styles.chartPeriod}>
-                <Text style={styles.periodText}>Jan 2025</Text>
-                <Text style={styles.periodText}>Jun 2025</Text>
+                <View style={styles.periodTextContainer}>
+                  {isLoading ? (
+                    <SkeletonText width={60} height={14} />
+                  ) : (
+                    <Text style={styles.periodText}>{getCurrentData(workPageData.paystubRecord.paystubDateStart)}</Text>
+                  )}
+                </View>
+                <View style={styles.periodTextContainer}>
+                  {isLoading ? (
+                    <SkeletonText width={60} height={14} />
+                  ) : (
+                    <Text style={styles.periodText}>{getCurrentData(workPageData.paystubRecord.paystubDateEnd)}</Text>
+                  )}
+                </View>
               </View>
             </TouchableOpacity>
 
@@ -153,7 +239,13 @@ export default function WorkScreen() {
               </View>
               <View style={styles.chartAverage}>
                 <Text style={styles.averageLabel}>Avg.</Text>
-                <Text style={styles.averageValue}>$3,567</Text>
+                <View style={styles.averageValueContainer}>
+                  {isLoading ? (
+                    <SkeletonText width={100} height={38} />
+                  ) : (
+                    <Text style={styles.averageValue}>{getCurrentData(workPageData.paystubRecord.incomeAvg)}</Text>
+                  )}
+                </View>
               </View>
               <ExpoImage 
                 source={require('@/assets/images/Frame 793.png')}
@@ -161,8 +253,20 @@ export default function WorkScreen() {
                 contentFit="contain"
               />
               <View style={styles.chartPeriod}>
-                <Text style={styles.periodText}>Jan 2025</Text>
-                <Text style={styles.periodText}>Jun 2025</Text>
+                <View style={styles.periodTextContainer}>
+                  {isLoading ? (
+                    <SkeletonText width={60} height={14} />
+                  ) : (
+                    <Text style={styles.periodText}>{getCurrentData(workPageData.paystubRecord.paystubDateStart)}</Text>
+                  )}
+                </View>
+                <View style={styles.periodTextContainer}>
+                  {isLoading ? (
+                    <SkeletonText width={60} height={14} />
+                  ) : (
+                    <Text style={styles.periodText}>{getCurrentData(workPageData.paystubRecord.paystubDateEnd)}</Text>
+                  )}
+                </View>
               </View>
             </TouchableOpacity>
 
@@ -471,6 +575,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#999',
   },
+  averageValueContainer: {
+    minHeight: 38,
+    justifyContent: 'center',
+  },
+  periodTextContainer: {
+    minHeight: 14,
+    justifyContent: 'center',
+  },
+  skeletonText: {
+    backgroundColor: '#E5E7EB',
+    borderRadius: 4,
+    opacity: 0.6,
   modalOverlay: {
     position: 'absolute',
     top: 0,

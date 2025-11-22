@@ -1,7 +1,7 @@
-import { Colors } from '@/constants/colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Colors } from "@/constants/colors";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 
 type ProgressCardProps = {
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -10,23 +10,34 @@ type ProgressCardProps = {
   suffix?: string;
 };
 
-const ProgressCard: React.FC<ProgressCardProps> = ({ icon, label, value, suffix }) => {
+const ProgressCard: React.FC<ProgressCardProps> = ({
+  icon,
+  label,
+  value,
+  suffix,
+}) => {
   return (
     <View style={styles.cardWrapper}>
       <ImageBackground
-        source={require('@/assets/images/Frame 1221.png')}
+        source={require("@/assets/images/Frame 1221.png")}
         style={styles.card}
         imageStyle={styles.cardImage}
-        resizeMode="cover"
+        resizeMode="stretch"
       >
-        <View style={styles.labelRow}>
-          <MaterialCommunityIcons name={icon} size={20} color={Colors.grey[400]} />
-          <Text style={styles.cardLabel}>{label}</Text>
-        </View>
+        <View style={styles.cardContent}>
+          <View style={styles.labelRow}>
+            <MaterialCommunityIcons
+              name={icon}
+              size={20}
+              color={Colors.grey[400]}
+            />
+            <Text style={styles.cardLabel}>{label}</Text>
+          </View>
 
-        <View style={styles.valueRow}>
-          <Text style={styles.mainNumber}>{value}</Text>
-          {suffix && <Text style={styles.unit}>{suffix}</Text>}
+          <View style={styles.valueRow}>
+            <Text style={styles.mainNumber}>{value}</Text>
+            {suffix && <Text style={styles.unit}>{suffix}</Text>}
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -36,67 +47,93 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ icon, label, value, suffix 
 export const DashboardData: React.FC = () => {
   return (
     <View style={styles.container}>
-      <ProgressCard icon="clock-outline" label="Hours" value="1,790" suffix="hrs" />
-      <ProgressCard icon="lightning-bolt-outline" label="Skills" value="28 / 81" />
-      <ProgressCard icon="school-outline" label="School" value="0/10" suffix="weeks" />
-      <ProgressCard icon="trophy-outline" label="Exam" value="-" />
+      <View style={styles.row}>
+        <ProgressCard
+          icon="clock-outline"
+          label="Hours"
+          value="1,790"
+          suffix="hrs"
+        />
+        <ProgressCard
+          icon="lightning-bolt-outline"
+          label="Skills"
+          value="28 / 81"
+        />
+      </View>
+      <View style={styles.row}>
+        <ProgressCard
+          icon="school-outline"
+          label="School"
+          value="0/10"
+          suffix="weeks"
+        />
+        <ProgressCard icon="trophy-outline" label="Exam" value="-" />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     marginBottom: 24,
   },
+  row: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 12,
+  },
+  // ssssss
   cardWrapper: {
-    width: '48%',
-    minWidth: 165,
-    position: 'relative',
+    flex: 1,
+    // marginHorizontal: 4,
+    position: "relative",
   },
   card: {
+    width: "100%",
+    // minHeight: 120,
+    position: "relative",
+  },
+  cardContent: {
     padding: 16,
-    minHeight: 120,
-    position: 'relative',
+    height: 100,
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
   },
   cardImage: {
     borderRadius: 20,
   },
   headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 16,
   },
   labelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
   },
   cardLabel: {
-    fontFamily: 'SpaceGrotesk-Regular',
+    fontFamily: "SpaceGrotesk-Regular",
     fontSize: 16,
     color: Colors.grey[400],
   },
   valueRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
+    flexDirection: "row",
+    alignItems: "baseline",
     gap: 6,
-    position: 'absolute',
-    bottom: 36,
-    left: 16,
+    alignSelf: "flex-start",
   },
   mainNumber: {
-    fontFamily: 'SpaceGrotesk-Medium',
-    fontSize: 32,
-    lineHeight: 36,
+    fontFamily: "SpaceGrotesk-Bold",
+    fontSize: 24,
+    lineHeight: 28,
     color: Colors.grey[900],
   },
   unit: {
-    fontFamily: 'SpaceGrotesk-Light',
+    fontFamily: "SpaceGrotesk-Light",
     fontSize: 16,
     color: Colors.grey[900],
   },
