@@ -99,7 +99,7 @@ export const HourDiscrepancy: React.FC<HourDiscrepancyProps> = ({
                 <Text style={[styles.value, isNegative && styles.negativeValue]}>{discrepancy}</Text>
               )}
             </View>
-            <Text style={styles.unit}> days</Text>
+            <Text style={styles.unit}>hrs</Text>
           </View>
           
           <View style={styles.buttonContainer}>

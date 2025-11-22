@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   tabActive: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

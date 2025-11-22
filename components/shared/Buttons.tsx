@@ -15,6 +15,7 @@ interface ButtonProps {
   disabled?: boolean;
   centered?: boolean;
   fullWidth?: boolean;
+  customStyle?: any;
 }
 
 const variantStyles = {
@@ -61,6 +62,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   centered = false,
   fullWidth = false,
+  customStyle,
 }) => {
   const styleObj = variantStyles[variant] || variantStyles['primary'];
   const { backgroundColor, textColor, borderColor, borderWidth } = styleObj;

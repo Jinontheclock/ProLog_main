@@ -45,7 +45,7 @@ export default function DashboardScreen() {
         {/* Level Journey */}
         <View style={styles.journeySection}>
           <Image 
-            source={require('@/assets/images/Frame 584.svg')}
+            source={require('@/assets/images/Frame 584.png')}
             style={styles.journeyImage}
             resizeMode="contain"
           />
@@ -153,9 +153,10 @@ const styles = StyleSheet.create({
     marginTop: -Spacing.sm,
     alignItems: 'center',
   },
+  // sssss
   journeyImage: {
-    width: undefined,
-    height: undefined,
+    width: '130%',
+    height: 600,
   },
   sectionTitle: {
     fontFamily: 'SpaceGrotesk-Regular',
