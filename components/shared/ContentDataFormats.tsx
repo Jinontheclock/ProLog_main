@@ -3,6 +3,8 @@ import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Platform, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface DataItem {
   label: string;
@@ -18,13 +20,19 @@ interface ContentDataFormatsProps {
   mainItems: DataItem[];
   dateItems?: DateItem[];
   isLoading?: boolean;
+  onInfoPress?: () => void;
 }
 
 export const ContentDataFormats: React.FC<ContentDataFormatsProps> = ({ 
   mainItems, 
   dateItems,
-  isLoading = false 
+  isLoading = false,
+  onInfoPress
 }) => {
+
+  // ------------------------
+  // Skeleton Loading Animation
+  // ------------------------
   const skeletonOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -43,52 +51,102 @@ export const ContentDataFormats: React.FC<ContentDataFormatsProps> = ({
           }),
         ])
       );
+
       pulseAnimation.start();
       return () => pulseAnimation.stop();
     }
   }, [isLoading]);
 
   const SkeletonText = ({ width, height }: { width: number; height: number }) => (
-    <Animated.View 
+    <Animated.View
       style={[
         styles.skeletonText,
         { width, height, opacity: skeletonOpacity }
-      ]} 
+      ]}
     />
   );
+
+  // ------------------------
+  // Countdown Parsing
+  // ------------------------
+  const parseCountdown = (value: string) => {
+    const match = value.match(/(\d+)\s+(\w+)/);
+    if (match) {
+      return { number: match[1], unit: match[2] };
+    }
+    return null;
+  };
+
+  // ------------------------
+  // Component Render
+  // ------------------------
   return (
     <View style={styles.container}>
       <View>
-        {mainItems.map((item, index) => (
-          <View key={index} style={index > 0 ? { marginTop: 20 } : undefined}>
-            <Text style={styles.label}>{item.label}</Text>
-            <View style={index === 1 ? styles.valueBigContainer : styles.valueMediumContainer}>
-              {isLoading && (item.label === 'Countdown (Est.)') ? (
-                <SkeletonText width={80} height={index === 1 ? 32 : 24} />
-              ) : (
-                <Text style={index === 1 ? styles.valueBig : styles.valueMedium}>{item.value}</Text>
-              )}
+        {mainItems.map((item, index) => {
+          const countdown = parseCountdown(item.value);
+          const isCountdownField = item.label === "Countdown (Est.)";
+
+          return (
+            <View key={index} style={index > 0 ? { marginTop: 20 } : undefined}>
+              <Text style={styles.label}>{item.label}</Text>
+
+              <View style={index === 1 ? styles.valueBigContainer : styles.valueMediumContainer}>
+                
+                {/* Skeleton Loader */}
+                {isLoading && isCountdownField ? (
+                  <SkeletonText width={80} height={index === 1 ? 32 : 24} />
+                ) : countdown ? (
+                  // Parsed countdown display (number + unit)
+                  <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+                    <Text style={styles.countdownNumber}>{countdown.number}</Text>
+                    <Text style={styles.countdownUnit}> {countdown.unit}</Text>
+                  </View>
+                ) : (
+                  // Normal value display
+                  <Text style={index === 1 ? styles.valueBig : styles.valueMedium}>
+                    {item.value}
+                  </Text>
+                )}
+
+              </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </View>
+
+      {/* ------------------------ */}
+      {/* DATE ITEMS SECTION       */}
+      {/* ------------------------ */}
       {dateItems && dateItems.length > 0 && (
         <View style={styles.dateRow}>
           {dateItems.map((item, index) => (
             <View key={index} style={styles.dateBox}>
               <View style={styles.dateLabelRow}>
-                <Text style={index === 1 ? styles.dateLabel400 : styles.dateLabel}>{item.label}</Text>
+                <Text style={index === 1 ? styles.dateLabel400 : styles.dateLabel}>
+                  {item.label}
+                </Text>
+
                 {index === 1 && (
-                  <MaterialIcon name="info" size={16} color={Colors.grey[400]} style={{ marginLeft: 4 }} />
+                  <TouchableOpacity onPress={onInfoPress}>
+                    <MaterialIcon 
+                      name="info" 
+                      size={16} 
+                      color={Colors.grey[400]} 
+                      style={{ marginLeft: 4 }} 
+                    />
+                  </TouchableOpacity>
                 )}
               </View>
+
               <View style={styles.dateValueContainer}>
-                {isLoading && (item.label === 'Est. End Date') ? (
+                {isLoading && item.label === "Est. End Date" ? (
                   <SkeletonText width={100} height={24} />
                 ) : (
                   <Text style={styles.dateValue}>{item.value}</Text>
                 )}
               </View>
+
             </View>
           ))}
         </View>
@@ -97,13 +155,14 @@ export const ContentDataFormats: React.FC<ContentDataFormatsProps> = ({
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     marginBottom: 24,
-    marginHorizontal: 20,
+    alignSelf: 'center',
     flexDirection: 'column',
     gap: 20,
     // width: 353,
@@ -130,9 +189,13 @@ const styles = StyleSheet.create({
     ...Typography.contentMedium,
     color: Colors.grey[700],
   },
-  valueBig: {
-    ...Typography.bgBody,
-    color: Colors.grey[700],
+  countdownNumber: {
+    ...Typography.contentBold,
+    color: Colors.grey[900],
+  },
+  countdownUnit: {
+    ...Typography.contentSuffix,
+    color: Colors.grey[900],
   },
   dateRow: {
     flexDirection: 'row',
@@ -161,7 +224,7 @@ const styles = StyleSheet.create({
     color: Colors.grey[400],
   },
   dateValue: {
-    ...Typography.bgBody,
+    ...Typography.bigBody,
     color: Colors.grey[700],
   },
   valueMediumContainer: {

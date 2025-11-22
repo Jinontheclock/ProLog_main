@@ -31,7 +31,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
     <View style={styles.expenseCard}>
       <Text style={styles.expenseAmount}>{amount}</Text>
       <View style={styles.expenseHeader}>
-        <Text style={styles.expenseTitle}>Tuition</Text>
+        <Text style={styles.expenseTitle}>{title}</Text>
         <TouchableOpacity 
           style={styles.viewDetailButton}
           onPress={onToggle}

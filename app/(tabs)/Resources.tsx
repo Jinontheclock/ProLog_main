@@ -12,6 +12,9 @@ export default function ResourcesScreen() {
         resizeMode="cover"
       />
       <ScrollView style={CommonStyles.scrollView} showsVerticalScrollIndicator={false}>
+        {/* Status Bar Spacer */}
+        <View style={{ height: 47 }} />
+        
         <View style={CommonStyles.headerSimple}>
           <Text style={CommonStyles.mainTitle}>Settings</Text>
         </View>

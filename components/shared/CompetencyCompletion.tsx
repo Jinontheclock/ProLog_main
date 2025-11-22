@@ -4,10 +4,12 @@ import { Typography } from '@/constants/typography';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface CompetencyCompletionProps {
   title?: string;
   showInfoIcon?: boolean;
+  onInfoPress?: () => void;
   checkboxLabel: string;
   current: number;
   total: number;
@@ -18,6 +20,7 @@ interface CompetencyCompletionProps {
 export const CompetencyCompletion: React.FC<CompetencyCompletionProps> = ({
   title = 'Completion Details',
   showInfoIcon = true,
+  onInfoPress,
   checkboxLabel,
   current,
   total,
@@ -35,11 +38,13 @@ export const CompetencyCompletion: React.FC<CompetencyCompletionProps> = ({
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{title}</Text>
         {showInfoIcon && (
-          <MaterialIcon
-            name="info"
-            size={20}
-            color="#999"
-          />
+          <TouchableOpacity onPress={onInfoPress}>
+            <MaterialIcon
+              name="info"
+              size={20}
+              color="#999"
+            />
+          </TouchableOpacity>
         )}
       </View>
 
@@ -103,14 +108,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
-    marginHorizontal: 20,
+    width: 353,
+    alignSelf: 'center',
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#2C2C2C',
+    ...Typography.sectionHeader,
+    color: Colors.grey[700],
     marginBottom: 0,
     marginTop: 8,
+    marginLeft: 4,
   },
   infoIcon: {
     width: 20,
@@ -118,12 +124,14 @@ const styles = StyleSheet.create({
     tintColor: '#999',
   },
   detailsCard: {
+    width: 353,
+    height: 134,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     paddingRight: 10,
     marginBottom: 24,
-    marginHorizontal: 20,
+    alignSelf: 'center',
     flexDirection: 'row',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -158,12 +166,12 @@ const styles = StyleSheet.create({
     color: Colors.grey[900],
   },
   completionText: {
-    fontSize: 16,
-    color: '#2C2C2C',
+    ...Typography.contentSuffix,
+    color: Colors.grey[900],
   },
   lastUpdated: {
     ...Typography.smBody,
-    color: Colors.grey[500],
+    color: Colors.grey[300],
   },
   circularProgress: {
     width: 100,

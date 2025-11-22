@@ -27,7 +27,6 @@ export const CommonStyles = StyleSheet.create({
   scrollView: {
     flex: 1,
     width: dimensions.constrainedWidth,
-    paddingHorizontal: 20,
   },
   scrollContent: {
     paddingBottom: 100,

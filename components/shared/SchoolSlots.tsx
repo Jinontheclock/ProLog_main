@@ -41,7 +41,7 @@ export const SchoolSlots: React.FC<SchoolSlotsProps> = ({ campuses }) => {
               <Text style={styles.campusLocation}>{campus.location}</Text>
             </View>
             <IconButton
-              iconComponent={<MaterialIcon name="icon-arrow-outward" size={24} color="#fff" />}
+              iconComponent={<MaterialIcon name="arrow_outward" size={24} color="#fff" />}
               variant="primary"
               size={40}
               onPress={campus.onPress}
@@ -83,6 +83,7 @@ export const SchoolSlots: React.FC<SchoolSlotsProps> = ({ campuses }) => {
 const styles = StyleSheet.create({
   carouselContainer: {
     marginBottom: 20,
+    marginLeft: 20,
   },
   carouselContent: {
     paddingHorizontal: 20,
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 24,
     width: 291,
-    height: 320,
+    height: 302,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   campusName: {
     ...Typography.contentMedium,
     color: Colors.grey[700], // content_medium grey 700
-    marginBottom: 4,
+    marginBottom: 0,
   },
   campusLocation: {
     ...Typography.contentSubtitle,
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   tableHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 8,
     paddingHorizontal: 0,
   },
   tableHeaderText: {
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   lineImage: {
-    width: 60,
+    width: 24,
     height: 2,
     backgroundColor: '#D5D5D5',
   },

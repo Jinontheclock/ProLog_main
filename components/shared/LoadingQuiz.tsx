@@ -1,6 +1,5 @@
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 
@@ -11,7 +10,7 @@ export const LoadingQuiz: React.FC = () => {
   useEffect(() => {
     Animated.timing(rotateAnim, {
       toValue: 5,
-      duration: 10000, // slower: 1 rotation per 1.2s, 5 rotations in 6s
+      duration: 10000, // 10 seconds for 5 rotations
       easing: Easing.linear,
       useNativeDriver: true,
     }).start();
@@ -31,18 +30,9 @@ export const LoadingQuiz: React.FC = () => {
             style={[styles.loadingImage, { transform: [{ rotate: spin }] }]}
           />
         </View>
-        <Text style={styles.title}>Generating Quiz</Text>
+        <Text style={styles.title}>Generating Program Details</Text>
         <Text style={styles.description}>
-          Your quiz is based on the current competencies summary and will generate up to 10 questions to test your understanding.
-        </Text>
-      </View>
-      <View style={styles.tipBox}>
-        <View style={styles.tipRow}>
-          <MaterialCommunityIcons name="lightbulb" size={20} color={Colors.grey[900]} style={styles.tipIcon} />
-          <Text style={styles.tipTitle}>Tips to Remember</Text>
-        </View>
-        <Text style={styles.tipDescription}>
-          If a question feels tough, eliminate the answers you know are wrong first.
+          Your quiz is based on the entirety of level 2 competencies and will generate up to 40 questions to test your understanding.
         </Text>
       </View>
     </View>
@@ -85,21 +75,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '400',
   },
-  tipBox: {
-    backgroundColor: Colors.white,
-    borderColor: Colors.borderGrey,
-    borderWidth: 1,
-    borderRadius: 20,
-    width: 353,
-    height: 104,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    flexDirection: 'column',
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    elevation: 1,
-  },
   loadingImageWrap: {
     width: 65,
     height: 65,
@@ -112,26 +87,5 @@ const styles = StyleSheet.create({
     width: 65,
     height: 65,
     resizeMode: 'contain',
-  },
-  tipRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  tipIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 8,
-  },
-  tipTitle: {
-    ...Typography.contentTitle,
-    color: Colors.grey[900],
-    fontWeight: 'bold',
-  },
-  tipDescription: {
-    ...Typography.buttonText,
-    color: Colors.grey[500],
-    marginTop: 4,
-    fontWeight: '400',
   },
 });

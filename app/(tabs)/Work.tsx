@@ -1,7 +1,7 @@
 import { Image as ExpoImage } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import workData from '@/data/work-data.json';
@@ -12,9 +12,12 @@ import { CompletedLines } from '@/components/shared/CompletedLines';
 import { ContentDataFormats } from '@/components/shared/ContentDataFormats';
 import { ExpenseCard } from '@/components/shared/ExpenseCard';
 import { HourDiscrepancy } from '@/components/shared/HourDiscrepancy';
+import { InformationalMessage } from '@/components/shared/InformationalMessage';
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { PageSwitch } from '@/components/shared/PageSwitch';
 import { SectionHeading } from '@/components/shared/SectionHeading';
+import { Colors } from '@/constants/colors';
+import { Typography } from '@/constants/typography';
 import dimensions from '@/lib/dimensions';
 
 export default function WorkScreen() {
@@ -69,6 +72,10 @@ export default function WorkScreen() {
     }
     return typeof text === 'string' ? text : text.toString();
   };
+  const [showEndDateInfoModal, setShowEndDateInfoModal] = useState(false);
+  const [showDiscrepancyInfoModal, setShowDiscrepancyInfoModal] = useState(false);
+  const [showCompletionDetailsInfoModal, setShowCompletionDetailsInfoModal] = useState(false);
+  const [showPotentialExpensesInfoModal, setShowPotentialExpensesInfoModal] = useState(false);
 
   return (
     <View style={[styles.container, { backgroundColor: '#F0F0F0' }]}>
@@ -131,12 +138,15 @@ export default function WorkScreen() {
                 { label: 'Est. End Date', value: getCurrentData(workPageData.apprenticeshipDetails.estimatedEndDate) },
               ]}
               isLoading={isLoading}
+              onInfoPress={() => setShowEndDateInfoModal(true)}
             />
 
             {/* Discrepancy Tracking */}
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitleNoMargin}>Discrepancy Tracking</Text>
-              <MaterialIcon name="info" size={20} color="#999" />
+              <Text style={styles.sectionTitle}>Discrepancy Tracking</Text>
+              <TouchableOpacity onPress={() => setShowDiscrepancyInfoModal(true)}>
+                <MaterialIcon name="info" size={20} color="#999" />
+              </TouchableOpacity>
             </View>
 
             <HourDiscrepancy
@@ -164,14 +174,21 @@ export default function WorkScreen() {
 
             {/* Paystub Records */}
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitleNoMargin}>Paystub Records</Text>
-              <View style={styles.iconButton}>
+              <Text style={styles.sectionTitle}>Paystub Records</Text>
+              <TouchableOpacity 
+                style={styles.iconButton}
+                onPress={() => router.push('/paystubs/PaystubList')}
+              >
                 <MaterialIcon name="document_scanner" size={20} color="#999" />
-              </View>
+              </TouchableOpacity>
             </View>
 
             {/* Working Hours Chart */}
-            <View style={styles.chartCard}>
+            <TouchableOpacity 
+              style={styles.chartCard}
+              onPress={() => router.push('/paystubs/PaystubList')}
+              activeOpacity={0.7}
+            >
               <View style={styles.chartHeader}>
                 <Text style={styles.chartLabel}>Working Hours</Text>
                 <Text style={styles.chartValue}>Hrs</Text>
@@ -208,10 +225,14 @@ export default function WorkScreen() {
                   )}
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
 
             {/* Income Chart */}
-            <View style={styles.chartCard}>
+            <TouchableOpacity 
+              style={styles.chartCard}
+              onPress={() => router.push('/paystubs/PaystubList')}
+              activeOpacity={0.7}
+            >
               <View style={styles.chartHeader}>
                 <Text style={styles.chartLabel}>Income</Text>
                 <Text style={styles.chartValue}>CAD $</Text>
@@ -247,14 +268,13 @@ export default function WorkScreen() {
                   )}
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
 
             {/* View All Paystubs Button */}
             <Button
               text="View All Paystubs"
-              iconComponent={<MaterialIcon name="icon-arrow-forward" size={20} color="#2C2C2C" />}
               variant="light"
-              centered={true}
+              customStyle={{ width: 354, height: 42, borderRadius: 30, alignSelf: 'center' }}
               onPress={() => router.push('/paystubs/PaystubList')}
             />
           </>
@@ -266,9 +286,10 @@ export default function WorkScreen() {
             <CompetencyCompletion
               title="Completion Details"
               showInfoIcon={true}
+              onInfoPress={() => setShowCompletionDetailsInfoModal(true)}
               checkboxLabel="Practical Competencies"
-              current={6}
-              total={12}
+              current={10}
+              total={34}
               lastUpdated="On: Mar 12, 2025"
               progressImage={require('@/assets/images/Group 46.png')}
             />
@@ -277,19 +298,21 @@ export default function WorkScreen() {
             <CompletedLines
               title="Line Completion"
               lines={[
-                { name: 'Line A', current: 6, total: 10, isCompleted: false },
-                { name: 'Line B', current: 3, total: 3, isCompleted: true },
-                { name: 'Line C', current: 2, total: 2, isCompleted: true },
+                { name: 'Line A', current: 4, total: 5, isCompleted: false },
+                { name: 'Line B', current: 0, total: 3, isCompleted: false },
+                { name: 'Line C', current: 1, total: 2, isCompleted: false },
                 { name: 'Line D', current: 3, total: 6, isCompleted: false },
+                { name: 'Line F', current: 0, total: 8, isCompleted: false },
+                { name: 'Line G', current: 0, total: 10, isCompleted: false },
+                { name: 'Line H', current: 0, total: 10, isCompleted: false },
               ]}
             />
 
             {/* View Checklist Button */}
             <Button
               text="View Checklist"
-              iconComponent={<MaterialIcon name="icon-arrow-forward" size={20} color="#2C2C2C" />}
               variant="light"
-              centered={true}
+              customStyle={{ width: 354, height: 42, borderRadius: 30, alignSelf: 'center', marginTop: 16 }}
               onPress={() => console.log('View Checklist pressed')}
             />
           </>
@@ -298,14 +321,16 @@ export default function WorkScreen() {
         {selectedTab === 'finance' && (
           <>
             {/* Potential Expenses Section */}
-            <View style={styles.sectionHeader}>
-              <View style={styles.sectionTextContainer}>
+            <View style={styles.financeHeaderContainer}>
+              <View style={styles.financeHeaderRow}>
                 <Text style={styles.sectionTitleNoMargin}>Potential Expenses</Text>
-                <Text style={styles.sectionSubtitleNoMargin}>
-                  Upcoming potential expenses to consider for financial planning
-                </Text>
+                <TouchableOpacity onPress={() => setShowPotentialExpensesInfoModal(true)}>
+                  <MaterialIcon name="info" size={20} color="#999" />
+                </TouchableOpacity>
               </View>
-              <MaterialIcon name="info" size={20} color="#999" />
+              <Text style={styles.sectionSubtitleNoMargin}>
+                Upcoming potential expenses to consider for financial planning
+              </Text>
             </View>
 
             {/* Required Tools Card */}
@@ -317,7 +342,7 @@ export default function WorkScreen() {
               details={[
                 { label: 'Tool Belt', value: '$845' },
                 { label: 'Drill', value: '$155' },
-                { label: 'Amps Meter', value: '$60' },
+                { label: 'Amps Meter', value: '$240' },
               ]}
               isExpanded={expandedExpenseCard === 1}
               onToggle={() => setExpandedExpenseCard(expandedExpenseCard === 1 ? null : 1)}
@@ -326,11 +351,12 @@ export default function WorkScreen() {
             {/* Certifications Card */}
             <ExpenseCard
               id={2}
-              amount="$300"
+              amount="$70"
               title="Certifications"
-              detailTitle="Certification Fees"
+              detailTitle="Potential Good to have's"
               details={[
-                { label: 'Red Seal Exam', value: '$300' },
+                { label: 'WHIMS', value: '$29.30' },
+                { label: 'Fire and Safety', value: '$29.50' },
               ]}
               isExpanded={expandedExpenseCard === 2}
               onToggle={() => setExpandedExpenseCard(expandedExpenseCard === 2 ? null : 2)}
@@ -339,6 +365,58 @@ export default function WorkScreen() {
         )}
 
       </ScrollView>
+
+      {/* End Date Info Modal */}
+      {showEndDateInfoModal && (
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowEndDateInfoModal(false)}
+        >
+          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+            <InformationalMessage message="This is an estimate end date of your completion and is subject to change as it is based on how many hours you've worked and how many are remaining which can vary" />
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )}
+
+      {/* Discrepancy Tracking Info Modal */}
+      {showDiscrepancyInfoModal && (
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowDiscrepancyInfoModal(false)}
+        >
+          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+            <InformationalMessage message="This shows the difference between actual worked hours tracked using paystubs (monthly) Vs what SkilledTradeBC has on it's portal." />
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )}
+
+      {/* Completion Details Info Modal */}
+      {showCompletionDetailsInfoModal && (
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowCompletionDetailsInfoModal(false)}
+        >
+          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+            <InformationalMessage message="The count is displayed only for practical competency, if you want to see the full list check the skills page!" />
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )}
+
+      {/* Potential Expenses Info Modal */}
+      {showPotentialExpensesInfoModal && (
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowPotentialExpensesInfoModal(false)}
+        >
+          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+            <InformationalMessage message="These are estimated expenses and are subjected to change based on a persons choice and/or situation." />
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -353,12 +431,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#2C2C2C',
+    ...Typography.sectionHeader,
+    color: Colors.grey[700],
     marginBottom: 16,
     marginTop: 8,
-    marginHorizontal: 20,
+    width: 353,
+    alignSelf: 'center',
   },
   sectionSubtitle: {
     fontSize: 12,
@@ -371,22 +449,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
-    marginHorizontal: 20,
+    marginBottom: 4,
+    marginHorizontal: 24,
+  },
+  financeHeaderContainer: {
+    marginHorizontal: 24,
+    marginTop: 8,
+  },
+  financeHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   sectionTextContainer: {
     flex: 1,
     marginRight: 12,
   },
   sectionTitleNoMargin: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#2C2C2C',
+    ...Typography.sectionHeader,
+    color: Colors.grey[700],
     marginBottom: 4,
   },
   sectionSubtitleNoMargin: {
-    fontSize: 12,
-    color: '#999',
+    ...Typography.smBody,
+    color: Colors.black,
+    marginTop: 4,
+    marginBottom: 16,
   },
   infoIcon: {
     width: 20,
@@ -441,19 +529,19 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   averageLabel: {
-    fontSize: 14,
-    color: '#2C2C2C',
-    fontWeight: '500',
+    fontFamily: 'SpaceGrotesk-Light',
+    fontSize: 20,
+    color: Colors.grey[900],
   },
   averageValue: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#2C2C2C',
+    fontFamily: 'SpaceGrotesk-Bold',
+    fontSize: 20,
+    color: Colors.grey[900],
   },
   averageUnit: {
-    fontSize: 16,
-    color: '#2C2C2C',
-    fontWeight: '500',
+    fontFamily: 'SpaceGrotesk-Light',
+    fontSize: 20,
+    color: Colors.grey[900],
   },
   chartGraphImage: {
     width: '100%',
@@ -499,5 +587,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E7EB',
     borderRadius: 4,
     opacity: 0.6,
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(44, 44, 44, 0.18)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
   },
 });

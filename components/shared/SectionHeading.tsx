@@ -75,6 +75,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       ]} 
     />
   );
+  const isZero = currentHours === 0 && totalHours === 10;
+  const isCompleted = currentHours > 0;
+  
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
@@ -98,7 +101,10 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           {isLoading ? (
             <SkeletonText width={140} height={29} />
           ) : (
-            <Text style={styles.hoursText}>
+            <Text style={[
+              styles.hoursText,
+              isCompleted && { color: Colors.grey[900] }
+            ]}>
               {currentHours.toLocaleString()} / {totalHours.toLocaleString()} 
             </Text>
           )}
@@ -107,7 +113,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <Text style={[
           styles.hrsText,
           isZero && { color: Colors.grey[300] }
-        ]}>hrs</Text>
+        ]}>{hoursUnit}</Text>
       </View>
 
       <View style={styles.progressBarContainer}>

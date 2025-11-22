@@ -4,6 +4,8 @@ import { router } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
+import { Colors } from '@/constants/colors';
+
 interface CustomTabBarProps {
   activeTab?: 'school' | 'work' | 'dashboard' | 'skills' | 'resources';
 }
@@ -29,7 +31,7 @@ export default function CustomTabBar({ activeTab = 'dashboard' }: CustomTabBarPr
             source={tab.icon}
             style={[
               styles.tabIcon,
-              { tintColor: activeTab === tab.key ? '#2C2C2C' : '#999999' }
+              { tintColor: activeTab === tab.key ? Colors.grey[900] : Colors.grey[500] }
             ]}
           />
         </TouchableOpacity>
@@ -41,9 +43,9 @@ export default function CustomTabBar({ activeTab = 'dashboard' }: CustomTabBarPr
 const styles = StyleSheet.create({
   tabBar: {
     alignItems: 'center',
-    backgroundColor: '#F2F2F2',
+    backgroundColor: Colors.grey[100],
     borderRadius: 60,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
   },
   tabItem: {
     alignItems: 'center',
-    backgroundColor: '#F2F2F2',
+    backgroundColor: Colors.grey[100],
     borderRadius: 26,
     flexDirection: 'row',
     height: 52,

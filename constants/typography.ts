@@ -114,7 +114,7 @@ export const Typography = {
     sectionHeader: {
         fontFamily: FontFamily.spaceGrotesk.regular,
         fontSize: 20,
-        lineHeight: 20 * 1.05,
+        lineHeight: 24 * 1.05,
     },
     discrepancyTracking: {
         fontFamily: FontFamily.spaceGrotesk.regular,

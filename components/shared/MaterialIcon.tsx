@@ -32,9 +32,14 @@ export const ICON_NAMES = {
   
   // Info & Status icons
   'info': 'info',
+  'lightbulb': 'lightbulb',
+  'icon-lightbulb': 'lightbulb',
+  'celebration': 'celebration',
+  'icon-celebration': 'celebration',
   'help_outline': 'help-outline',
   'warning_amber': 'warning',
   'more_horiz': 'more-horiz',
+  'icon-lock': 'lock-open',
   
   // Time & Money icons
   'schedule': 'schedule',
