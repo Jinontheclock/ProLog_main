@@ -587,6 +587,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E7EB',
     borderRadius: 4,
     opacity: 0.6,
+  },
   modalOverlay: {
     position: 'absolute',
     top: 0,

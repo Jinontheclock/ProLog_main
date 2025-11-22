@@ -75,7 +75,6 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       ]} 
     />
   );
-  const isZero = currentHours === 0 && totalHours === 10;
   const isCompleted = currentHours > 0;
   
   return (
@@ -113,7 +112,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <Text style={[
           styles.hrsText,
           isZero && { color: Colors.grey[300] }
-        ]}>{hoursUnit}</Text>
+        ]}>hrs</Text>
       </View>
 
       <View style={styles.progressBarContainer}>
