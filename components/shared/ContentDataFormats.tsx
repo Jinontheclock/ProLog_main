@@ -2,7 +2,7 @@ import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface DataItem {
   label: string;
@@ -17,21 +17,42 @@ interface DateItem {
 interface ContentDataFormatsProps {
   mainItems: DataItem[];
   dateItems?: DateItem[];
+  onInfoPress?: () => void;
 }
 
 export const ContentDataFormats: React.FC<ContentDataFormatsProps> = ({ 
   mainItems, 
-  dateItems 
+  dateItems,
+  onInfoPress
 }) => {
+  // Parse countdown value if it contains 'days'
+  const parseCountdown = (value: string) => {
+    const match = value.match(/(\d+)\s+(\w+)/);
+    if (match) {
+      return { number: match[1], unit: match[2] };
+    }
+    return null;
+  };
+
   return (
     <View style={styles.container}>
       <View>
-        {mainItems.map((item, index) => (
-          <View key={index} style={index > 0 ? { marginTop: 20 } : undefined}>
-            <Text style={styles.label}>{item.label}</Text>
-            <Text style={index === 1 ? styles.valueBig : styles.valueMedium}>{item.value}</Text>
-          </View>
-        ))}
+        {mainItems.map((item, index) => {
+          const countdown = parseCountdown(item.value);
+          return (
+            <View key={index} style={index > 0 ? { marginTop: 20 } : undefined}>
+              <Text style={styles.label}>{item.label}</Text>
+              {countdown ? (
+                <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                  <Text style={styles.countdownNumber}>{countdown.number}</Text>
+                  <Text style={styles.countdownUnit}> {countdown.unit}</Text>
+                </View>
+              ) : (
+                <Text style={styles.valueMedium}>{item.value}</Text>
+              )}
+            </View>
+          );
+        })}
       </View>
       {dateItems && dateItems.length > 0 && (
         <View style={styles.dateRow}>
@@ -40,7 +61,9 @@ export const ContentDataFormats: React.FC<ContentDataFormatsProps> = ({
               <View style={styles.dateLabelRow}>
                 <Text style={index === 1 ? styles.dateLabel400 : styles.dateLabel}>{item.label}</Text>
                 {index === 1 && (
-                  <MaterialIcon name="info" size={16} color={Colors.grey[400]} style={{ marginLeft: 4 }} />
+                  <TouchableOpacity onPress={onInfoPress}>
+                    <MaterialIcon name="info" size={16} color={Colors.grey[400]} style={{ marginLeft: 4 }} />
+                  </TouchableOpacity>
                 )}
               </View>
               <Text style={styles.dateValue}>{item.value}</Text>
@@ -58,10 +81,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 24,
-    marginHorizontal: 20,
+    alignSelf: 'center',
     flexDirection: 'column',
     width: 353,
-    height: 248,
+    height: 256,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -84,9 +107,13 @@ const styles = StyleSheet.create({
     ...Typography.contentMedium,
     color: Colors.grey[700],
   },
-  valueBig: {
-    ...Typography.bgBody,
-    color: Colors.grey[700],
+  countdownNumber: {
+    ...Typography.contentBold,
+    color: Colors.grey[900],
+  },
+  countdownUnit: {
+    ...Typography.contentSuffix,
+    color: Colors.grey[900],
   },
   dateRow: {
     flexDirection: 'row',
@@ -115,7 +142,7 @@ const styles = StyleSheet.create({
     color: Colors.grey[400],
   },
   dateValue: {
-    ...Typography.bgBody,
+    ...Typography.bigBody,
     color: Colors.grey[700],
   },
 });

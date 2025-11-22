@@ -70,11 +70,13 @@ export const CompletedLines: React.FC<CompletedLinesProps> = ({
 
 const styles = StyleSheet.create({
   lineCompletionCard: {
+    width: 355,
+    height: 252,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
-    marginBottom: 32, // Increased from 24
-    marginHorizontal: 20,
+    marginBottom: 4,
+    alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -86,8 +88,8 @@ const styles = StyleSheet.create({
   },
   lineCompletionTitle: {
     ...Typography.contentTitle,
-    color: Colors.grey[300], // content_title grey 300
-    marginBottom: 20,
+    color: Colors.grey[300],
+    marginBottom: 0,
   },
   linesContainer: {
     flexDirection: 'row',
@@ -97,11 +99,11 @@ const styles = StyleSheet.create({
     width: 75,
     height: 160,
     backgroundColor: Colors.grey[50],
-    borderRadius: 40, // Increased from 28
+    borderRadius: 40,
     padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20, // Added marginBottom between cards
+    marginBottom: 4,
   },
   lineItem: {
     alignItems: 'center',

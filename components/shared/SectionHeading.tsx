@@ -28,13 +28,14 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   onIconPress,
 }) => {
   const isZero = currentHours === 0 && totalHours === 10;
+  const isCompleted = currentHours > 0;
   
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <Text style={styles.level}>{level}</Text>
         <TouchableOpacity style={styles.searchButton} onPress={onIconPress}>
-          <MaterialIcon name={iconName} size={24} color={iconColor} />
+          <MaterialIcon name={iconName as any} size={24} color={iconColor} />
         </TouchableOpacity>
       </View>
       <Text style={styles.title}>{title}</Text>
@@ -48,14 +49,14 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <View style={{ width: 8 }} />
         <Text style={[
           styles.hoursText,
-          isZero && { color: Colors.grey[300] }
+          isCompleted && { color: Colors.grey[900] }
         ]}>
           {currentHours.toLocaleString()} / {totalHours.toLocaleString()} 
         </Text>
         <View style={{ width: 8 }} />
         <Text style={[
           styles.hrsText,
-          isZero && { color: Colors.grey[300] }
+          isCompleted && { color: Colors.grey[900] }
         ]}>{hoursUnit}</Text>
       </View>
 

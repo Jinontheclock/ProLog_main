@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Button } from '@/components/shared/Buttons';
 import { CompetencyCompletion } from '@/components/shared/CompetencyCompletion';
 import { CompletedLines } from '@/components/shared/CompletedLines';
 import { ExpenseCard } from '@/components/shared/ExpenseCard';
+import { InformationalMessage } from '@/components/shared/InformationalMessage';
+import { LoadingQuiz } from '@/components/shared/LoadingQuiz';
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { PageSwitch } from '@/components/shared/PageSwitch';
 import { SchoolSlots } from '@/components/shared/SchoolSlots';
@@ -20,6 +21,28 @@ export default function SchoolScreen() {
   const insets = useSafeAreaInsets();
   const [selectedTab, setSelectedTab] = useState('hour');
   const [expandedExpense, setExpandedExpense] = useState<number | null>(3);
+  const [showEnrollmentModal, setShowEnrollmentModal] = useState(false);
+  const [showInstitutionDropdown, setShowInstitutionDropdown] = useState(false);
+  const [selectedInstitution, setSelectedInstitution] = useState('');
+  const [showProgramDropdown, setShowProgramDropdown] = useState(false);
+  const [selectedProgram, setSelectedProgram] = useState('');
+  const [showDurationDropdown, setShowDurationDropdown] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState('');
+  const [isLoadingProgram, setIsLoadingProgram] = useState(false);
+  const [isProgramRegistered, setIsProgramRegistered] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showCompetencyInfoModal, setShowCompetencyInfoModal] = useState(false);
+
+  const handleSubmit = () => {
+    if (selectedInstitution && selectedProgram && selectedDuration) {
+      setIsLoadingProgram(true);
+      setShowEnrollmentModal(false);
+      setTimeout(() => {
+        setIsLoadingProgram(false);
+        setIsProgramRegistered(true);
+      }, 5000);
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: '#F0F0F0' }]}>
@@ -37,9 +60,9 @@ export default function SchoolScreen() {
         <SectionHeading 
           level="Level 2"
           title="Technical Training"
-          currentHours={0}
+          currentHours={isProgramRegistered ? 9 : 0}
           totalHours={10}
-          percentage={0}
+          percentage={isProgramRegistered ? 72 : 0}
           iconName="icon-refresh"
         />
 
@@ -68,6 +91,67 @@ export default function SchoolScreen() {
 
         {selectedTab === 'hour' && (
           <>
+            {/* Show loading or program details if registered */}
+            {isLoadingProgram ? (
+              <View style={styles.enrollmentFormContainer}>
+                <LoadingQuiz />
+              </View>
+            ) : isProgramRegistered ? (
+              <>
+                {/* Program Details Section */}
+                <Text style={styles.programDetailsTitle}>Program Details</Text>
+                <View style={styles.programDetailsCard}>
+                  <Text style={styles.programLabel}>Program</Text>
+                  <Text style={styles.programValueFirst}>Level 2 Industrial Electrician, APPR</Text>
+                  
+                  <Text style={[styles.programLabel, { marginTop: 16 }]}>Institute</Text>
+                  <Text style={styles.programValue}>British Columbia Institute of Technology</Text>
+                  
+                  <View style={styles.programDateRow}>
+                    <View style={styles.programDateBox}>
+                      <Text style={styles.programDateLabel}>Start Date</Text>
+                      <Text style={styles.programDateValue}>Sep 4, 2025</Text>
+                    </View>
+                    <View style={styles.programDateBox}>
+                      <Text style={styles.programDateLabel}>Est. End Date</Text>
+                      <Text style={styles.programDateValue}>Nov 14, 2025</Text>
+                    </View>
+                  </View>
+                </View>
+
+                {/* Standard Exam Section */}
+                <Text style={styles.standardExamTitle}>Standard Exam</Text>
+                <View style={styles.examAttemptCard}>
+                  <View style={styles.examAttemptLeft}>
+                    <Text style={styles.examAttemptTitle}>Attempt 1</Text>
+                    <Text style={styles.examAttemptDate}>Mar 12, 2025</Text>
+                    <View style={styles.registeredBadge}>
+                      <Text style={styles.registeredBadgeText}>Registered</Text>
+                    </View>
+                  </View>
+                  <View style={styles.examAttemptRight}>
+                    <Text style={styles.examScore}>55.5</Text>
+                    <Text style={styles.examPercent}>%</Text>
+                  </View>
+                </View>
+
+                {/* Level 3 Unlocked Card */}
+                <View style={styles.levelUnlockedCard}>
+                  <View style={styles.levelUnlockedHeader}>
+                    <MaterialIcon name="icon-lock" size={20} color={Colors.orange[500]} />
+                    <Text style={styles.levelUnlockedTitle}>Level 3 Unlocked</Text>
+                  </View>
+                  <Text style={styles.levelUnlockedDescription}>
+                    Congratulations – you have achieved all the requirements for Level 2. Press the button below to continue your trades journey
+                  </Text>
+                  <TouchableOpacity style={styles.nextLevelButton}>
+                    <Text style={styles.nextLevelButtonText}>Start the next level</Text>
+                    <MaterialIcon name="icon-arrow-forward" size={20} color={Colors.white} />
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <>
             {/* Enrollment Status Card */}
             <View style={styles.enrollmentPrompt}>
               <View style={styles.iconTitleWrapper}>
@@ -79,22 +163,208 @@ export default function SchoolScreen() {
               </Text>
             </View>
 
-            <TouchableOpacity style={styles.addEnrollmentCard}>
+            <TouchableOpacity 
+              style={[
+                styles.addEnrollmentCard,
+                showEnrollmentModal && styles.addEnrollmentCardExpanded
+              ]} 
+              onPress={() => setShowEnrollmentModal(!showEnrollmentModal)}
+            >
               <View style={styles.addEnrollmentContent}>
-                <Text style={styles.addEnrollmentTitle}>Add{'\n'}Enrollment Status</Text>
+                <Text style={styles.addEnrollmentTitle}>Add{`\n`}Enrollment Status</Text>
                 <Text style={styles.addEnrollmentDescription}>
                   Add your enrolment status to start tracking your progress in technical training
                 </Text>
               </View>
               <View style={styles.addIconCircle}>
-                <MaterialIcon name="icon-add" size={32} color="#FFFFFF" />
+                <MaterialIcon name="icon-add" size={20} color={Colors.orange[500]} />
               </View>
             </TouchableOpacity>
 
+            {/* Enrollment Form - Expands below card */}
+            {showEnrollmentModal && (
+              <View style={styles.enrollmentFormContainer}>
+                <View style={styles.formCard}>
+                  <Text style={[styles.formSectionTitle, styles.formSectionTitleFirst]}>Institution</Text>
+                  <View style={{ zIndex: 12000 }}>
+                    <TouchableOpacity 
+                      style={styles.dropdownField}
+                      onPress={() => setShowInstitutionDropdown(!showInstitutionDropdown)}
+                    >
+                      <Text style={[
+                        styles.dropdownPlaceholder,
+                        selectedInstitution && { ...Typography.bigBody, color: Colors.grey[900] }
+                      ]}>
+                        {selectedInstitution || 'Select your institution'}
+                      </Text>
+                      <MaterialIcon name="icon-dropdown-arrow" size={24} color={Colors.grey[400]} />
+                    </TouchableOpacity>
+                    
+                    {showInstitutionDropdown && (
+                      <>
+                        <TouchableOpacity 
+                          style={styles.dropdownOverlay}
+                          onPress={() => setShowInstitutionDropdown(false)}
+                          activeOpacity={1}
+                        />
+                        <View style={styles.dropdownMenu}>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedInstitution('BCIT');
+                              setShowInstitutionDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>BCIT</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedInstitution('Institute Name 1');
+                              setShowInstitutionDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Institute Name 1</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedInstitution('Institute Name 2');
+                              setShowInstitutionDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Institute Name 2</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    )}
+                  </View>
+
+                  <Text style={styles.formSectionTitle}>Program</Text>
+                  <View style={{ zIndex: 11000 }}>
+                    <TouchableOpacity 
+                      style={styles.dropdownField}
+                      onPress={() => setShowProgramDropdown(!showProgramDropdown)}
+                    >
+                      <Text style={[
+                        styles.dropdownPlaceholder,
+                        selectedProgram && { ...Typography.bigBody, color: Colors.grey[900] }
+                      ]}>
+                        {selectedProgram || 'Select your program'}
+                      </Text>
+                      <MaterialIcon name="icon-dropdown-arrow" size={24} color={Colors.grey[400]} />
+                    </TouchableOpacity>
+                    
+                    {showProgramDropdown && (
+                      <>
+                        <TouchableOpacity 
+                          style={styles.dropdownOverlay}
+                          onPress={() => setShowProgramDropdown(false)}
+                          activeOpacity={1}
+                        />
+                        <View style={styles.dropdownMenu}>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedProgram('Industrial Electrician - Level 2');
+                              setShowProgramDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Industrial Electrician - Level 2</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedProgram('Program Name 1');
+                              setShowProgramDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Program Name 1</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedProgram('Program Name 2');
+                              setShowProgramDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Program Name 2</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    )}
+                  </View>
+
+                  <Text style={styles.formSectionTitle}>Program Duration</Text>
+                  <View style={{ zIndex: 10000 }}>
+                    <TouchableOpacity 
+                      style={styles.dropdownField}
+                      onPress={() => setShowDurationDropdown(!showDurationDropdown)}
+                    >
+                      <Text style={[
+                        styles.dropdownPlaceholder,
+                        selectedDuration && { ...Typography.bigBody, color: Colors.grey[900] }
+                      ]}>
+                        {selectedDuration || 'Select your intake slot'}
+                      </Text>
+                      <MaterialIcon name="icon-dropdown-arrow" size={24} color={Colors.grey[400]} />
+                    </TouchableOpacity>
+                    
+                    {showDurationDropdown && (
+                      <>
+                        <TouchableOpacity 
+                          style={styles.dropdownOverlay}
+                          onPress={() => setShowDurationDropdown(false)}
+                          activeOpacity={1}
+                        />
+                        <View style={styles.dropdownMenu}>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedDuration('Mar 13, 2026 to May 18, 2026');
+                              setShowDurationDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Mar 13, 2026 to May 18, 2026</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedDuration('Duration Slot 1');
+                              setShowDurationDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Duration Slot 1</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity 
+                            style={styles.dropdownOption}
+                            onPress={() => {
+                              setSelectedDuration('Duration Slot 2');
+                              setShowDurationDropdown(false);
+                            }}
+                          >
+                            <Text style={styles.dropdownOptionText}>Duration Slot 2</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    )}
+                  </View>
+
+                  <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+                    <Text style={styles.submitButtonText}>Submit</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+            </>
+            )}
+
             {/* Discrepancy Tracking */}
-            <View style={styles.discrepancyHeader}>
-              <Text style={styles.sectionTitle}>Discrepancy Tracking</Text>
-              <MaterialIcon name="info" size={20} color="#999" />
+            <View style={[styles.discrepancyHeader, { zIndex: 1 }]}>
+              <Text style={styles.discrepancyTitle}>Next Enrollment</Text>
+              <TouchableOpacity onPress={() => setShowInfoModal(true)}>
+                <MaterialIcon name="info" size={20} color="#999" />
+              </TouchableOpacity>
             </View>
 
             <SchoolSlots
@@ -130,9 +400,10 @@ export default function SchoolScreen() {
             <CompetencyCompletion
               title="Completion Details"
               showInfoIcon={true}
+              onInfoPress={() => setShowCompetencyInfoModal(true)}
               checkboxLabel="Theoretical Competencies"
-              current={25}
-              total={50}
+              current={18}
+              total={47}
               lastUpdated="Mar 12, 2025"
               progressImage={require('@/assets/images/Group 46.png')}
             />
@@ -141,43 +412,47 @@ export default function SchoolScreen() {
             <CompletedLines
               title="Line Completion"
               lines={[
-                { name: 'Line A', current: 6, total: 10, isCompleted: false },
+                { name: 'Line A', current: 12, total: 16, isCompleted: false },
                 { name: 'Line B', current: 3, total: 3, isCompleted: true },
                 { name: 'Line C', current: 2, total: 2, isCompleted: true },
                 { name: 'Line D', current: 3, total: 6, isCompleted: false },
+                { name: 'Line E', current: 2, total: 10, isCompleted: false },
+                { name: 'Line F', current: 3, total: 8, isCompleted: false },
+                { name: 'Line G', current: 10, total: 10, isCompleted: true },
+                { name: 'Line H', current: 10, total: 10, isCompleted: true },
               ]}
             />
 
             {/* View Checklist Button */}
-            <Button
-              text="View Checklist"
-              iconComponent={<MaterialIcon name="icon-arrow-forward" size={20} color="#fff" />}
-              variant="dark"
-              centered={true}
+            <TouchableOpacity 
+              style={styles.viewChecklistButton}
               onPress={() => console.log('View Checklist pressed')}
-            />
+            >
+              <Text style={styles.viewChecklistButtonText}>View Checklist</Text>
+              <MaterialIcon name="icon-arrow-forward" size={20} color={Colors.white} />
+            </TouchableOpacity>
           </>
         )}
 
         {selectedTab === 'finance' && (
           <>
             {/* Potential Expenses */}
-            <View style={styles.sectionHeader}>
-              <View>
-                <Text style={styles.sectionTitle}>Potential Expenses</Text>
-                <Text style={styles.sectionSubtitle}>Upcoming potential expenses to consider for financial planning</Text>
-              </View>
+            <View style={styles.financeHeader}>
+              <Text style={styles.financeSectionTitle}>Potential Expenses</Text>
               <MaterialIcon name="info" size={20} color="#999" />
             </View>
+            <Text style={styles.financeSectionSubtitle}>Upcoming potential expenses to consider for financial planning</Text>
 
             {/* Expense Cards */}
             <ExpenseCard
               id={1}
-              amount="$200"
-              title="Tools"
-              detailTitle="Tool Kit"
+              amount="$1,900"
+              title="Tuition"
+              detailTitle="BCIT Industrial Electrician"
               details={[
-                { label: 'Basic Tools', value: '$200.00' }
+                { label: 'Tuition', value: '$1,450.30' },
+                { label: 'BCITSA', value: '$155.50' },
+                { label: 'Ancillary', value: '$25.30' }
               ]}
               isExpanded={expandedExpense === 1}
               onToggle={() => setExpandedExpense(expandedExpense === 1 ? null : 1)}
@@ -185,11 +460,13 @@ export default function SchoolScreen() {
 
             <ExpenseCard
               id={2}
-              amount="$85"
-              title="Books"
-              detailTitle="Course Materials"
+              amount="$200"
+              title="Tools"
+              detailTitle="BCIT Industrial Ellectrician"
               details={[
-                { label: 'Textbooks', value: '$85.00' }
+                { label: 'Calculator', value: '$50' },
+                { label: 'Clamp Circuit finder', value: '$100.00' },
+                { label: 'Circuit finder', value: '$50.30' }
               ]}
               isExpanded={expandedExpense === 2}
               onToggle={() => setExpandedExpense(expandedExpense === 2 ? null : 2)}
@@ -197,13 +474,11 @@ export default function SchoolScreen() {
 
             <ExpenseCard
               id={3}
-              amount="$1,900"
-              title="Tools"
-              detailTitle="BCIT Industrial Electrician"
+              amount="$209.05"
+              title="Books"
+              detailTitle="BCIT Bookstore"
               details={[
-                { label: 'Tuition', value: '$1,450.30' },
-                { label: 'BCITSA', value: '$155.50' },
-                { label: 'Ancillary', value: '$25.30' }
+                { label: '2024 Canadian Electrical Code Part 1 (26Th...', value: '$50' }
               ]}
               isExpanded={expandedExpense === 3}
               onToggle={() => setExpandedExpense(expandedExpense === 3 ? null : 3)}
@@ -212,6 +487,32 @@ export default function SchoolScreen() {
         )}
 
       </ScrollView>
+
+      {/* Info Modal */}
+      {showInfoModal && (
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowInfoModal(false)}
+        >
+          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+            <InformationalMessage message="The next available dates for Level 3 Industrial Electrician apprenticeship program at BCIT." />
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )}
+
+      {/* Competency Info Modal */}
+      {showCompetencyInfoModal && (
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowCompetencyInfoModal(false)}
+        >
+          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+            <InformationalMessage message="The count is displayed only for theoretical competency, if you want to see the full list check the skills page!" />
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -226,12 +527,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#2C2C2C',
+    ...Typography.contentTitle,
+    color: Colors.grey[700],
     marginBottom: 16,
     marginTop: 8,
     marginHorizontal: 20,
+  },
+  financeHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 24,
+    marginTop: 8,
+  },
+  financeSectionTitle: {
+    ...Typography.sectionHeader,
+    color: Colors.grey[700],
+  },
+  financeSectionSubtitle: {
+    fontFamily: 'Roboto-Light',
+    fontSize: 12,
+    color: Colors.black,
+    marginHorizontal: 24,
+    marginTop: 4,
+    marginBottom: 16,
   },
   detailsCard: {
     backgroundColor: 'white',
@@ -314,17 +633,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  examScore: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#2C2C2C',
-  },
   discrepancyHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 16,
-    marginHorizontal: 20,
+    marginLeft: 40,
+    marginRight: 40,
   },
   infoIcon: {
     width: 20,
@@ -376,42 +691,348 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   addEnrollmentCard: {
-    backgroundColor: '#E67E50',
+    backgroundColor: Colors.orange[400],
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: Colors.orange[500],
     padding: 24,
     marginBottom: 24,
     marginHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    width: 354,
+    height: 136,
+    alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
   },
+  addEnrollmentCardExpanded: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    marginBottom: 0,
+  },
   addEnrollmentContent: {
     flex: 1,
   },
   addEnrollmentTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 12,
-    lineHeight: 40,
+    ...Typography.contentMedium,
+    color: Colors.white,
+    marginBottom: 6,
   },
   addEnrollmentDescription: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    lineHeight: 24,
+    ...Typography.contentSubtitle,
+    color: Colors.white,
+    lineHeight: 20,
+    width: 300,
   },
   addIconCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 16,
+  },
+  discrepancyTitle: {
+    ...Typography.sectionHeader,
+    color: Colors.grey[700],
+  },
+  enrollmentFormContainer: {
+    marginHorizontal: 20,
+    marginTop: 0,
+    marginBottom: 24,
+    zIndex: 10000,
+  },
+  formCard: {
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    padding: 32,
+    paddingTop: 24,
+    paddingBottom: 24,
+    width: 354,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+    zIndex: 100,
+  },
+  formSectionTitle: {
+    ...Typography.contentTitle,
+    color: Colors.grey[600],
+    marginBottom: 12,
+    marginTop: 16,
+  },
+  formSectionTitleFirst: {
+    marginTop: 8,
+  },
+  dropdownField: {
+    backgroundColor: Colors.grey[50],
+    borderRadius: 50,
+    paddingHorizontal: 24,
+    height: 40,
+    width: 313,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  dropdownPlaceholder: {
+    ...Typography.bigBody,
+    color: Colors.grey[300],
+  },
+  dropdownOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: -32,
+    right: -32,
+    bottom: 0,
+    zIndex: 9998,
+  },
+  dropdownMenu: {
+    position: 'absolute',
+    top: 48,
+    left: 0,
+    width: 313,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 8,
+    zIndex: 9999,
+    overflow: 'hidden',
+  },
+  dropdownOption: {
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.grey[100],
+  },
+  dropdownOptionText: {
+    ...Typography.bigBody,
+    color: Colors.grey[300],
+  },
+  submitButton: {
+    backgroundColor: Colors.grey[800],
+    borderRadius: 30,
+    width: 168,
+    height: 42,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 8,
+    alignSelf: 'center',
+  },
+  submitButtonText: {
+    ...Typography.buttonText,
+    color: Colors.grey[50],
+  },
+  programDetailsTitle: {
+    ...Typography.sectionHeader,
+    color: Colors.grey[700],
+    width: 353,
+    alignSelf: 'center',
+    marginTop: 24,
+    marginBottom: 16,
+  },
+  programDetailsCard: {
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 20,
+    marginHorizontal: 20,
+    marginBottom: 24,
+    width: 353,
+    height: 248,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  programLabel: {
+    ...Typography.contentTitle,
+    color: Colors.grey[300],
+    marginBottom: 4,
+  },
+  programValue: {
+    ...Typography.bigBody,
+    color: Colors.grey[700],
+  },
+  programValueFirst: {
+    ...Typography.contentMedium,
+    color: Colors.grey[700],
+  },
+  programDateRow: {
+    flexDirection: 'row',
+    gap: 16,
+    marginTop: 16,
+  },
+  programDateBox: {
+    width: 145.5,
+    height: 76,
+    backgroundColor: Colors.grey[50],
+    borderRadius: 12,
+    padding: 16,
+  },
+  programDateLabel: {
+    ...Typography.contentTitle,
+    color: Colors.grey[300],
+    marginBottom: 4,
+  },
+  programDateValue: {
+    ...Typography.bigBody,
+    color: Colors.grey[700],
+  },
+  standardExamTitle: {
+    ...Typography.sectionHeader,
+    color: Colors.grey[700],
+    width: 353,
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+  examAttemptCard: {
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 20,
+    marginHorizontal: 20,
+    marginBottom: 24,
+    width: 353,
+    height: 119,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  examAttemptLeft: {
+    flex: 1,
+  },
+  examAttemptTitle: {
+    ...Typography.contentMedium,
+    color: Colors.grey[900],
+    marginBottom: 4,
+  },
+  examAttemptDate: {
+    ...Typography.smBody,
+    color: Colors.grey[300],
+    marginBottom: 12,
+  },
+  registeredBadge: {
+    backgroundColor: Colors.grey[50],
+    borderRadius: 8,
+    width: 89,
+    height: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+  },
+  registeredBadgeText: {
+    ...Typography.smBody,
+    color: Colors.grey[900],
+  },
+  examAttemptRight: {
+    backgroundColor: Colors.grey[50],
+    borderRadius: 12,
+    width: 140,
+    height: 103,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  examScore: {
+    ...Typography.contentBold,
+    color: Colors.grey[900],
+  },
+  examPercent: {
+    ...Typography.contentSuffix,
+    color: Colors.grey[900],
+  },
+  levelUnlockedCard: {
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 20,
+    marginHorizontal: 20,
+    marginBottom: 24,
+    width: 353,
+    height: 176,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  levelUnlockedHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  levelUnlockedTitle: {
+    ...Typography.contentTitle,
+    color: Colors.grey[900],
+    marginLeft: 8,
+  },
+  levelUnlockedDescription: {
+    ...Typography.contentSubtitle,
+    color: Colors.grey[500],
+    marginBottom: 12,
+    lineHeight: 20,
+  },
+  nextLevelButton: {
+    backgroundColor: Colors.grey[800],
+    borderRadius: 30,
+    width: 189,
+    height: 42,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    gap: 8,
+  },
+  nextLevelButtonText: {
+    ...Typography.buttonText,
+    color: Colors.grey[50],
+  },
+  viewChecklistButton: {
+    width: 151,
+    height: 40,
+    backgroundColor: Colors.grey[900],
+    borderRadius: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    gap: 8,
+  },
+  viewChecklistButtonText: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: 12,
+    color: Colors.white,
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(44,44,44,0.18)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 9999,
   },
 });

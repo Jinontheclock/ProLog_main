@@ -44,3 +44,6 @@ export const NAVBAR_TABS = [
   { name: 'My_Skills', label: 'Skills', iconName: 'flash-on', href: '/(tabs)/My_Skills' },
   { name: 'Resources', label: 'Settings', iconName: 'settings', href: '/(tabs)/Resources' },
 ];
+
+// Default export to prevent "NavBar is not defined" error
+export default { NavBarItem, NAVBAR_TABS };
