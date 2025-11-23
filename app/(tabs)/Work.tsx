@@ -100,6 +100,7 @@ export default function WorkScreen() {
           percentage={getCurrentData(workPageData.sectionHeading.percentage)}
           onIconPress={toggleDemoState}
           isLoading={isLoading}
+          hrsText='hours'
         />
 
         {/* Tab Navigation */}

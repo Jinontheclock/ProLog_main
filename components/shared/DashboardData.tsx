@@ -8,14 +8,65 @@ type ProgressCardProps = {
   label: string;
   value: string;
   suffix?: string;
+  completionIndicator?: any;
+  containerBackground?: string;
 };
+
+interface DashboardDataProps {
+  hoursData?: any;
+  skillsData?: any;
+  schoolData?: any;
+  examData?: any;
+  isLoading?: boolean;
+}
 
 const ProgressCard: React.FC<ProgressCardProps> = ({
   icon,
   label,
   value,
   suffix,
+  completionIndicator,
+  containerBackground,
 }) => {
+  // Skeleton loading component
+  const SkeletonText = ({ width, height }: { width: number; height: number }) => (
+    <View 
+      style={[
+        styles.skeletonText, 
+        { width, height }
+      ]} 
+    />
+  );
+
+  // Function to resolve image sources from string paths
+  const getImageSource = (imagePath: string) => {
+    console.log('Loading image path:', imagePath); // Debug log
+    switch (imagePath) {
+      case "@/assets/images/In-progress_Icon.png":
+        return require("@/assets/images/In-progress_Icon.png");
+      case "@/assets/images/check.png":
+        return require("@/assets/images/check.png");
+      default:
+        console.log('Using default image for path:', imagePath);
+        return require("@/assets/images/In-progress_Icon.png");
+    }
+  };
+
+  // Function to resolve color values from string references
+  const getColorValue = (colorString: string) => {
+    console.log('Resolving color string:', colorString); // Debug log
+    switch (colorString) {
+      case "Colors.white":
+        return Colors.white;
+      case "Colors.orange[200]":
+        console.log('Using orange[200]:', Colors.orange[200]); // Debug log
+        return Colors.orange[200];
+      default:
+        console.log('Using default white color for:', colorString);
+        return Colors.white;
+    }
+  };
+
   return (
     <View style={styles.cardWrapper}>
       <ImageBackground
@@ -23,9 +74,15 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
         style={styles.card}
         imageStyle={styles.cardImage}
         resizeMode="cover"
-      > 
-        <View style={styles.iconContainer}>
-          <Image style={styles.completionIndicator} source={require("@/assets/images/In-progress_Icon.png")}></Image>
+      >
+        <View style={[
+          styles.iconContainer,
+          containerBackground && { backgroundColor: getColorValue(containerBackground) }
+        ]}>
+          <Image
+            style={styles.completionIndicator}
+            source={completionIndicator ? getImageSource(completionIndicator) : require("@/assets/images/In-progress_Icon.png")}
+          />
         </View>
         <View style={styles.cardContent}>
           <View style={styles.labelRow}>
@@ -47,30 +104,49 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
   );
 };
 
-export const DashboardData: React.FC = () => {
+export const DashboardData: React.FC<DashboardDataProps> = ({
+  hoursData,
+  skillsData,
+  schoolData,
+  examData,
+  isLoading = false,
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <ProgressCard
           icon="clock-outline"
           label="Hours"
-          value="1,790"
+          value={hoursData?.value || "1,790"}
           suffix="hrs"
+          completionIndicator={hoursData?.completionIndicator}
+          containerBackground={hoursData?.containerBackground}
         />
         <ProgressCard
           icon="lightning-bolt-outline"
           label="Skills"
-          value="28 / 81"
+          value={skillsData?.value || "28 / 81"}
+          completionIndicator={skillsData?.completionIndicator}
+          containerBackground={skillsData?.containerBackground}
         />
       </View>
       <View style={styles.row}>
         <ProgressCard
           icon="school-outline"
           label="School"
-          value="0/10"
+          value={schoolData?.value || "0/10"}
           suffix="weeks"
+          completionIndicator={schoolData?.completionIndicator}
+          containerBackground={schoolData?.containerBackground}
         />
-        <ProgressCard icon="trophy-outline" label="Exam" value="-" />
+        <ProgressCard
+          icon="trophy-outline"
+          label="Exam"
+          value={examData?.value || "-"}
+          suffix="%"
+          completionIndicator={examData?.completionIndicator}
+          containerBackground={examData?.containerBackground}
+        />
       </View>
     </View>
   );
@@ -78,22 +154,26 @@ export const DashboardData: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-   display: 'flex',
-   flexDirection: 'column',
-   gap: 12,
-   marginBottom: 20
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+    marginBottom: 20,
   },
   iconContainer: {
-    display: 'flex',
+    display: "flex",
     backgroundColor: Colors.white,
     width: 40,
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 20,
-    position: 'absolute',
+    position: "absolute",
     top: 0,
-    right: 0
+    right: 0,
+  },
+  completionIndicator: {
+    width: 20,
+    height: 20,
   },
   row: {
     flexDirection: "row",
@@ -152,6 +232,11 @@ const styles = StyleSheet.create({
     fontFamily: "SpaceGrotesk-Light",
     fontSize: 16,
     color: Colors.grey[900],
+  },
+  skeletonText: {
+    backgroundColor: '#E5E7EB',
+    borderRadius: 4,
+    opacity: 0.6,
   },
 });
 
