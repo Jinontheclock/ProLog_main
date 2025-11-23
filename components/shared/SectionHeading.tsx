@@ -27,6 +27,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
 }) => {
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const skeletonOpacity = useRef(new Animated.Value(1)).current;
+  const spinAnimation = useRef(new Animated.Value(0)).current;
   const isZero = currentHours === 0;
 
   useEffect(() => {
@@ -48,7 +49,20 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       );
       pulseAnimation.start();
 
-      return () => pulseAnimation.stop();
+      // Start refresh icon spin animation
+      const spinLoopAnimation = Animated.loop(
+        Animated.timing(spinAnimation, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        })
+      );
+      spinLoopAnimation.start();
+
+      return () => {
+        pulseAnimation.stop();
+        spinLoopAnimation.stop();
+      };
     } else {
       // Animate progress bar to new percentage
       Animated.timing(progressAnimation, {
@@ -57,8 +71,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         useNativeDriver: false,
       }).start();
       
-      // Reset skeleton opacity
+      // Reset skeleton opacity and stop spin
       skeletonOpacity.setValue(1);
+      spinAnimation.setValue(0);
     }
   }, [isLoading, percentage]);
 
@@ -75,7 +90,6 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       ]} 
     />
   );
-  const isZero = currentHours === 0 && totalHours === 10;
   const isCompleted = currentHours > 0;
   
   return (
@@ -83,8 +97,27 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       <View style={styles.headerRow}>
         <Text style={styles.level}>{level}</Text>
         {icon_action && (
-          <TouchableOpacity style={styles.searchButton} onPress={onIconPress}>
-            <MaterialIcon name={icon_action} size={24} color={Colors.black} />
+          <TouchableOpacity 
+            style={styles.searchButton} 
+            onPress={onIconPress}
+            disabled={isLoading}
+          >
+            <Animated.View
+              style={{
+                transform: [{
+                  rotate: spinAnimation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '360deg'],
+                  }),
+                }],
+              }}
+            >
+              <MaterialIcon 
+                name={icon_action} 
+                size={24} 
+                color={isLoading ? Colors.grey[400] : Colors.black} 
+              />
+            </Animated.View>
           </TouchableOpacity>
         )}
       </View>
@@ -113,7 +146,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <Text style={[
           styles.hrsText,
           isZero && { color: Colors.grey[300] }
-        ]}>{hoursUnit}</Text>
+        ]}>hrs</Text>
       </View>
 
       <View style={styles.progressBarContainer}>
@@ -219,16 +252,16 @@ const styles = StyleSheet.create({
   },
   progressBarBackground: {
     flex: 1,
-    height: 4,
-    backgroundColor: Colors.grey[200],
-    borderRadius: 2,
+    height: 8,
+    backgroundColor: Colors.grey[100],
+    borderRadius: 12,
     overflow: 'hidden',
     justifyContent: 'center',
   },
   progressBarFill: {
-    height: 2,
-    backgroundColor: Colors.orange[500],
-    borderRadius: 1,
+    height: 6,
+    backgroundColor: Colors.orange[400],
+    borderRadius: 8,
     marginLeft: 2,
   },
   percentageText: {

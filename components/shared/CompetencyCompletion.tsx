@@ -2,9 +2,8 @@ import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Svg, { Circle } from 'react-native-svg';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 
 interface CompetencyCompletionProps {
   title?: string;
@@ -108,8 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
-    width: 353,
-    alignSelf: 'center',
+    marginHorizontal: 20,
   },
   sectionTitle: {
     ...Typography.sectionHeader,
@@ -124,14 +122,13 @@ const styles = StyleSheet.create({
     tintColor: '#999',
   },
   detailsCard: {
-    width: 353,
     height: 134,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     paddingRight: 10,
     marginBottom: 24,
-    alignSelf: 'center',
+    marginHorizontal: 20,
     flexDirection: 'row',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

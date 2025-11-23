@@ -121,7 +121,7 @@ const RADIUS = 18;
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginBottom: 24,
+    marginBottom: 32,
     marginHorizontal: 20,
   },
   container: {

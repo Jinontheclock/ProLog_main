@@ -1,7 +1,7 @@
 import { Colors } from "@/constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 
 type ProgressCardProps = {
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -19,11 +19,14 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
   return (
     <View style={styles.cardWrapper}>
       <ImageBackground
-        source={require("@/assets/images/Frame 1221.png")}
+        source={require("@/assets/images/dashboardDataContainer.png")}
         style={styles.card}
         imageStyle={styles.cardImage}
-        resizeMode="stretch"
-      >
+        resizeMode="cover"
+      > 
+        <View style={styles.iconContainer}>
+          <Image style={styles.completionIndicator} source={require("@/assets/images/In-progress_Icon.png")}></Image>
+        </View>
         <View style={styles.cardContent}>
           <View style={styles.labelRow}>
             <MaterialCommunityIcons
@@ -75,13 +78,26 @@ export const DashboardData: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // paddingHorizontal: 16,
-    marginBottom: 24,
+   display: 'flex',
+   flexDirection: 'column',
+   gap: 12,
+   marginBottom: 20
+  },
+  iconContainer: {
+    display: 'flex',
+    backgroundColor: Colors.white,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    position: 'absolute',
+    top: 0,
+    right: 0
   },
   row: {
     flexDirection: "row",
     gap: 12,
-    marginBottom: 12,
   },
   // ssssss
   cardWrapper: {
@@ -91,12 +107,12 @@ const styles = StyleSheet.create({
   },
   card: {
     width: "100%",
-    // minHeight: 120,
+    height: 94,
     position: "relative",
+    justifyContent: "flex-start",
   },
   cardContent: {
     padding: 16,
-    height: 100,
     display: "flex",
     flexDirection: "column",
     gap: 12,

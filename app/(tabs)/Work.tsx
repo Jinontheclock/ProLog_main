@@ -13,6 +13,7 @@ import { ContentDataFormats } from '@/components/shared/ContentDataFormats';
 import { ExpenseCard } from '@/components/shared/ExpenseCard';
 import { HourDiscrepancy } from '@/components/shared/HourDiscrepancy';
 import { InformationalMessage } from '@/components/shared/InformationalMessage';
+import { LoadingQuiz } from '@/components/shared/LoadingQuiz';
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { PageSwitch } from '@/components/shared/PageSwitch';
 import { SectionHeading } from '@/components/shared/SectionHeading';
@@ -48,7 +49,7 @@ export default function WorkScreen() {
       // End loading after state change
       setTimeout(() => {
         setIsLoading(false);
-      }, 800); // Additional time for progress bar animation
+      }, 6000); // Additional time for progress bar animation
     }, 300);
   };
 
@@ -127,7 +128,9 @@ export default function WorkScreen() {
         {selectedTab === 'hours' && (
           <>
             {/* Apprenticeship Details */}
-            <Text style={styles.sectionTitle}>Apprenticeship Details</Text>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Apprenticeship Details</Text>
+            </View>
             <ContentDataFormats
               mainItems={[
                 { label: 'Sponsor', value: workPageData.apprenticeshipDetails.sponsor },
@@ -312,7 +315,7 @@ export default function WorkScreen() {
             <Button
               text="View Checklist"
               variant="light"
-              customStyle={{ width: 354, height: 42, borderRadius: 30, alignSelf: 'center', marginTop: 16 }}
+              customStyle={{ height: 42, borderRadius: 30, marginHorizontal: 24, marginTop: 16 }}
               onPress={() => console.log('View Checklist pressed')}
             />
           </>
@@ -417,6 +420,16 @@ export default function WorkScreen() {
           </TouchableOpacity>
         </TouchableOpacity>
       )}
+
+      {/* Loading Quiz Overlay */}
+      {isLoading && (
+        <View style={styles.loadingOverlay}>
+          <LoadingQuiz 
+            loadingTitle="Updating Data..."
+            loadingContent="Please wait while we update your work information to 6 months in the future."
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -434,9 +447,10 @@ const styles = StyleSheet.create({
     ...Typography.sectionHeader,
     color: Colors.grey[700],
     marginBottom: 16,
-    marginTop: 8,
-    width: 353,
-    alignSelf: 'center',
+    // textAlign: 'center',
+    // marginTop: 8,
+    // marginHorizontal: 20,
+    alignSelf: 'stretch',
   },
   sectionSubtitle: {
     fontSize: 12,
@@ -587,6 +601,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E7EB',
     borderRadius: 4,
     opacity: 0.6,
+  },
   modalOverlay: {
     position: 'absolute',
     top: 0,
@@ -597,5 +612,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 9999,
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10000,
   },
 });

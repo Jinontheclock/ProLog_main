@@ -2,9 +2,7 @@ import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React, { useEffect, useRef } from 'react';
-import { Animated, Platform, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface DataItem {
   label: string;
@@ -161,11 +159,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
-    marginBottom: 24,
-    alignSelf: 'center',
+    marginBottom: 32,
+    marginHorizontal: 20,
     flexDirection: 'column',
     gap: 20,
-    // width: 353,
     // height: 248,
     ...Platform.select({
       ios: {
@@ -188,6 +185,10 @@ const styles = StyleSheet.create({
   valueMedium: {
     ...Typography.contentMedium,
     color: Colors.grey[700],
+  },
+  valueBig: {
+    ...Typography.contentBold,
+    color: Colors.grey[900],
   },
   countdownNumber: {
     ...Typography.contentBold,
