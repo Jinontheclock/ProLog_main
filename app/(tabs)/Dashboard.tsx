@@ -61,7 +61,7 @@ export default function DashboardScreen() {
 
         {/* S-Shaped Progress */}
         <View style={styles.journeySection}>
-          <SProgressBar percentage={3} height={50} />
+          <SProgressBar percentage={41} height={50} />
         </View>
 
         {/* Overall Progress Section */}
