@@ -1,18 +1,115 @@
 import { Colors } from "@/constants/colors";
+import { Typography } from "@/constants/typography";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Animated, DimensionValue, StyleSheet, Text, View } from "react-native";
 import JourneyProgressIndicator from "./JourneyProgressIndicator";
 
 interface SProgressBarProps {
   percentage: number;
   height?: number;
+  level1Image?: any;
+  level1Subtext?: string;
+  level1ContainerStyle?: any;
+  level1ImageStyle?: any;
+  level2Image?: any;
+  level2Subtext?: string;
+  level2ContainerStyle?: any;
+  level2ImageStyle?: any;
+  level3Image?: any;
+  level3Subtext?: string;
+  level3ContainerStyle?: any;
+  level3ImageStyle?: any;
+  level4Image?: any;
+  level4Subtext?: string;
+  level4ContainerStyle?: any;
+  level4ImageStyle?: any;
+  containerMargin?: DimensionValue;
+  sProgressContainerMargin?: DimensionValue;
+  level3AnimationTrigger?: boolean;
 }
 
 export const SProgressBar: React.FC<SProgressBarProps> = ({
   percentage,
   height = 40,
+  level1Image,
+  level1Subtext = "completed",
+  level1ContainerStyle,
+  level1ImageStyle,
+  level2Image,
+  level2Subtext = "In-Progress",
+  level2ContainerStyle,
+  level2ImageStyle,
+  level3Image,
+  level3Subtext = "Locked",
+  level3ContainerStyle,
+  level3ImageStyle,
+  level4Image,
+  level4Subtext = "Locked",
+  level4ContainerStyle,
+  level4ImageStyle,
+  containerMargin = 0,
+  sProgressContainerMargin,
+  level3AnimationTrigger = false,
 }) => {
+  // Function to resolve image sources from string paths
+  const getImageSource = (imagePath: string) => {
+    switch (imagePath) {
+      case "@/assets/images/locked_journeyIcon.png":
+        return require("@/assets/images/locked_journeyIcon.png");
+      case "@/assets/images/unlocked_journeyIcon.png":
+        return require("@/assets/images/unlocked_journeyIcon.png");
+      case "@/assets/images/inprogress_journeyIcon.png":
+        return require("@/assets/images/inprogress_journeyIcon.png");
+      case "@/assets/images/completed_journeyIcon.png":
+        return require("@/assets/images/completed_journeyIcon.png");
+      default:
+        return require("@/assets/images/inprogress_journeyIcon.png");
+    }
+  };
+
+  // Function to parse style objects from JSON (if they're strings) or use them directly
+  const parseStyleProp = (styleProp: any) => {
+    if (typeof styleProp === 'string') {
+      try {
+        return JSON.parse(styleProp);
+      } catch {
+        return {};
+      }
+    }
+    return styleProp || {};
+  };
+
+  // Level 3 pulsing animation
+  const level3ScaleAnimation = React.useRef(new Animated.Value(1)).current;
+
+  React.useEffect(() => {
+    if (level3AnimationTrigger) {
+      const pulseAnimation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(level3ScaleAnimation, {
+            toValue: 1.15,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(level3ScaleAnimation, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ])
+      );
+      pulseAnimation.start();
+      
+      return () => {
+        pulseAnimation.stop();
+        level3ScaleAnimation.setValue(1);
+      };
+    } else {
+      level3ScaleAnimation.setValue(1);
+    }
+  }, [level3AnimationTrigger, level3ScaleAnimation]);
+
   // Ensure percentage is between 0 and 100
   const clampedPercentage = Math.max(0, Math.min(100, percentage));
 
@@ -62,9 +159,9 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
     <View style={styles.container}>
       {/* Top Gradient Rectangle */}
       <JourneyProgressIndicator
-        image={require("@/assets/images/completed_journeyIcon.png")}
+        image={level1Image ? getImageSource(level1Image) : require("@/assets/images/completed_journeyIcon.png")}
         title="Level 1"
-        subtext="completed"
+        subtext={level1Subtext}
         containerStyle={{
           display: 'flex',
           flexDirection: 'row',
@@ -74,13 +171,18 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
           bottom: 64,
           left: 40,
           zIndex: 5,
-          height: 42
+          height: 42,
+          ...parseStyleProp(level1ContainerStyle)
+        }}
+        imageStyle={{
+          marginTop: 0,
+          ...parseStyleProp(level1ImageStyle)
         }}
       />
       <JourneyProgressIndicator
-        image={require("@/assets/images/inprogress_journeyIcon.png")}
+        image={level2Image ? getImageSource(level2Image) : require("@/assets/images/inprogress_journeyIcon.png")}
         title="Level 2"
-        subtext="In-Progress"
+        subtext={level2Subtext}
         containerStyle={{
           display: 'flex',
           flexDirection: 'row-reverse',
@@ -90,29 +192,64 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
           bottom: 196,
           right: 40,
           zIndex: 5,
-          height: 42
+          height: 42,
+          ...parseStyleProp(level2ContainerStyle)
         }}
         imageStyle={{
-          marginTop: -14
+          marginTop: -14,
+          ...parseStyleProp(level2ImageStyle)
         }}
       />
-      <JourneyProgressIndicator
-        image={require("@/assets/images/locked_journeyIcon.png")}
-        title="Level 3"
-        subtext="Locked"
-        containerStyle={{
+      <View
+        style={{
           display: 'flex',
           flexDirection: 'row',
           gap: 16,
           alignContent: 'flex-start',
           position: 'absolute',
-          bottom: 312,
+          bottom: 328,
           left: 40,
           zIndex: 5,
-          height: 42
+          height: 42,
+          ...parseStyleProp(level3ContainerStyle)
+        }}
+      >
+        <Animated.Image
+          source={level3Image ? getImageSource(level3Image) : require("@/assets/images/locked_journeyIcon.png")}
+          style={[
+            {
+              marginTop: 0,
+              ...parseStyleProp(level3ImageStyle)
+            },
+            {
+              transform: [{ scale: level3ScaleAnimation }]
+            }
+          ]}
+        />
+        <View style={styles.level3TextContainer}>
+          <Text style={styles.level3Title}>Level 3</Text>
+          <Text style={styles.level3Subtext}>{level3Subtext}</Text>
+        </View>
+      </View>
+      <JourneyProgressIndicator
+        image={level4Image ? getImageSource(level4Image) : require("@/assets/images/locked_journeyIcon.png")}
+        title="Level 4"
+        subtext={level4Subtext}
+        containerStyle={{
+          display: 'flex',
+          flexDirection: 'row-reverse',
+          gap: 16,
+          alignContent: 'flex-start',
+          position: 'absolute',
+          bottom: 420,
+          right: 40,
+          zIndex: 5,
+          height: 42,
+          ...parseStyleProp(level4ContainerStyle)
         }}
         imageStyle={{
-          marginTop: -14
+          marginTop: 0,
+          ...parseStyleProp(level4ImageStyle)
         }}
       />
       <LinearGradient
@@ -121,7 +258,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
         pointerEvents="none"
       />
 
-      <View style={styles.sProgressContainer}>
+      <View style={[styles.sProgressContainer, { margin: containerMargin }, sProgressContainerMargin ? { marginTop: sProgressContainerMargin } : {}]}>
         {/* Bar1: Bottom Rectangular Bar */}
         <View
           style={[
@@ -508,12 +645,13 @@ const styles = StyleSheet.create({
   container: {
     width: "85%",
     alignSelf: "center",
-    // height: 400,
+    height: 380,
+    overflow: 'hidden'
   },
   sProgressContainer: {
     flexDirection: "column-reverse",
     width: "100%",
-    height: 380,
+    // height: 380,
     overflow: "hidden",
     paddingBottom: 20,
     // paddingVertical: 20,
@@ -532,7 +670,7 @@ const styles = StyleSheet.create({
   },
   topGradient: {
     position: "absolute",
-    top: 0,
+    top: -10,
     left: 0,
     right: 0,
     height: 100,
@@ -545,6 +683,17 @@ const styles = StyleSheet.create({
     right: 0,
     height: 40,
     zIndex: 10,
+  },
+  level3TextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+  },
+  level3Title: {
+    ...Typography.contentSubtitle
+  },
+  level3Subtext: {
+    ...Typography.contentTitle
   },
 
 });
