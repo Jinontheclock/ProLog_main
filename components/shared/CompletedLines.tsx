@@ -70,13 +70,12 @@ export const CompletedLines: React.FC<CompletedLinesProps> = ({
 
 const styles = StyleSheet.create({
   lineCompletionCard: {
-    width: 355,
     height: 252,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     marginBottom: 4,
-    alignSelf: 'center',
+    marginHorizontal: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,

@@ -159,11 +159,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
-    marginBottom: 24,
-    alignSelf: 'center',
+    marginBottom: 32,
+    marginHorizontal: 20,
     flexDirection: 'column',
     gap: 20,
-    // width: 353,
     // height: 248,
     ...Platform.select({
       ios: {
@@ -186,6 +185,10 @@ const styles = StyleSheet.create({
   valueMedium: {
     ...Typography.contentMedium,
     color: Colors.grey[700],
+  },
+  valueBig: {
+    ...Typography.contentBold,
+    color: Colors.grey[900],
   },
   countdownNumber: {
     ...Typography.contentBold,

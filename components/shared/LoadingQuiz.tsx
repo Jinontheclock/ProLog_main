@@ -2,9 +2,17 @@ import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 
-// Removed duplicate export
-export const LoadingQuiz: React.FC = () => {
+interface LoadingQuizProps {
+  loadingTitle?: string;
+  loadingContent?: string;
+}
+
+export const LoadingQuiz: React.FC<LoadingQuizProps> = ({
+  loadingTitle = "Loading...",
+  loadingContent = "Please wait while we process your request.",
+}) => {
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -25,14 +33,33 @@ export const LoadingQuiz: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.box}>
         <View style={styles.loadingImageWrap}>
-          <Animated.Image
-            source={require('@/assets/images/loading.svg')}
-            style={[styles.loadingImage, { transform: [{ rotate: spin }] }]}
-          />
+          <Animated.View style={[styles.circularLoader, { transform: [{ rotate: spin }] }]}>
+            <Svg width={65} height={65} viewBox="0 0 65 65">
+              <Circle
+                cx={32.5}
+                cy={32.5}
+                r={28}
+                stroke={Colors.grey[100]}
+                strokeWidth={4}
+                fill="none"
+              />
+              <Circle
+                cx={32.5}
+                cy={32.5}
+                r={28}
+                stroke={Colors.orange[400]}
+                strokeWidth={4}
+                strokeDasharray={175.929} // 2 * π * 28
+                strokeDashoffset={131.947} // 75% of circumference
+                strokeLinecap="round"
+                fill="none"
+              />
+            </Svg>
+          </Animated.View>
         </View>
-        <Text style={styles.title}>Generating Program Details</Text>
+        <Text style={styles.title}>{loadingTitle}</Text>
         <Text style={styles.description}>
-          Your quiz is based on the entirety of level 2 competencies and will generate up to 40 questions to test your understanding.
+          {loadingContent}
         </Text>
       </View>
     </View>
@@ -83,9 +110,10 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 8,
   },
-  loadingImage: {
+  circularLoader: {
     width: 65,
     height: 65,
-    resizeMode: 'contain',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

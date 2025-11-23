@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     padding: 4,
     minHeight: 50,
     marginTop: 20,
-    marginBottom: 24,
+    marginBottom: 20,
     marginHorizontal: 20,
     alignSelf: 'stretch',
     shadowColor: Colors.black,
