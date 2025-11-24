@@ -3,7 +3,10 @@ import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+<<<<<<< Updated upstream:components/shared/CompetencyCompletion.tsx
 import Svg, { Circle } from 'react-native-svg';
+=======
+>>>>>>> Stashed changes:Desktop/ProLog_main/components/shared/CompetencyCompletion.tsx
 
 interface CompetencyCompletionProps {
   title?: string;
@@ -107,7 +110,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
-    marginHorizontal: 20,
+    width: 353,
+    alignSelf: 'center',
   },
   sectionTitle: {
     ...Typography.sectionHeader,
@@ -122,13 +126,17 @@ const styles = StyleSheet.create({
     tintColor: '#999',
   },
   detailsCard: {
+<<<<<<< Updated upstream:components/shared/CompetencyCompletion.tsx
+=======
+    width: 353,
+>>>>>>> Stashed changes:Desktop/ProLog_main/components/shared/CompetencyCompletion.tsx
     height: 134,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     paddingRight: 10,
     marginBottom: 24,
-    marginHorizontal: 20,
+    alignSelf: 'center',
     flexDirection: 'row',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
