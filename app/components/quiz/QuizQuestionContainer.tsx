@@ -1,7 +1,7 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { tokens } from "@/styles/tokens";
 import { Typography } from "@/styles/typography";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 type QuizQuestionContainerProps = {
     question: string;

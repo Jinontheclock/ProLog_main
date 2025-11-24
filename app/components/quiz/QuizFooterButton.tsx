@@ -1,7 +1,7 @@
-import React from "react";
-import { Pressable, StyleSheet, Text, ActivityIndicator } from "react-native";
 import { tokens } from "@/styles/tokens";
 import { Typography } from "@/styles/typography";
+import React from "react";
+import { ActivityIndicator, Pressable, StyleSheet, Text } from "react-native";
 
 type QuizFooterButtonProps = {
     label: string;

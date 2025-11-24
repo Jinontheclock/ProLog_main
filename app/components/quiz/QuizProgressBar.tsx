@@ -1,6 +1,6 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
 import { tokens } from "@/styles/tokens";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 type QuizProgressBarProps = {
     progress: number;

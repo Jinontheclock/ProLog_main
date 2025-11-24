@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
 import { tokens } from "@/styles/tokens";
 import { Typography } from "@/styles/typography";
+import { StyleSheet } from "react-native";
 
 const quizStyles = StyleSheet.create({
     option: {
