@@ -13,6 +13,7 @@
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.4.1",
     "@expo/vector-icons": "^15.0.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "8.4.4",
     "@react-native-picker/picker": "^2.11.4",
     "@react-navigation/bottom-tabs": "^7.4.0",
@@ -45,7 +46,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
+    "@types/dotenv": "^6.1.1",
     "@types/react": "~19.1.0",
+    "babel-plugin-module-resolver": "^5.0.0",
     "babel-preset-expo": "^54.0.4",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",

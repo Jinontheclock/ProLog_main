@@ -77,6 +77,8 @@ export const Button: React.FC<ButtonProps> = ({
           backgroundColor: disabled ? Colors.grey[200] : backgroundColor,
           alignSelf: fullWidth ? 'stretch' : (centered ? 'center' : 'flex-start'),
           width: fullWidth ? '100%' : undefined,
+          borderColor: borderColor,
+          borderWidth: borderWidth,
         },
         customStyle,
       ]}
