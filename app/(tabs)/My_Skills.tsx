@@ -261,7 +261,3 @@ export default function SkillsScreen() {
     </SafeAreaView>
   );
 }
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
