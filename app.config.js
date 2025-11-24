@@ -6,4 +6,4 @@ export default {
     extra: {
       API_KEY: "removed for security",
   },
-};
+}; 
