@@ -8,6 +8,17 @@ module.exports = function (api) {
       "nativewind/babel",
     ],
     // ✅ expo-router만 plugins로
-    plugins: ["expo-router/babel"],
+    plugins: [
+      "expo-router/babel",
+      [
+        "module-resolver",
+        {
+          root: ["./"],
+          alias: {
+            "@": "./",
+          },
+        },
+      ],
+    ],
   };
 };
