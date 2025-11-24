@@ -14,7 +14,10 @@ interface ButtonProps {
   variant?: ButtonVariant;
   disabled?: boolean;
   centered?: boolean;
+<<<<<<< Updated upstream:components/shared/Buttons.tsx
   fullWidth?: boolean;
+=======
+>>>>>>> Stashed changes:Desktop/ProLog_main/components/shared/Buttons.tsx
   customStyle?: any;
 }
 
@@ -61,7 +64,10 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   disabled = false,
   centered = false,
+<<<<<<< Updated upstream:components/shared/Buttons.tsx
   fullWidth = false,
+=======
+>>>>>>> Stashed changes:Desktop/ProLog_main/components/shared/Buttons.tsx
   customStyle,
 }) => {
   const styleObj = variantStyles[variant] || variantStyles['primary'];
@@ -75,8 +81,14 @@ export const Button: React.FC<ButtonProps> = ({
         styles.button,
         {
           backgroundColor: disabled ? Colors.grey[200] : backgroundColor,
+<<<<<<< Updated upstream:components/shared/Buttons.tsx
           alignSelf: fullWidth ? 'stretch' : (centered ? 'center' : 'flex-start'),
           width: fullWidth ? '100%' : undefined,
+=======
+          alignSelf: centered ? 'center' : 'flex-start',
+          borderColor: borderColor,
+          borderWidth: borderWidth,
+>>>>>>> Stashed changes:Desktop/ProLog_main/components/shared/Buttons.tsx
         },
         customStyle,
       ]}

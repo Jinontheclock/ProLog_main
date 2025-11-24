@@ -13,6 +13,7 @@ interface SectionHeadingProps {
   percentage: number;
   onIconPress?: () => void;
   isLoading?: boolean;
+  hrsText?: string;
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
@@ -24,6 +25,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   percentage,
   onIconPress,
   isLoading = false,
+  hrsText = "hrs",
 }) => {
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const skeletonOpacity = useRef(new Animated.Value(1)).current;
@@ -146,7 +148,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <Text style={[
           styles.hrsText,
           isZero && { color: Colors.grey[300] }
-        ]}>hrs</Text>
+        ]}>{hrsText}</Text>
       </View>
 
       <View style={styles.progressBarContainer}>

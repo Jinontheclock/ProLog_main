@@ -70,12 +70,20 @@ export const CompletedLines: React.FC<CompletedLinesProps> = ({
 
 const styles = StyleSheet.create({
   lineCompletionCard: {
+<<<<<<< Updated upstream:components/shared/CompletedLines.tsx
+=======
+    width: 355,
+>>>>>>> Stashed changes:Desktop/ProLog_main/components/shared/CompletedLines.tsx
     height: 252,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     marginBottom: 4,
+<<<<<<< Updated upstream:components/shared/CompletedLines.tsx
     marginHorizontal: 20,
+=======
+    alignSelf: 'center',
+>>>>>>> Stashed changes:Desktop/ProLog_main/components/shared/CompletedLines.tsx
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
