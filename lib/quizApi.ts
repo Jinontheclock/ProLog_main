@@ -1,24 +1,19 @@
-import Constants from 'expo-constants';
-
 export type QuizQuestion = {
   question: string;
   options: string[];
   correctAnswer: string;
 };
 
-// Get API key from environment variables
-const OPENAI_API_KEY = Constants.manifest?.extra?.OPENAI_API_KEY || 
-                      Constants.expoConfig?.extra?.OPENAI_API_KEY ||
-                      process.env.OPENAI_API_KEY;
-
-export async function generateQuiz(skillId: string, content: string): Promise<QuizQuestion[]> {
-  console.log('Debug - Constants.manifest?.extra:', Constants.manifest?.extra);
-  console.log('Debug - Constants.expoConfig?.extra:', Constants.expoConfig?.extra);
-  console.log('Debug - OPENAI_API_KEY exists:', !!OPENAI_API_KEY);
-  console.log('Debug - API Key starts with:', OPENAI_API_KEY?.substring(0, 10) + '...');
+export async function generateQuiz(skillId: string, content: string, apiKey: string): Promise<QuizQuestion[]> {
+  console.log('Debug - API Key provided:', !!apiKey);
+  console.log('Debug - API Key length:', apiKey?.length);
   
-  if (!OPENAI_API_KEY) {
-    throw new Error('OpenAI API key not set. Please check your .env file and restart the Expo development server.');
+  if (!apiKey) {
+    throw new Error('OpenAI API key not provided. Please set EXPO_PUBLIC_OPENAI_API_KEY in your .env file.');
+  }
+  
+  if (apiKey.length < 50) {
+    throw new Error(`OpenAI API key appears incomplete. Length: ${apiKey.length}. Expected 100+ characters.`);
   }
   const prompt = `
 You are an educational assistant creating a comprehensive skills assessment quiz. Generate exactly 10 multiple-choice questions based on the following skill content:
@@ -50,7 +45,7 @@ Ensure all 10 questions are relevant, educational, and test understanding of the
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
       model: 'gpt-4',

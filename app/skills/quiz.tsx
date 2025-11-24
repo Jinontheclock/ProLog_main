@@ -15,6 +15,9 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+// Load API key from environment variable
+const OPENAI_API_KEY = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
+
 const QuizPage: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -42,7 +45,7 @@ const QuizPage: React.FC = () => {
 
       try {
         setIsLoading(true);
-        const generatedQuestions = await generateQuiz(skillId, content);
+        const generatedQuestions = await generateQuiz(skillId, content, OPENAI_API_KEY);
         
         if (generatedQuestions.length !== 10) {
           throw new Error(`Expected 10 questions, got ${generatedQuestions.length}`);
