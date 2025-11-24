@@ -1,5 +1,4 @@
-import { tokens } from "@/styles/tokens";
-import { Typography } from "@/styles/typography";
+import { BorderRadius, Colors, Spacing, Typography } from "@/constants";
 import React from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text } from "react-native";
 
@@ -37,23 +36,23 @@ const QuizFooterButton: React.FC<QuizFooterButtonProps> = ({
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: tokens.quiz.button.primary.bg,
-        borderRadius: tokens.quiz.button.borderRadius,
-        padding: tokens.spacing.md,
-        marginVertical: tokens.spacing.sm,
+        backgroundColor: Colors.primary,
+        borderRadius: BorderRadius.base,
+        padding: Spacing.md,
+        marginVertical: Spacing.sm,
         alignItems: "center",
         justifyContent: "center",
     },
     disabled: {
-        backgroundColor: tokens.quiz.button.disabled.bg,
-        opacity: tokens.quiz.disabled.opacity,
+        backgroundColor: Colors.grey[300],
+        opacity: 0.6,
     },
     pressed: {
         opacity: 0.8,
     },
     text: {
-        ...Typography.button,
-        color: "#FFFFFF",
+        ...Typography.buttonText,
+        color: Colors.white,
     },
 });
 

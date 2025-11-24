@@ -1,5 +1,4 @@
-import { tokens } from "@/styles/tokens";
-import { Typography } from "@/styles/typography";
+import { BorderRadius, Colors, Spacing, Typography } from "@/constants";
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
@@ -45,30 +44,31 @@ const QuizOption: React.FC<QuizOptionProps> = ({
 
 const styles = StyleSheet.create({
     option: {
-        padding: tokens.spacing.md,
-        borderRadius: tokens.radius.lg,
-        marginVertical: tokens.spacing.sm,
+        padding: Spacing.md,
+        borderRadius: BorderRadius.lg,
+        marginVertical: Spacing.sm,
     },
     default: {
-        backgroundColor: tokens.quiz.option.default.bg,
+        backgroundColor: Colors.background.card,
     },
     selected: {
-        backgroundColor: tokens.quiz.option.selected.bg,
+        backgroundColor: Colors.orange[100],
     },
     correct: {
-        backgroundColor: tokens.quiz.option.correct.bg,
+        backgroundColor: Colors.green[100],
     },
     incorrect: {
-        backgroundColor: tokens.quiz.option.incorrect.bg,
+        backgroundColor: Colors.error + '20', // Adding 20 for transparency
     },
     disabled: {
-        opacity: tokens.quiz.disabled.opacity,
+        opacity: 0.6,
     },
     pressed: {
         opacity: 0.8,
     },
     text: {
-        ...Typography.body2,
+        ...Typography.contentSubtitle,
+        color: Colors.text.primary,
     },
 });
 

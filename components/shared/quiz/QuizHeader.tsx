@@ -1,5 +1,4 @@
-import { tokens } from "@/styles/tokens";
-import { Typography } from "@/styles/typography";
+import { Colors, Spacing, Typography } from "@/constants";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -17,13 +16,14 @@ const QuizHeader: React.FC<QuizHeaderProps> = ({ title }) => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: tokens.spacing.md,
+        padding: Spacing.md,
         alignItems: "center",
         justifyContent: "center",
     },
     title: {
-        ...Typography.h4,
+        ...Typography.sectionHeader,
         textAlign: "center",
+        color: Colors.text.primary,
     },
 });
 

@@ -1,10 +1,10 @@
-import { fetchQuizQuestions, QuizQuestion } from "@/api/quizApi";
-import QuizFooterButton from "@/components/quiz/QuizFooterButton";
-import QuizHeader from "@/components/quiz/QuizHeader";
-import QuizOption from "@/components/quiz/QuizOption";
-import QuizProgressBar from "@/components/quiz/QuizProgressBar";
-import QuizQuestionContainer from "@/components/quiz/QuizQuestionContainer";
-import QuizScreenLayout from "@/components/quiz/QuizScreenLayout";
+import QuizFooterButton from "@/components/shared/quiz/QuizFooterButton";
+import QuizHeader from "@/components/shared/quiz/QuizHeader";
+import QuizOption from "@/components/shared/quiz/QuizOption";
+import QuizProgressBar from "@/components/shared/quiz/QuizProgressBar";
+import QuizQuestionContainer from "@/components/shared/quiz/QuizQuestionContainer";
+import QuizScreenLayout from "@/components/shared/quiz/QuizScreenLayout";
+import { fetchQuizQuestions, QuizQuestion } from "@/src/api/quizApi";
 import React, { useEffect, useState } from "react";
 
 const QuizScreen: React.FC = () => {

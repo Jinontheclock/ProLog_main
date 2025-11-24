@@ -1,6 +1,7 @@
-import QuizFooterButton from "@/components/quiz/QuizFooterButton";
-import QuizHeader from "@/components/quiz/QuizHeader";
-import QuizOption from "@/components/quiz/QuizOption";
+import QuizFooterButton from "@/components/shared/quiz/QuizFooterButton";
+import QuizHeader from "@/components/shared/quiz/QuizHeader";
+import QuizOption from "@/components/shared/quiz/QuizOption";
+import { generateQuiz, QuizQuestion } from "@/lib/quizApi";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -11,26 +12,18 @@ import {
     View,
 } from "react-native";
 
-// Define types for questions and options
-interface Question {
-    question: string;
-    options: string[];
-    correctAnswer: string;
-}
-
-const questions: Question[] = [
-    {
-        question: "What is React?",
-        options: ["Library", "Framework", "Language"],
-        correctAnswer: "Library",
-    },
-    // Add more questions as needed
-];
+// Mock skill content - in a real app, this would come from your skill data
+const mockSkillContent = `
+React is a JavaScript library for building user interfaces, particularly web applications. 
+It was developed by Facebook and allows developers to create reusable UI components. 
+React uses a virtual DOM for efficient rendering and follows a component-based architecture.
+`;
 
 const QuizScreen = () => {
     const router = useRouter();
     const { skillId, skillTitle } = useLocalSearchParams();
 
+    const [questions, setQuestions] = useState<QuizQuestion[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [score, setScore] = useState(0);
@@ -40,17 +33,23 @@ const QuizScreen = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await fetch("YOUR_API_ENDPOINT", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ skillId }),
-                });
-                const data = await response.json();
-                // Removed lingering reference to setQuestions
+                // Generate quiz using OpenAI API
+                const generatedQuestions = await generateQuiz(
+                    skillId as string, 
+                    mockSkillContent
+                );
+                setQuestions(generatedQuestions);
             } catch (error) {
-                console.error("Error fetching quiz questions:", error);
+                console.error("Error generating quiz questions:", error);
+                // Fallback to mock questions if API fails
+                const fallbackQuestions: QuizQuestion[] = [
+                    {
+                        question: "What is React?",
+                        options: ["Library", "Framework", "Language", "Database"],
+                        correctAnswer: "Library",
+                    },
+                ];
+                setQuestions(fallbackQuestions);
             } finally {
                 setLoading(false);
             }
@@ -88,6 +87,20 @@ const QuizScreen = () => {
         );
     }
 
+    if (questions.length === 0) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.resultText}>No questions available</Text>
+                <Pressable
+                    style={styles.button}
+                    onPress={() => router.back()}
+                >
+                    <Text style={styles.buttonText}>Back to Skill</Text>
+                </Pressable>
+            </View>
+        );
+    }
+
     if (completed) {
         return (
             <View style={styles.container}>
@@ -97,9 +110,12 @@ const QuizScreen = () => {
                 <Pressable
                     style={styles.button}
                     onPress={() =>
-                        router.replace("/(tabs)/QuizScreen", {
-                            skillId: skillId as string,
-                            skillTitle: skillTitle as string,
+                        router.replace({
+                            pathname: "/QuizScreen",
+                            params: {
+                                skillId: skillId as string,
+                                skillTitle: skillTitle as string,
+                            }
                         })
                     }
                 >
@@ -125,16 +141,19 @@ const QuizScreen = () => {
                 }`}
             />
             <Text style={styles.questionText}>{currentQuestion.question}</Text>
-            {currentQuestion.options.map((option, index) => (
+            {currentQuestion.options.map((option: string, index: number) => (
                 <QuizOption
                     key={index}
-                    optionText={option}
+                    label={option}
                     isSelected={selectedAnswer === option}
-                    onSelect={() => handleOptionSelect(option)}
+                    isCorrect={false}
+                    isIncorrect={false}
+                    disabled={selectedAnswer !== null}
+                    onPress={() => handleOptionSelect(option)}
                 />
             ))}
             <QuizFooterButton
-                title="Next"
+                label="Next"
                 onPress={() => {}}
                 disabled={!selectedAnswer}
             />

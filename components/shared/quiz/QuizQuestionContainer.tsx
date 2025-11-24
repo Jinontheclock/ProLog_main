@@ -1,5 +1,4 @@
-import { tokens } from "@/styles/tokens";
-import { Typography } from "@/styles/typography";
+import { Colors, Spacing, Typography } from "@/constants";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -19,12 +18,13 @@ const QuizQuestionContainer: React.FC<QuizQuestionContainerProps> = ({
 
 const styles = StyleSheet.create({
     container: {
-        padding: tokens.spacing.md,
-        marginVertical: tokens.spacing.sm,
+        padding: Spacing.md,
+        marginVertical: Spacing.sm,
     },
     question: {
-        ...Typography.body1,
+        ...Typography.contentMedium,
         textAlign: "center",
+        color: Colors.text.primary,
     },
 });
 

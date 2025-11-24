@@ -1,4 +1,4 @@
-import { tokens } from "@/styles/tokens";
+import { Colors, Spacing } from "@/constants";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -31,24 +31,24 @@ const QuizScreenLayout: React.FC<QuizScreenLayoutProps> = ({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: tokens.spacing.md,
-        backgroundColor: tokens.colors.background,
+        padding: Spacing.md,
+        backgroundColor: Colors.background.default,
     },
     header: {
-        marginBottom: tokens.spacing.md,
+        marginBottom: Spacing.md,
     },
     progressBar: {
-        marginBottom: tokens.spacing.md,
+        marginBottom: Spacing.md,
     },
     question: {
-        marginBottom: tokens.spacing.md,
+        marginBottom: Spacing.md,
     },
     options: {
         flex: 1,
         justifyContent: "center",
     },
     footer: {
-        marginTop: tokens.spacing.md,
+        marginTop: Spacing.md,
     },
 });
 

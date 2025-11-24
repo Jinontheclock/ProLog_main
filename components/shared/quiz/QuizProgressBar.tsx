@@ -1,4 +1,4 @@
-import { tokens } from "@/styles/tokens";
+import { BorderRadius, Colors } from "@/constants";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -23,13 +23,13 @@ const QuizProgressBar: React.FC<QuizProgressBarProps> = ({
 const styles = StyleSheet.create({
     container: {
         height: 8,
-        backgroundColor: tokens.quiz.progress.bg,
-        borderRadius: 4,
+        backgroundColor: Colors.grey[200],
+        borderRadius: BorderRadius.xs,
         overflow: "hidden",
     },
     fill: {
         height: "100%",
-        backgroundColor: tokens.quiz.progress.fill,
+        backgroundColor: Colors.primary,
     },
 });
 
