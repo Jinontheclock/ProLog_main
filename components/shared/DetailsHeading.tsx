@@ -45,6 +45,7 @@ export const DetailsHeading: React.FC<DetailsHeadingProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
+    gap: 20,
     alignItems: 'center',
     backgroundColor: Colors.white,
     borderTopLeftRadius: 0,
@@ -53,39 +54,40 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 40,
     paddingHorizontal: 20,
     paddingTop: 48, // Increased top padding
-    paddingBottom: 56, // Increased bottom padding
-    width: 393,
-    height: 278,
-    minHeight: 278,
+    paddingBottom: 40, // Increased bottom padding
+    // width: 393,
+    // height: 278,
+    // minHeight: 278,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    marginBottom: 16,
+    // marginBottom: 16,
   },
   textContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 24,
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // marginTop: 24,
     width: '100%',
+    paddingHorizontal: 12
   },
   lineLabel: {
     ...Typography.contentSubtitle,
     color: Colors.grey[600],
-    marginBottom: 4,
+    marginBottom: 8,
   },
   title: {
-    ...Typography.contentBold,
+    ...Typography.competencyTitle,
     color: Colors.grey[900],
-    fontWeight: 'bold',
-    textAlign: 'left',
-    flexWrap: 'wrap',
+    // fontWeight: 'bold',
+    // textAlign: 'left',
+    // flexWrap: 'wrap',
     width: '100%',
-    lineHeight: 28,
-    fontSize: 28,
-    marginTop: 2,
+    // lineHeight: 28,
+    // fontSize: 28,
+    // marginTop: 2,
   },
 });
 
