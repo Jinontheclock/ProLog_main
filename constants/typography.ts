@@ -128,17 +128,17 @@ export const Typography = {
     },
     mainTitle: {
         fontFamily: FontFamily.spaceGrotesk.bold,
-        fontSize: FontSize['4xl'],
+        fontSize: FontSize["4xl"],
         lineHeight: 40,
     },
     pageTitle: {
         fontFamily: FontFamily.spaceGrotesk.medium,
-        fontSize: FontSize['2xl'],
+        fontSize: FontSize["2xl"],
         lineHeight: 32,
     },
     pageTitleRegular: {
         fontFamily: FontFamily.spaceGrotesk.regular,
-        fontSize: FontSize['2xl'],
+        fontSize: FontSize["2xl"],
         lineHeight: 32,
     },
     sectionTitle: {
@@ -192,7 +192,7 @@ export const Typography = {
         fontSize: 16,
         lineHeight: 20 * 1.05,
     },
-        bodyLarge: {
+    bodyLarge: {
         fontFamily: FontFamily.roboto.regular,
         fontSize: FontSize.md,
         lineHeight: 22,
