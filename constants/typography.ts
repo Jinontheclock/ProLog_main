@@ -58,6 +58,26 @@ export const Typography = {
         fontSize: 12,
         lineHeight: 16 * 1.05,
     },
+    body: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.base,
+        lineHeight: 20,
+    },
+    bodyBase: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.sm,
+        lineHeight: 18,
+    },
+    tag: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.sm,
+        lineHeight: 18,
+    },
+    button: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.base,
+        lineHeight: 20,
+    },
 
     // Content styles
     contentSubtitle: {
@@ -106,6 +126,41 @@ export const Typography = {
         fontSize: 16,
         lineHeight: 20 * 1.05,
     },
+    mainTitle: {
+        fontFamily: FontFamily.spaceGrotesk.bold,
+        fontSize: FontSize['4xl'],
+        lineHeight: 40,
+    },
+    pageTitle: {
+        fontFamily: FontFamily.spaceGrotesk.medium,
+        fontSize: FontSize['2xl'],
+        lineHeight: 32,
+    },
+    pageTitleRegular: {
+        fontFamily: FontFamily.spaceGrotesk.regular,
+        fontSize: FontSize['2xl'],
+        lineHeight: 32,
+    },
+    sectionTitle: {
+        fontFamily: FontFamily.spaceGrotesk.medium,
+        fontSize: FontSize.xl,
+        lineHeight: 28,
+    },
+    sectionTitleGray: {
+        fontFamily: FontFamily.spaceGrotesk.medium,
+        fontSize: FontSize.xl,
+        lineHeight: 28,
+    },
+    subTitle: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.lg,
+        lineHeight: 24,
+    },
+    cardTitle: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.lg,
+        lineHeight: 24,
+    },
     lineCompletion: {
         fontFamily: FontFamily.roboto.medium,
         fontSize: 16,
@@ -137,10 +192,25 @@ export const Typography = {
         fontSize: 16,
         lineHeight: 20 * 1.05,
     },
+        bodyLarge: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.md,
+        lineHeight: 22,
+    },
     competencyTitle: {
         fontFamily: FontFamily.roboto.medium,
         fontSize: 28,
         lineHeight: 32 * 1.05,
+    },
+    cardDescription: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.base,
+        lineHeight: 20,
+    },
+    cardDescriptionBase: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.base,
+        lineHeight: 20,
     },
 } as const;
 
