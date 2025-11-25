@@ -1,7 +1,8 @@
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IconButton } from './IconButton';
 
@@ -18,13 +19,33 @@ interface ReminderProps {
 }
 
 export const Reminder: React.FC<ReminderProps> = ({
-  reminders = [
-    { title: 'First Day Back School', date: 'Dec 2, 2025', day: 'Tuesday' },
-    { title: 'Canada Apprenticeship Loan Deadline', date: 'Dec 2, 2025', day: 'Tuesday' },
-  ],
+  reminders,
   onViewMore,
   onHeaderPress,
 }) => {
+  const DEFAULT_REMINDERS: ReminderItem[] = [
+    { title: 'First Day Back School', date: 'Dec 2, 2025', day: 'Tuesday' },
+    { title: 'Canada Apprenticeship Loan Deadline', date: 'Dec 2, 2025', day: 'Tuesday' },
+    { title: 'Purchase Textbooks', date: 'Dec 2, 2025', day: 'Tuesday' },
+  ];
+  const [localReminders, setLocalReminders] = useState<ReminderItem[]>(reminders ?? DEFAULT_REMINDERS);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const stored = await AsyncStorage.getItem('reminders');
+        let userReminders: ReminderItem[] = [];
+        if (stored) {
+          userReminders = JSON.parse(stored);
+        }
+        // Merge defaults and user reminders, but only show first two
+        const merged = [...DEFAULT_REMINDERS, ...userReminders.filter(r => !DEFAULT_REMINDERS.some(def => def.title === r.title))];
+        setLocalReminders(merged);
+      } catch (e) {
+        setLocalReminders(DEFAULT_REMINDERS);
+      }
+    })();
+  }, []);
   const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const dates = [
     { date: 31, hasEvent: false },
@@ -35,6 +56,7 @@ export const Reminder: React.FC<ReminderProps> = ({
     { date: 5, hasEvent: true },
     { date: 6, hasEvent: false },
   ];
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
 
   return (
     <View style={styles.container}>
@@ -48,25 +70,36 @@ export const Reminder: React.FC<ReminderProps> = ({
             onPress={onHeaderPress}
           />
         </TouchableOpacity>
-
+        {/* Week date cards (calendarRow) restored */}
         <View style={styles.calendarRow}>
           {dates.map((item, index) => (
             <View key={index} style={styles.dateContainer}>
-              <View style={[styles.dateBox, item.hasEvent && styles.dateBoxWithEvent]}>
-                <Text style={[styles.dateText, item.hasEvent && styles.dateTextActive]}>
-                  {item.date}
-                </Text>
-                {item.hasEvent && <View style={styles.eventDot} />}
-              </View>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setSelectedDate(item.date)}
+              >
+                <View
+                  style={[ 
+                    styles.dateBox,
+                    item.date === 5 && styles.dateBoxFive,
+                    selectedDate === item.date && styles.selectedDateBox,
+                  ]}
+                >
+                  <Text style={[styles.dateText, item.hasEvent && styles.dateTextActive]}>
+                    {item.date}
+                  </Text>
+                  {item.hasEvent && <View style={styles.eventDot} />}
+                </View>
+              </TouchableOpacity>
               <Text style={[styles.dayText, index === 0 && styles.sundayText]}>
                 {daysOfWeek[index]}
               </Text>
             </View>
           ))}
         </View>
-
+        {/* Reminder list */}
         <View style={styles.reminderList}>
-          {reminders.map((reminder, index) => (
+          {localReminders.slice(0, 2).map((reminder, index) => (
             <View key={index} style={styles.reminderItem}>
               <Text style={styles.reminderTitle}>{reminder.title}</Text>
               <Text style={styles.reminderDate}>
@@ -75,9 +108,7 @@ export const Reminder: React.FC<ReminderProps> = ({
             </View>
           ))}
         </View>
-
         <View style={styles.dividerLine} />
-
         <TouchableOpacity style={styles.viewMoreButton} onPress={onViewMore}>
           <Text style={styles.viewMoreText}>View +1 more</Text>
         </TouchableOpacity>
@@ -88,13 +119,13 @@ export const Reminder: React.FC<ReminderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 353,
+    width: 386,
     alignSelf: 'center',
   },
   card: {
     backgroundColor: Colors.white,
     borderRadius: 20,
-    width: 353,
+    width: 386,
     height: 382,
     padding: 24,
     shadowColor: '#000',
@@ -138,8 +169,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
   },
-  dateBoxWithEvent: {
-    backgroundColor: Colors.grey[50],
+  dateBoxFive: {
+    backgroundColor: Colors.grey[100],
+  },
+  selectedDateBox: {
+    borderWidth: 1,
+    borderColor: Colors.grey[700],
   },
   dateText: {
     ...Typography.buttonText,

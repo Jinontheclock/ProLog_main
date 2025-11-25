@@ -109,7 +109,7 @@ const QuizPage: React.FC = () => {
       <SafeAreaView style={CommonStyles.container}>
         <Image
           source={require("@/assets/images/background-grid 1.svg")}
-          style={CommonStyles.backgroundImage}
+          style={[CommonStyles.backgroundImage, { opacity: 0.15 }]}
           resizeMode="cover"
         />
         <View style={styles.loadingContainer}>

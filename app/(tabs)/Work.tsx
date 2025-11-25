@@ -1,9 +1,10 @@
+import SendDiscrepancyReportModal from "@/components/shared/SendDiscrepancyReportModal";
 import { Image as ExpoImage } from "expo-image";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-    Platform,
     Image,
+    Platform,
     ScrollView,
     StyleSheet,
     Text,
@@ -92,12 +93,10 @@ export default function WorkScreen() {
         return typeof text === "string" ? text : text.toString();
     };
     const [showEndDateInfoModal, setShowEndDateInfoModal] = useState(false);
-    const [showDiscrepancyInfoModal, setShowDiscrepancyInfoModal] =
-        useState(false);
-    const [showCompletionDetailsInfoModal, setShowCompletionDetailsInfoModal] =
-        useState(false);
-    const [showPotentialExpensesInfoModal, setShowPotentialExpensesInfoModal] =
-        useState(false);
+    const [showDiscrepancyInfoModal, setShowDiscrepancyInfoModal] = useState(false);
+    const [showCompletionDetailsInfoModal, setShowCompletionDetailsInfoModal] = useState(false);
+    const [showPotentialExpensesInfoModal, setShowPotentialExpensesInfoModal] = useState(false);
+    const [showSendDiscrepancyReportModal, setShowSendDiscrepancyReportModal] = useState(false);
 
     return (
         <View style={[styles.container, { backgroundColor: "#F0F0F0" }]}>
@@ -107,7 +106,7 @@ export default function WorkScreen() {
                     position: "absolute",
                     width: "100%",
                     height: "100%",
-                    opacity: 0.5,
+                    opacity: 0.15,
                 }}
                 resizeMode="cover"
             />
@@ -246,12 +245,7 @@ export default function WorkScreen() {
                             discrepancy={getCurrentData(
                                 workPageData.discrepancyTracking.discrepancy
                             )}
-                            onReportError={() => {
-                                console.log("Button pressed - showing alert");
-                                alert(
-                                    "Your employer and mentor have been contacted regarding the error. Please give it a few days before checking in with them regarding this issue."
-                                );
-                            }}
+                            onReportError={() => setShowSendDiscrepancyReportModal(true)}
                             isLoading={isLoading}
                         />
 
@@ -498,8 +492,9 @@ export default function WorkScreen() {
                             customStyle={{
                                 height: 42,
                                 borderRadius: 30,
-                                marginHorizontal: 24,
                                 marginTop: 16,
+                                alignSelf: 'center',
+                                width: 200,
                             }}
                             onPress={() =>
                                 console.log("View Checklist pressed")
@@ -606,6 +601,15 @@ export default function WorkScreen() {
                 </TouchableOpacity>
             )}
 
+            {/* Send Discrepancy Report Modal */}
+            <SendDiscrepancyReportModal
+                visible={showSendDiscrepancyReportModal}
+                onClose={() => setShowSendDiscrepancyReportModal(false)}
+                onSend={() => {
+                  setShowSendDiscrepancyReportModal(false);
+                  alert('Report sent!');
+                }}
+            />
             {/* Completion Details Info Modal */}
             {showCompletionDetailsInfoModal && (
                 <TouchableOpacity

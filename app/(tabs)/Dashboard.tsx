@@ -97,7 +97,7 @@ export default function DashboardScreen() {
     <SafeAreaView style={CommonStyles.container}>
       <Image
         source={require("@/assets/images/background-grid 1.svg")}
-        style={CommonStyles.backgroundImage}
+        style={[CommonStyles.backgroundImage, { opacity: 0.15 }]}
         resizeMode="cover"
       />
       <ScrollView
@@ -355,8 +355,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: 353,
-    height: 119,
+    width: 386,
+    height: 127,
     alignSelf: "center",
   },
   examLeft: {

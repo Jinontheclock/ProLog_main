@@ -20,6 +20,8 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
     SafeAreaView,
     useSafeAreaInsets,
+    SafeAreaView,
+    useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
 // Import the competency data
@@ -131,29 +133,29 @@ export default function SkillsScreen() {
         });
     };
 
-    return (
-        <SafeAreaView style={CommonStyles.container}>
-            <Image
-                source={require("@/assets/images/background-grid 1.svg")}
-                style={CommonStyles.backgroundImage}
-                resizeMode="cover"
-            />
-            <ScrollView
-                style={CommonStyles.scrollView}
-                contentContainerStyle={{
-                    paddingBottom: 70 + insets.bottom + 20,
-                }}
-                showsVerticalScrollIndicator={false}
-            >
-                {/* Top Card */}
-                <SectionHeading
-                    level="Level 2"
-                    title="Skills"
-                    icon_action="cached"
-                    currentHours={10} // Example value
-                    totalHours={100} // Example value
-                    percentage={10} // Example value
-                />
+  return (
+    <SafeAreaView style={CommonStyles.container}>
+      <Image
+        source={require("@/assets/images/background-grid 1.svg")}
+        style={[CommonStyles.backgroundImage, { opacity: 0.15 }]}
+        resizeMode="cover"
+      />
+      <ScrollView
+        style={CommonStyles.scrollView}
+        contentContainerStyle={{
+          paddingBottom: 70 + insets.bottom + 20,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Top Card */}
+        <SectionHeading
+          level="Level 2"
+          title="Skills"
+          icon_action="cached"
+          currentHours={10} // Example value
+          totalHours={100} // Example value
+          percentage={10} // Example value
+        />
 
                 {/* Tab Navigation */}
                 <PageSwitch

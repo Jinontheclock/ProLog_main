@@ -83,7 +83,7 @@ export default function PaystubListScreen() {
         <View style={[styles.contentWrapper, { width: appWidth, alignSelf: 'center' }]}>
           <Image 
             source={require('@/assets/images/background-grid 1.svg')}
-            style={{ position: 'absolute', width: '100%', height: '100%', opacity: 0.5 }}
+            style={{ position: 'absolute', width: '100%', height: '100%', opacity: 0.15 }}
             resizeMode="cover"
           />
           <ScrollView 

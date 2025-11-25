@@ -28,7 +28,11 @@ export default function UploadingDocumentScreen() {
     <View style={styles.outerContainer}>
       <Image 
         source={require('@/assets/images/background-grid 1.svg')}
+<<<<<<< HEAD
+        style={{ position: 'absolute', width: '100%', height: '100%', opacity: 0.15 }}
+=======
         style={{ position: 'absolute', width: '100%', height: '100%', opacity: 0.5 }}
+>>>>>>> bfc68f77fa34adb9edae000d7e1722c7e23b1e84
         resizeMode="cover"
       />
       <View style={styles.container}>

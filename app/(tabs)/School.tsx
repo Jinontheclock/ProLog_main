@@ -16,13 +16,13 @@ import { InformationalMessage } from "@/components/shared/InformationalMessage";
 import { LoadingQuiz } from "@/components/shared/LoadingQuiz";
 import MaterialIcon from "@/components/shared/MaterialIcon";
 import { PageSwitch } from "@/components/shared/PageSwitch";
-import { Platform } from "react-native";
 import { SchoolSlots } from "@/components/shared/SchoolSlots";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Colors } from "@/constants/colors";
 import { Typography } from "@/constants/typography";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import dimensions from "@/lib/dimensions";
+import { Platform } from "react-native";
 
 export default function SchoolScreen() {
     const colorScheme = useColorScheme();
@@ -62,7 +62,7 @@ export default function SchoolScreen() {
                     position: "absolute",
                     width: "100%",
                     height: "100%",
-                    opacity: 0.5,
+                    opacity: 0.15,
                 }}
                 resizeMode="cover"
             />

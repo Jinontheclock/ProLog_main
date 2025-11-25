@@ -33,38 +33,43 @@ export const ReminderFullView: React.FC<ReminderFullViewProps> = ({
   onAddReminder,
   onDeleteReminder,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(2);
+  // Track selected date (number)
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+
+  // Helper: get all reminder dates as numbers (day of month)
+  const reminderDates = reminders.map(reminder => {
+    // Parse date string like 'Dec 2, 2025'
+    const match = reminder.date.match(/\w+ (\d{1,2}), \d{4}/);
+    if (match) {
+      return parseInt(match[1], 10);
+    }
+    return null;
+  }).filter(Boolean);
   
   const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   
   // Generate calendar grid for the month
   const generateCalendar = () => {
     const weeks = [];
-    let currentWeek = [
-      { date: null },
-      { date: 1 },
-      { date: 2, hasEvent: true },
-      { date: 3 },
-      { date: 4 },
-      { date: 5, hasEvent: true },
-      { date: 6 },
-    ];
+    let currentWeek = [];
+    for (let i = 0; i < 7; i++) {
+      const date = i === 0 ? null : i;
+      currentWeek.push({ date });
+    }
     weeks.push(currentWeek);
-    
+
     for (let weekStart = 7; weekStart <= 28; weekStart += 7) {
       const week = [];
       for (let day = 0; day < 7; day++) {
         const date = weekStart + day;
         if (date > 31) {
-          week.push({ date: null, hasEvent: false });
+          week.push({ date: null });
         } else {
-          const hasEvent = date === 12 || date === 15 || date === 27;
-          week.push({ date, hasEvent });
+          week.push({ date });
         }
       }
       weeks.push(week);
     }
-    
     return weeks;
   };
 
@@ -99,13 +104,15 @@ export const ReminderFullView: React.FC<ReminderFullViewProps> = ({
               {week.map((item, dayIndex) => (
                 <View key={dayIndex} style={styles.dateContainer}>
                   {item.date ? (
-                    <TouchableOpacity 
+                    <TouchableOpacity
                       style={[
                         styles.dateBox,
+                        // Only show background for 5th
                         item.date === 5 && styles.selectedDateBox,
+                        // Only show border for selected date
                         item.date === selectedDate && styles.borderedDateBox,
                       ]}
-                      onPress={() => item.hasEvent && setSelectedDate(item.date!)}
+                      onPress={() => setSelectedDate(item.date!)}
                     >
                       <Text style={[
                         styles.dateText,
@@ -113,7 +120,8 @@ export const ReminderFullView: React.FC<ReminderFullViewProps> = ({
                       ]}>
                         {item.date}
                       </Text>
-                      {item.hasEvent && <View style={styles.eventDot} />}
+                      {/* Show orange dot only if this date has a reminder */}
+                      {reminderDates.includes(item.date) && <View style={styles.eventDot} />}
                     </TouchableOpacity>
                   ) : (
                     <View style={styles.emptyDateBox} />
@@ -160,17 +168,16 @@ export const ReminderFullView: React.FC<ReminderFullViewProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 353,
+    width: 354,
     gap: 8,
     alignSelf: 'center',
   },
   card: {
     backgroundColor: Colors.white,
     borderRadius: 20,
-    width: 354,
+    width: 386,
     height: 408,
     padding: 24,
-    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -178,6 +185,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 12,
     elevation: 4,
+    marginLeft: -16,
   },
   header: {
     flexDirection: 'row',
@@ -263,9 +271,10 @@ const styles = StyleSheet.create({
   remindersCard: {
     backgroundColor: Colors.white,
     borderRadius: 20,
-    width: 353,
+    width: 386,
     padding: 24,
     shadowColor: '#000',
+        marginLeft: -16,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -283,6 +292,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
     marginTop: 8,
+    width: 386,
+        marginLeft: -16,
   },
   remindersTitle: {
     fontFamily: 'SpaceGrotesk-Regular',

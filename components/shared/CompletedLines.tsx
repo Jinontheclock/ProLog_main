@@ -70,7 +70,7 @@ export const CompletedLines: React.FC<CompletedLinesProps> = ({
 
 const styles = StyleSheet.create({
   lineCompletionCard: {
-    width: 355,
+    width: 392, // User requested precise width
     height: 252,
     backgroundColor: 'white',
     borderRadius: 20,
