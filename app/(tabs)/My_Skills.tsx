@@ -10,8 +10,12 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { CommonStyles } from "@/lib/common-styles";
 import { completionStore } from "@/lib/completion-store";
 import { useFocusEffect } from "@react-navigation/native";
+import { Colors } from "@/constants/colors";
+import { Spacing } from "@/constants/design-tokens";
+import { Typography } from "@/constants/typography";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
     SafeAreaView,

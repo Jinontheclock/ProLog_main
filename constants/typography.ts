@@ -1,21 +1,21 @@
 export const FontFamily = {
     // Roboto
     roboto: {
-        thin: 'Roboto-Thin',
-        light: 'Roboto-Light',
-        regular: 'Roboto-Regular',
-        medium: 'Roboto-Medium',
-        bold: 'Roboto-Bold',
-        black: 'Roboto-Black',
+        thin: "Roboto-Thin",
+        light: "Roboto-Light",
+        regular: "Roboto-Regular",
+        medium: "Roboto-Medium",
+        bold: "Roboto-Bold",
+        black: "Roboto-Black",
     },
 
     // Space Grotesk
     spaceGrotesk: {
-        light: 'SpaceGrotesk-Light',
-        regular: 'SpaceGrotesk-Regular',
-        medium: 'SpaceGrotesk-Medium',
-        semiBold: 'SpaceGrotesk-SemiBold',
-        bold: 'SpaceGrotesk-Bold',
+        light: "SpaceGrotesk-Light",
+        regular: "SpaceGrotesk-Regular",
+        medium: "SpaceGrotesk-Medium",
+        semiBold: "SpaceGrotesk-SemiBold",
+        bold: "SpaceGrotesk-Bold",
     },
 } as const;
 
@@ -26,14 +26,14 @@ export const FontSize = {
     md: 18,
     lg: 20,
     xl: 24,
-    '2xl': 28,
-    '3xl': 32,
-    '4xl': 36,
+    "2xl": 28,
+    "3xl": 32,
+    "4xl": 36,
 } as const;
 
 export const LineHeight = {
-    '0%': 0,
-    '5%': 1.05,
+    "0%": 0,
+    "5%": 1.05,
     tight: 1.2,
     normal: 1.5,
     relaxed: 1.75,
@@ -57,6 +57,26 @@ export const Typography = {
         fontFamily: FontFamily.roboto.regular,
         fontSize: 12,
         lineHeight: 16 * 1.05,
+    },
+    body: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.base,
+        lineHeight: 20,
+    },
+    bodyBase: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.sm,
+        lineHeight: 18,
+    },
+    tag: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.sm,
+        lineHeight: 18,
+    },
+    button: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.base,
+        lineHeight: 20,
     },
 
     // Content styles
@@ -106,6 +126,41 @@ export const Typography = {
         fontSize: 16,
         lineHeight: 20 * 1.05,
     },
+    mainTitle: {
+        fontFamily: FontFamily.spaceGrotesk.bold,
+        fontSize: FontSize["4xl"],
+        lineHeight: 40,
+    },
+    pageTitle: {
+        fontFamily: FontFamily.spaceGrotesk.medium,
+        fontSize: FontSize["2xl"],
+        lineHeight: 32,
+    },
+    pageTitleRegular: {
+        fontFamily: FontFamily.spaceGrotesk.regular,
+        fontSize: FontSize["2xl"],
+        lineHeight: 32,
+    },
+    sectionTitle: {
+        fontFamily: FontFamily.spaceGrotesk.medium,
+        fontSize: FontSize.xl,
+        lineHeight: 28,
+    },
+    sectionTitleGray: {
+        fontFamily: FontFamily.spaceGrotesk.medium,
+        fontSize: FontSize.xl,
+        lineHeight: 28,
+    },
+    subTitle: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.lg,
+        lineHeight: 24,
+    },
+    cardTitle: {
+        fontFamily: FontFamily.roboto.medium,
+        fontSize: FontSize.lg,
+        lineHeight: 24,
+    },
     lineCompletion: {
         fontFamily: FontFamily.roboto.medium,
         fontSize: 16,
@@ -137,10 +192,25 @@ export const Typography = {
         fontSize: 16,
         lineHeight: 20 * 1.05,
     },
+    bodyLarge: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.md,
+        lineHeight: 22,
+    },
     competencyTitle: {
         fontFamily: FontFamily.roboto.medium,
         fontSize: 28,
         lineHeight: 32 * 1.05,
+    },
+    cardDescription: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.base,
+        lineHeight: 20,
+    },
+    cardDescriptionBase: {
+        fontFamily: FontFamily.roboto.regular,
+        fontSize: FontSize.base,
+        lineHeight: 20,
     },
 } as const;
 
