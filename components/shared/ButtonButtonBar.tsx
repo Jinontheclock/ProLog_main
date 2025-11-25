@@ -6,22 +6,27 @@ import { StyleSheet, View } from 'react-native';
 interface ButtonButtonBarProps {
   onComplete?: () => void;
   onChallenge?: () => void;
+  isCompleted?: boolean;
 }
 
-export const ButtonButtonBar: React.FC<ButtonButtonBarProps> = ({ onComplete, onChallenge }) => (
+export const ButtonButtonBar: React.FC<ButtonButtonBarProps> = ({ onComplete, onChallenge, isCompleted = false }) => (
   <View style={styles.container}>
-    <View style={{ flex: 1, marginRight: 8 }}>
-      <Button
-        text="Mark as Complete"
-        onPress={onComplete}
-        variant="dark"
-      />
-    </View>
-    <View style={{ flex: 1, marginLeft: 8 }}>
+    {!isCompleted && (
+      <View style={styles.buttonWrapper}>
+        <Button
+          text="Mark as Complete"
+          onPress={onComplete}
+          variant="dark"
+          fullWidth={true}
+        />
+      </View>
+    )}
+    <View style={styles.buttonWrapper}>
       <Button
         text="Challenge Quiz"
         onPress={onChallenge}
         variant="primary"
+        fullWidth={true}
       />
     </View>
   </View>
@@ -29,10 +34,7 @@ export const ButtonButtonBar: React.FC<ButtonButtonBarProps> = ({ onComplete, on
 
 const styles = StyleSheet.create({
   container: {
-    width: 393,
-    height: 80,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: Colors.white,
     borderColor: Colors.borderGrey,
@@ -41,9 +43,12 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderBottomWidth: 0,
     borderRadius: 0,
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    marginVertical: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 28,
+    gap: 12,
+    width: '100%',
   },
-  // Button spacing handled by wrapper Views
+  buttonWrapper: {
+    flex: 1,
+  },
 });

@@ -8,9 +8,11 @@ interface AudioPlayerProps {
   duration: string; // e.g. '5:20'
   currentTime: string; // e.g. '0:00', '1:12'
   isPlaying: boolean;
+  isLoading?: boolean;
+  isMuted?: boolean;
   onPlayPause: () => void;
-  onVolume: () => void;
-  onMenu: () => void;
+  onMute: () => void;
+  onRestart: () => void;
   progress: number; // 0~1
 }
 
@@ -18,21 +20,31 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   duration,
   currentTime,
   isPlaying,
+  isLoading = false,
+  isMuted = false,
   onPlayPause,
-  onVolume,
-  onMenu,
+  onMute,
+  onRestart,
   progress,
 }) => {
   return (
     <View style={styles.card}>
       <View style={styles.row}>
-        {/* Play/Pause Icon */}
-        <TouchableOpacity onPress={onPlayPause} style={styles.iconButton}>
-          <MaterialIcon
-            name={isPlaying ? 'pause' : 'play_arrow'}
-            size={20}
-            color={Colors.grey[900]}
-          />
+        {/* Play/Pause/Loading Icon */}
+        <TouchableOpacity onPress={onPlayPause} style={styles.iconButton} disabled={isLoading}>
+          {isLoading ? (
+            <MaterialIcon
+              name="cached"
+              size={20}
+              color={Colors.grey[500]}
+            />
+          ) : (
+            <MaterialIcon
+              name={isPlaying ? 'pause' : 'play_arrow'}
+              size={20}
+              color={Colors.grey[900]}
+            />
+          )}
         </TouchableOpacity>
         {/* Time Text */}
         <Text style={styles.timeText}>{currentTime} / {duration}</Text>
@@ -41,13 +53,21 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           <View style={styles.progressBarBg} />
           <View style={[styles.progressBarFg, { width: `${progress * 100}%` }]} />
         </View>
-        {/* Volume Down Icon */}
-        <TouchableOpacity onPress={onVolume} style={styles.iconButton}>
-          <MaterialIcon name="volume_down" size={20} color={Colors.grey[900]} />
+        {/* Mute/Unmute Icon */}
+        <TouchableOpacity onPress={onMute} style={styles.iconButton}>
+          <MaterialIcon 
+            name={isMuted ? 'volume_off' : 'volume_down'} 
+            size={20} 
+            color={isMuted ? Colors.grey[400] : Colors.grey[900]} 
+          />
         </TouchableOpacity>
-        {/* More Vert Icon */}
-        <TouchableOpacity onPress={onMenu} style={styles.iconButton}>
-          <MaterialIcon name="more_vert" size={20} color={Colors.grey[900]} />
+        {/* Restart Icon */}
+        <TouchableOpacity onPress={onRestart} style={styles.iconButton}>
+          <MaterialIcon 
+            name="restart" 
+            size={20} 
+            color={Colors.grey[900]} 
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -56,7 +76,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    width: 353,
+    // width: 353,
     height: 60,
     backgroundColor: Colors.white,
     borderRadius: 16,
@@ -64,8 +84,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.border.light, // 보더그레이
     paddingHorizontal: 24,
     paddingVertical: 0,
-    marginBottom: 24,
-    marginHorizontal: 8,
+    // marginBottom: 24,
+    marginHorizontal: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -92,7 +112,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   progressBarContainer: {
-    width: 133,
+    flex: 1,
     height: 10,
     justifyContent: 'center',
     marginHorizontal: 4, // 간격 줄임
@@ -100,7 +120,7 @@ const styles = StyleSheet.create({
   progressBarBg: {
     position: 'absolute',
     left: 0,
-    width: 133,
+    width: '100%',
     height: 10,
     borderRadius: 5,
     backgroundColor: Colors.grey[50],
@@ -108,7 +128,7 @@ const styles = StyleSheet.create({
   progressBarFg: {
     position: 'absolute',
     left: 0,
-    width: 36, // 진행된 바 크기
+    // width: 36, // 진행된 바 크기
     height: 6,
     borderRadius: 3,
     backgroundColor: Colors.grey[500],

@@ -58,14 +58,14 @@ export const ICON_NAMES = {
   'icon-progress': 'autorenew',
   'cached': 'autorenew',
   'icon-refresh': 'autorenew',
-  
+
     // Audio player icons
     'play_arrow': 'play-arrow',
     'pause': 'pause',
     'volume_down': 'volume-down',
-    'more_vert': 'more-vert',
-  
-  // User & Settings icons
+    'volume_off': 'volume-off',
+    'restart': 'replay',
+    'more_vert': 'more-vert',  // User & Settings icons
   'icon-account': 'person',
   'icon-notifications': 'notifications',
   'icon-accessibility': 'accessibility',
