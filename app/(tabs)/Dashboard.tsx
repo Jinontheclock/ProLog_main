@@ -97,7 +97,7 @@ export default function DashboardScreen() {
     <SafeAreaView style={CommonStyles.container}>
       <Image
         source={require("@/assets/images/background-grid 1.svg")}
-        style={[CommonStyles.backgroundImage, { opacity: 0.15 }]}
+        style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
         resizeMode="cover"
       />
       <ScrollView

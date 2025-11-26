@@ -14,8 +14,8 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import {
-    SafeAreaView,
-    useSafeAreaInsets,
+  SafeAreaView,
+  useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
 // Import the competency data
@@ -121,7 +121,7 @@ export default function SkillsScreen() {
     <SafeAreaView style={CommonStyles.container}>
       <Image
         source={require("@/assets/images/background-grid 1.svg")}
-        style={[CommonStyles.backgroundImage, { opacity: 0.15 }]}
+        style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
         resizeMode="cover"
       />
       <ScrollView

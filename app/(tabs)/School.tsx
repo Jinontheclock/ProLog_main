@@ -62,7 +62,7 @@ export default function SchoolScreen() {
                     position: "absolute",
                     width: "100%",
                     height: "100%",
-                    opacity: 0.15,
+                    opacity: 0.12,
                 }}
                 resizeMode="cover"
             />
@@ -90,7 +90,7 @@ export default function SchoolScreen() {
                         {
                             id: "program",
                             label: "Program",
-                            iconName: "home",
+                            iconName: "house",
                         },
                         {
                             id: "skills",
