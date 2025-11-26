@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         paddingVertical: 18,
         paddingHorizontal: 20,
         gap: 12,
-        marginVertical: 8,
+        marginVertical: 0,
         backgroundColor: Colors.white,
         borderRadius: 8,
         alignSelf: "stretch",

@@ -244,19 +244,24 @@ export default function SkillsScreen() {
                         </View>
 
                         {/* Competency List Items */}
+                        <View style={styles.compentencyHeader}>
+                            <Text>Compentencies 12/16</Text>
+                        </View>
                         <View style={styles.tabComponentContainer}>
-                            {practicalCompetencies.map((competency) => (
-                                <CompetencyListItem
-                                    key={competency.id}
-                                    text={competency.Title}
-                                    checked={completedCompetencies.includes(
-                                        competency.id
-                                    )}
-                                    onCheckedChange={() =>
-                                        handleCompetencyPress(competency.id)
-                                    }
-                                />
-                            ))}
+                            <View style={styles.listContainer}>
+                                {practicalCompetencies.map((competency) => (
+                                    <CompetencyListItem
+                                        key={competency.id}
+                                        text={competency.Title}
+                                        checked={completedCompetencies.includes(
+                                            competency.id
+                                        )}
+                                        onCheckedChange={() =>
+                                            handleCompetencyPress(competency.id)
+                                        }
+                                    />
+                                ))}
+                            </View>
                         </View>
                     </View>
                 )}
@@ -404,5 +409,20 @@ const styles = StyleSheet.create({
     viewContainer: {
         width: "100%",
         alignItems: "center",
+    },
+    listContainer: {
+        padding: 12,
+        borderRadius: 12,
+        borderColor: Colors.borderGrey,
+        backgroundColor: Colors.white,
+        gap: 8,
+    },
+    compentencyHeader: {
+        width: "100%",
+        alignItems: "flex-start",
+        fontFamily: "Space Grotesk",
+        fontSize: 16,
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
 });
