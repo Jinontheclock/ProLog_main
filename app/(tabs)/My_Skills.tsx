@@ -161,7 +161,7 @@ export default function SkillsScreen() {
                 {selectedTab === "overall" && (
                     <View style={styles.overallContainer}>
                         {/* Recents Component */}
-                        <View style={styles.componentContainer}>
+                        <View>
                             <Recents
                                 title="Recently viewed"
                                 line="Line A-3"
@@ -364,7 +364,6 @@ const styles = StyleSheet.create({
     },
     overallContainer: {
         paddingHorizontal: 24,
-        paddingTop: 24,
         gap: 24,
     },
     componentContainer: {
@@ -401,6 +400,9 @@ const styles = StyleSheet.create({
     sectionTitleContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-
+    },
+    viewContainer: {
+        width: "100%",
+        alignItems: "center",
     },
 });
