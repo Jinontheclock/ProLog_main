@@ -128,9 +128,9 @@ export default function SkillsScreen() {
                     level="Level 2"
                     title="Skills"
                     icon_action="cached"
-                    currentHours={10} // Example value
-                    totalHours={100} // Example value
-                    percentage={10} // Example value
+                    currentHours={28} // Example value
+                    totalHours={81} // Example value
+                    percentage={72} // Example value
                 />
 
                 {/* Tab Navigation */}
@@ -173,31 +173,38 @@ export default function SkillsScreen() {
                         </View>
 
                         {/* Exam Prep Component */}
-                        <View style={styles.componentContainer}>
-                            <ExamPrep />
-                        </View>
-
-                        {/* Ranking Component */}
-                        <View style={styles.sectionHeader}>
-                            <Text style={styles.sectionTitle}>
-                                Discrepancy Tracking
-                            </Text>
+                        <View style={styles.sectionTitleContainer}>
+                            <Text style={styles.sectionTitle}>Exam Prep</Text>
                             <MaterialIcon
                                 name="info"
                                 size={20}
                                 color="#999"
                             />
                         </View>
-                        <View style={styles.componentContainer}>
+                        <View style={styles.examContainer}>
+                            <ExamPrep />
+                        </View>
+
+                        {/* Ranking Component */}
+                        <Text style={styles.sectionTitle}>Quiz Ranking</Text>
+                        <View style={styles.quizContainer}>
                             <Ranking
+                                style={styles.rankingContainer}
                                 title="Avg. Score"
                                 scoreRange="90-94%"
                                 rank="Top 2"
                             />
                             <Ranking
+                                style={styles.rankingContainer}
                                 title="Completion"
                                 scoreRange="60-69%"
                                 rank="Top 5"
+                            />
+                        </View>
+                        <View style={styles.scoreContainer}>
+                            <Image
+                                style={styles.scoreImage}
+                                source={require("@/assets/images/Frame 1168.png")}
                             />
                         </View>
                     </View>
@@ -315,17 +322,27 @@ const styles = StyleSheet.create({
         width: dimensions.constrainedWidth,
         alignSelf: "center",
     },
+    quizContainer: {
+        flexDirection: "row",
+        alignSelf: "stretch",
+        justifyContent: "space-between",
+        gap: 12,
+    },
     scrollView: {
         flex: 1,
     },
     sectionTitle: {
         ...Typography.sectionHeader,
         color: Colors.grey[700],
-        marginBottom: 16,
+        justifyContent: "center",
+        alignItems: "center",
+        // marginBottom: 16,
         // textAlign: 'center',
         // marginTop: 8,
         // marginHorizontal: 20,
         alignSelf: "stretch",
+        width: "100%",
+        letterSpacing: -0.32,
     },
     sectionSubtitle: {
         fontSize: 12,
@@ -360,5 +377,30 @@ const styles = StyleSheet.create({
     },
     tabComponentContainer: {
         alignItems: "center",
+    },
+    scoreContainer: {
+        padding: 16,
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: 10,
+        alignSelf: "stretch",
+        borderRadius: 20,
+        backgroundColor: Colors.white,
+        borderWidth: 1,
+        borderColor: Colors.borderGrey,
+    },
+    scoreImage: {
+        marginLeft: 10,
+    },
+    rankingContainer: {
+        // width: 170,
+    },
+    examContainer: {
+        alignSelf: "stretch",
+    },
+    sectionTitleContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+
     },
 });

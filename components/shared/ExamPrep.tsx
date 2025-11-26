@@ -24,7 +24,7 @@ export const ExamPrep = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 353,
+    width: '100%',
     alignSelf: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
