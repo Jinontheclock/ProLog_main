@@ -7,24 +7,34 @@ interface ButtonButtonBarProps {
   onComplete?: () => void;
   onChallenge?: () => void;
   isCompleted?: boolean;
+  completeText?: string;
+  challengeText?: string;
+  singleButton?: boolean;
 }
 
-export const ButtonButtonBar: React.FC<ButtonButtonBarProps> = ({ onComplete, onChallenge, isCompleted = false }) => (
+export const ButtonButtonBar: React.FC<ButtonButtonBarProps> = ({ 
+  onComplete, 
+  onChallenge, 
+  isCompleted = false, 
+  completeText = "Mark as Complete",
+  challengeText = "Challenge Quiz",
+  singleButton = false
+}) => (
   <View style={styles.container}>
-    {!isCompleted && (
+    {!isCompleted && !singleButton && (
       <View style={styles.buttonWrapper}>
         <Button
-          text="Mark as Complete"
+          text={completeText}
           onPress={onComplete}
           variant="dark"
           fullWidth={true}
         />
       </View>
     )}
-    <View style={styles.buttonWrapper}>
+    <View style={singleButton ? styles.singleButtonWrapper : styles.buttonWrapper}>
       <Button
-        text="Challenge Quiz"
-        onPress={onChallenge}
+        text={singleButton ? completeText : challengeText}
+        onPress={singleButton ? onComplete : onChallenge}
         variant="primary"
         fullWidth={true}
       />
@@ -50,5 +60,8 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flex: 1,
+  },
+  singleButtonWrapper: {
+    width: '100%',
   },
 });

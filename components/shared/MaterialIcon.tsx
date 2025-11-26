@@ -65,7 +65,12 @@ export const ICON_NAMES = {
     'volume_down': 'volume-down',
     'volume_off': 'volume-off',
     'restart': 'replay',
-    'more_vert': 'more-vert',  // User & Settings icons
+    'more_vert': 'more-vert',
+    
+    // Radio button icons
+    'radio_button_unchecked': 'radio-button-unchecked',
+    'radio_button_checked': 'radio-button-checked',
+    'cancel': 'cancel',  // User & Settings icons
   'icon-account': 'person',
   'icon-notifications': 'notifications',
   'icon-accessibility': 'accessibility',
@@ -74,8 +79,8 @@ export const ICON_NAMES = {
   // Other icons
   'icon-bell': 'notifications',
   'icon-search': 'search',
-  'house': 'home',
-  'icon-house': 'home',
+  'house': 'house',
+  'icon-house': 'house',
 } as const;
 
 interface MaterialIconProps {

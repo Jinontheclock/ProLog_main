@@ -15,31 +15,20 @@ export async function generateQuiz(skillId: string, content: string, apiKey: str
   if (apiKey.length < 50) {
     throw new Error(`OpenAI API key appears incomplete. Length: ${apiKey.length}. Expected 100+ characters.`);
   }
-  const prompt = `
-You are an educational assistant creating a comprehensive skills assessment quiz. Generate exactly 10 multiple-choice questions based on the following skill content:
+  const prompt = `Create exactly 5 multiple-choice questions from this content:
 
 ${content}
 
-REQUIREMENTS:
-- Generate exactly 10 questions
-- Questions should cover different aspects of the skill content
-- Each question should have exactly 4 options
-- Options should be plausible but only one correct
-- Mix difficulty levels (beginner to advanced)
-- Make questions practical and applicable
-
-Return ONLY a valid JSON object in this exact format:
+Return ONLY valid JSON:
 {
   "questions": [
     {
-      "question": "What is the primary purpose of...?",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctAnswer": "Option A"
+      "question": "What is...?",
+      "options": ["A", "B", "C", "D"],
+      "correctAnswer": "A"
     }
   ]
-}
-
-Ensure all 10 questions are relevant, educational, and test understanding of the skill content.`;
+}`;
   
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -48,11 +37,14 @@ Ensure all 10 questions are relevant, educational, and test understanding of the
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       messages: [
         { role: 'system', content: 'You generate educational quizzes in JSON format.' },
         { role: 'user', content: prompt }
       ],
+      temperature: 0.7,
+      max_tokens: 1000,
+      stream: false,
     }),
   });
   const data = await response.json();
