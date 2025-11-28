@@ -1,30 +1,34 @@
-import { Colors } from '@/constants/colors';
-import { Typography } from '@/constants/typography';
-import { MaterialIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Colors } from "@/constants/colors";
+import { Typography } from "@/constants/typography";
+import { MaterialIcons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface CompetencyListItemProps {
-  text: string;
-  checked?: boolean;
-  onCheckedChange?: (checked: boolean) => void;
+    text: string;
+    checked?: boolean;
+    onCheckedChange?: (checked: boolean) => void;
 }
 
-export const CompetencyListItem: React.FC<CompetencyListItemProps> = ({ text, checked, onCheckedChange }) => {
-  const [internalChecked, setInternalChecked] = useState(!!checked);
-  const isControlled = checked !== undefined;
-  const isChecked = isControlled ? checked : internalChecked;
+export const CompetencyListItem: React.FC<CompetencyListItemProps> = ({
+    text,
+    checked,
+    onCheckedChange,
+}) => {
+    const [internalChecked, setInternalChecked] = useState(!!checked);
+    const isControlled = checked !== undefined;
+    const isChecked = isControlled ? checked : internalChecked;
 
-  const handlePress = () => {
-    if (isControlled) {
-      onCheckedChange?.(!checked);
-    } else {
-      setInternalChecked((prev) => {
-        onCheckedChange?.(!prev);
-        return !prev;
-      });
-    }
-  };
+    const handlePress = () => {
+        if (isControlled) {
+            onCheckedChange?.(!checked);
+        } else {
+            setInternalChecked((prev) => {
+                onCheckedChange?.(!prev);
+                return !prev;
+            });
+        }
+    };
 
   return (
     <TouchableOpacity style={[styles.container, isChecked ? styles.checked : styles.unchecked]} onPress={handlePress} activeOpacity={0.7}>

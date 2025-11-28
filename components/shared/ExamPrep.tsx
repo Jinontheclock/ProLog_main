@@ -1,25 +1,31 @@
-import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React from "react";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
 export const ExamPrep = () => {
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.cardButton} activeOpacity={0.85}>
-        <Image 
-          source={require('@/assets/images/examprep1.jpg')} 
-          style={styles.image1}
-          resizeMode="cover"
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.cardButton} activeOpacity={0.85}>
-        <Image 
-          source={require('@/assets/images/examprep2.jpg')} 
-          style={styles.image2}
-          resizeMode="cover"
-        />
-      </TouchableOpacity>
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.cardButton}
+                activeOpacity={0.85}
+            >
+                <Image
+                    source={require("@/assets/images/examprep1.jpg")}
+                    style={styles.image1}
+                    resizeMode="cover"
+                />
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.cardButton}
+                activeOpacity={0.85}
+            >
+                <Image
+                    source={require("@/assets/images/examprep2.jpg")}
+                    style={styles.image2}
+                    resizeMode="cover"
+                />
+            </TouchableOpacity>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

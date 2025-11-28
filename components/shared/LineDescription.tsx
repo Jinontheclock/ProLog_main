@@ -1,12 +1,12 @@
-import { Colors } from '@/constants/colors';
-import { Typography } from '@/constants/typography';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Colors } from "@/constants/colors";
+import { Typography } from "@/constants/typography";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 interface LineDescriptionProps {
-  title: string;
-  description: string;
-  content: string;
+    title: string;
+    description: string;
+    content: string;
 }
 
 export const LineDescription: React.FC<LineDescriptionProps> = ({ title, description, content }) => (

@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 18,
     marginVertical: 12,
-    width: 353,
+    width: "auto",
     height: 84,
     shadowColor: '#000',
     shadowOpacity: 0.06,

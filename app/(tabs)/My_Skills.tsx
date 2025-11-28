@@ -4,27 +4,31 @@ import { LineCarousel } from "@/components/shared/LineCarousel";
 import { LineDescription } from "@/components/shared/LineDescription";
 import { PageSwitch } from "@/components/shared/PageSwitch";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { Colors } from "@/constants/colors";
+import { Typography } from "@/constants/typography";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { CommonStyles } from "@/lib/common-styles";
 import { completionStore } from "@/lib/completion-store";
-import { useFocusEffect } from '@react-navigation/native';
+import { dimensions } from "@/lib/dimensions";
+import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
 import React from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import {
   useSafeAreaInsets
 } from "react-native-safe-area-context";
+import { Text } from "react-native-svg";
 
 // Import the competency data
 import { Colors } from "@/constants";
 import skillsData from '@/data/skills-competency-summary.json';
 
 type CompetencyItem = {
-  id: string;
-  Title: string;
-  Summary: any[];
-  Category: string;
-  Quiz: string;
+    id: string;
+    Title: string;
+    Summary: any[];
+    Category: string;
+    Quiz: string;
 };
 
 
@@ -41,59 +45,30 @@ export default function SkillsScreen() {
   const [selectedPracticalLine, setSelectedPracticalLine] = React.useState("A");
   const [selectedTheoreticalLine, setSelectedTheoreticalLine] = React.useState("A");
 
-  // Process competency data from JSON
-  const lineACompetencies = skillsData['level 1']['Line A'] as CompetencyItem[];
-  const theoryCompetencies = lineACompetencies.filter(comp => comp.Category === 'Theory');
-  const practicalCompetencies = lineACompetencies.filter(comp => comp.Category === 'Practical');
+    // Process competency data from JSON
+    const lineACompetencies = skillsData["level 1"][
+        "Line A"
+    ] as CompetencyItem[];
+    const theoryCompetencies = lineACompetencies.filter(
+        (comp) => comp.Category === "Theory"
+    );
+    const practicalCompetencies = lineACompetencies.filter(
+        (comp) => comp.Category === "Practical"
+    );
 
-  // Subscribe to completion store changes
-  React.useEffect(() => {
-    const setupStore = async () => {
-      // Wait for store to initialize
-      await completionStore.waitForInitialization();
-      
-      // Set initial state
-      setCompletedCompetencies(completionStore.getCompleted());
-      
-      // Subscribe to changes
-      const unsubscribe = completionStore.subscribe((completedIds) => {
-        setCompletedCompetencies(completedIds);
-      });
-      
-      return unsubscribe;
-    };
-    
-    let unsubscribe: (() => void) | undefined;
-    
-    setupStore().then((unsub) => {
-      unsubscribe = unsub;
-    });
-    
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
-  }, []);
+    // Subscribe to completion store changes
+    React.useEffect(() => {
+        const setupStore = async () => {
+            // Wait for store to initialize
+            await completionStore.waitForInitialization();
 
-  // Refresh completion status when screen comes into focus
-  useFocusEffect(
-    React.useCallback(() => {
-      const refreshData = async () => {
-        await completionStore.waitForInitialization();
-        setCompletedCompetencies(completionStore.getCompleted());
-      };
-      refreshData();
-    }, [])
-  );
+            // Set initial state
+            setCompletedCompetencies(completionStore.getCompleted());
 
-  // Helper function to handle competency navigation
-  const handleCompetencyPress = (competencyId: string) => {
-    router.push({
-      pathname: "/skills/details",
-      params: { competencyId }
-    });
-  };
+            // Subscribe to changes
+            const unsubscribe = completionStore.subscribe((completedIds) => {
+                setCompletedCompetencies(completedIds);
+            });
 
   // Function to uncheck all competencies
   const handleUncheckAll = async () => {
@@ -169,10 +144,12 @@ export default function SkillsScreen() {
               />
             </View> */}
 
-            {/* Exam Prep Component */}
-            <View style={styles.componentContainer}>
-              <ExamPrep />
-            </View>
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+        };
+    }, []);
 
             {/* Ranking Component */}
             {/* <View style={styles.componentContainer}>
@@ -211,10 +188,6 @@ export default function SkillsScreen() {
                   checked={completedCompetencies.includes(competency.id)}
                   onCheckedChange={() => handleCompetencyPress(competency.id)}
                 />
-              ))}
-            </View>
-          </View>
-        )}
 
         {selectedTab === "theoretical" && (
           <View style={styles.tabContentContainer}>
