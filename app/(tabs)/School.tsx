@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import workData from "@/data/work-data.json";
+
 import { CompetencyCompletion } from "@/components/shared/CompetencyCompletion";
 import { CompletedLines } from "@/components/shared/CompletedLines";
 import { ExpenseCard } from "@/components/shared/ExpenseCard";
@@ -42,11 +44,69 @@ export default function SchoolScreen() {
     const [showInfoModal, setShowInfoModal] = useState(false);
     const [showCompetencyInfoModal, setShowCompetencyInfoModal] =
         useState(false);
+    const [demoState, setDemoState] = useState<"before" | "after">("before");
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Helper function to get current data based on demo state
+    const getCurrentData = (dataPath: any) => {
+        if (
+            typeof dataPath === "object" &&
+            dataPath !== null &&
+            !Array.isArray(dataPath)
+        ) {
+            if (dataPath.before !== undefined && dataPath.after !== undefined) {
+                return dataPath[demoState];
+            }
+        }
+        return dataPath;
+    };
+
+    // Toggle demo state function with loading animation
+    const toggleDemoState = () => {
+        setIsLoading(true);
+
+        // Simulate loading delay for better UX
+        setTimeout(() => {
+            setDemoState((current) =>
+                current === "before" ? "after" : "before"
+            );
+
+            // End loading after state change
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 6000); // Additional time for progress bar animation
+        }, 300);
+    };
+
+    // Get school page data
+    const schoolPageData = workData["level 2"].school_page;
+
+    // Skeleton loading component for text
+    const SkeletonText = ({
+        width = 100,
+        height = 16,
+    }: {
+        width?: number;
+        height?: number;
+    }) => <View style={[styles.skeletonText, { width, height }]} />;
+
+    // Helper to render text or skeleton based on loading state
+    const renderTextOrSkeleton = (
+        text: string | number,
+        skeletonWidth = 60
+    ) => {
+        if (isLoading) {
+            return <SkeletonText width={skeletonWidth} />;
+        }
+        return typeof text === "string" ? text : text.toString();
+    };
 
     const handleSubmit = () => {
         if (selectedInstitution && selectedProgram && selectedDuration) {
             setIsLoadingProgram(true);
             setShowEnrollmentModal(false);
+            // Reset demo state to "before" when registering
+            setDemoState("before");
             setTimeout(() => {
                 setIsLoadingProgram(false);
                 setIsProgramRegistered(true);
@@ -75,12 +135,23 @@ export default function SchoolScreen() {
             >
                 {/* Top Card */}
                 <SectionHeading
-                    level="Level 2"
+                    level={schoolPageData.sectionHeading.level}
                     icon_action="cached"
-                    title="Technical Training"
-                    currentHours={isProgramRegistered ? 9 : 0}
-                    totalHours={10}
-                    percentage={isProgramRegistered ? 72 : 0}
+                    title={schoolPageData.sectionHeading.title}
+                    currentHours={
+                        !isProgramRegistered 
+                            ? schoolPageData.sectionHeading.currentHours.before 
+                            : getCurrentData(schoolPageData.sectionHeading.currentHours)
+                    }
+                    totalHours={schoolPageData.sectionHeading.totalHours}
+                    percentage={
+                        !isProgramRegistered 
+                            ? schoolPageData.sectionHeading.percentage.before 
+                            : getCurrentData(schoolPageData.sectionHeading.percentage)
+                    }
+                    onIconPress={isProgramRegistered ? toggleDemoState : undefined}
+                    isLoading={isLoading}
+                    hrsText="weeks"
                 />
 
                 {/* Tab Navigation */}
@@ -113,8 +184,8 @@ export default function SchoolScreen() {
                         {isLoadingProgram ? (
                             <View style={styles.enrollmentFormContainer}>
                                 <LoadingQuiz
-                                    loadingTitle="Sample"
-                                    loadingContent="Sample"
+                                    loadingTitle="Updating Data..."
+                                    loadingContent="Please wait while we update your technical training information to show your progress."
                                 />
                             </View>
                         ) : isProgramRegistered ? (
@@ -178,10 +249,16 @@ export default function SchoolScreen() {
                                 <View style={styles.examAttemptCard}>
                                     <View style={styles.examAttemptLeft}>
                                         <Text style={styles.examAttemptTitle}>
-                                            Attempt 1
+                                            {schoolPageData.standardExamSection.examAttempt}
                                         </Text>
                                         <Text style={styles.examAttemptDate}>
-                                            Mar 12, 2025
+                                            {isLoading ? (
+                                                <SkeletonText width={80} height={16} />
+                                            ) : (
+                                                getCurrentData(
+                                                    schoolPageData.standardExamSection.examAttemptDate
+                                                ) || "Not scheduled"
+                                            )}
                                         </Text>
                                         <View style={styles.registeredBadge}>
                                             <Text
@@ -189,55 +266,71 @@ export default function SchoolScreen() {
                                                     styles.registeredBadgeText
                                                 }
                                             >
-                                                Registered
+                                                {isLoading ? (
+                                                    <SkeletonText width={60} height={14} />
+                                                ) : (
+                                                    getCurrentData(
+                                                        schoolPageData.standardExamSection.registeredBadge
+                                                    )
+                                                )}
                                             </Text>
                                         </View>
                                     </View>
                                     <View style={styles.examAttemptRight}>
                                         <Text style={styles.examScore}>
-                                            55.5
+                                            {isLoading ? (
+                                                <SkeletonText width={40} height={32} />
+                                            ) : (
+                                                getCurrentData(
+                                                    schoolPageData.standardExamSection.examResult
+                                                )
+                                            )}
                                         </Text>
                                         <Text style={styles.examPercent}>
-                                            %
+                                            {!isLoading && getCurrentData(
+                                                schoolPageData.standardExamSection.examResult
+                                            ) !== "-" ? "%" : ""}
                                         </Text>
                                     </View>
                                 </View>
 
-                                {/* Level 3 Unlocked Card */}
-                                <View style={styles.levelUnlockedCard}>
-                                    <View style={styles.levelUnlockedHeader}>
-                                        <MaterialIcon
-                                            name="icon-lock"
-                                            size={20}
-                                            color={Colors.orange[500]}
-                                        />
-                                        <Text style={styles.levelUnlockedTitle}>
-                                            Level 3 Unlocked
-                                        </Text>
-                                    </View>
-                                    <Text
-                                        style={styles.levelUnlockedDescription}
-                                    >
-                                        Congratulations – you have achieved all
-                                        the requirements for Level 2. Press the
-                                        button below to continue your trades
-                                        journey
-                                    </Text>
-                                    <TouchableOpacity
-                                        style={styles.nextLevelButton}
-                                    >
+                                {/* Level 3 Unlocked Card - Only show in "after" state */}
+                                {demoState === "after" && (
+                                    <View style={styles.levelUnlockedCard}>
+                                        <View style={styles.levelUnlockedHeader}>
+                                            <MaterialIcon
+                                                name="icon-lock"
+                                                size={20}
+                                                color={Colors.orange[500]}
+                                            />
+                                            <Text style={styles.levelUnlockedTitle}>
+                                                Level 3 Unlocked
+                                            </Text>
+                                        </View>
                                         <Text
-                                            style={styles.nextLevelButtonText}
+                                            style={styles.levelUnlockedDescription}
                                         >
-                                            Start the next level
+                                            Congratulations – you have achieved all
+                                            the requirements for Level 2. Press the
+                                            button below to continue your trades
+                                            journey
                                         </Text>
-                                        <MaterialIcon
-                                            name="icon-arrow-forward"
-                                            size={20}
-                                            color={Colors.white}
-                                        />
-                                    </TouchableOpacity>
-                                </View>
+                                        <TouchableOpacity
+                                            style={styles.nextLevelButton}
+                                        >
+                                            <Text
+                                                style={styles.nextLevelButtonText}
+                                            >
+                                                Start the next level
+                                            </Text>
+                                            <MaterialIcon
+                                                name="icon-arrow-forward"
+                                                size={20}
+                                                color={Colors.white}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
                             </>
                         ) : (
                             <>
@@ -976,6 +1069,16 @@ export default function SchoolScreen() {
                     </TouchableOpacity>
                 </TouchableOpacity>
             )}
+
+            {/* Loading Quiz Overlay */}
+            {isLoading && (
+                <View style={styles.loadingOverlay}>
+                    <LoadingQuiz
+                        loadingTitle="Updating Data..."
+                        loadingContent="Please wait while we update your technical training information to show your progress."
+                    />
+                </View>
+            )}
         </View>
     );
 }
@@ -995,6 +1098,21 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         marginTop: 8,
         marginHorizontal: 20,
+    },
+    skeletonText: {
+        backgroundColor: "#E1E1E1",
+        borderRadius: 4,
+    },
+    loadingOverlay: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 10000,
     },
     financeHeader: {
         flexDirection: "row",
@@ -1237,6 +1355,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginLeft: 16,
+    },
+    discrepancyHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 20,
+        marginTop: 8,
     },
     discrepancyTitle: {
         ...Typography.sectionHeader,
