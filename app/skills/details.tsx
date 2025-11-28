@@ -38,11 +38,11 @@ export default function SkillsDetailsScreen() {
   );
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Generate text content for TTS from competency data
   const generateTTSContent = (data: CompetencyData): string => {
     let content = `${data.Title}. `;
-    data.Summary.forEach(section => {
+    data.Summary.forEach((section) => {
       content += `${section.Section}: ${section.Content}. `;
     });
     return content;
@@ -97,8 +97,6 @@ export default function SkillsDetailsScreen() {
     });
   };
 
-
-
   const handleMarkAsComplete = async () => {
     if (!competencyData) return;
 
@@ -146,7 +144,7 @@ export default function SkillsDetailsScreen() {
     <SafeAreaView style={CommonStyles.container}>
       <Image
         source={require("@/assets/images/background-grid 1.svg")}
-        style={CommonStyles.backgroundImage}
+        style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
         resizeMode="cover"
       />
       <ScrollView
@@ -167,7 +165,7 @@ export default function SkillsDetailsScreen() {
 
           <TTSAudioPlayer
             text={generateTTSContent(competencyData)}
-            apiKey={process.env.EXPO_PUBLIC_GOOGLE_TTS_API_KEY || ''}
+            apiKey={process.env.EXPO_PUBLIC_GOOGLE_TTS_API_KEY || ""}
             languageCode="en-US"
             voiceName="en-US-Wavenet-F"
             speakingRate={1.0}
@@ -183,11 +181,9 @@ export default function SkillsDetailsScreen() {
               </View>
             ))}
           </View>
-
-
         </View>
       </ScrollView>
-      
+
       {/* Sticky Bottom Button Bar */}
       <View style={styles.stickyButtonContainer}>
         <ButtonButtonBar
@@ -202,11 +198,11 @@ export default function SkillsDetailsScreen() {
 
 const styles = StyleSheet.create({
   mainContainerBody: {
-    flexDirection: 'column',
+    flexDirection: "column",
     gap: 12,
   },
   stickyButtonContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -16,
     left: 0,
     right: 0,

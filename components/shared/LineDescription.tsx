@@ -10,16 +10,20 @@ interface LineDescriptionProps {
 }
 
 export const LineDescription: React.FC<LineDescriptionProps> = ({ title, description, content }) => (
-  <>
+  <View style={styles.mainContainer}>
     <Text style={styles.title}>{title}</Text>
     <View style={styles.container}>
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.content}>{content}</Text>
     </View>
-  </>
+  </View>
 );
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   container: {
     backgroundColor: Colors.white,
     borderColor: Colors.borderGrey,
@@ -27,14 +31,15 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 20,
     paddingVertical: 20,
-    width: 353,
-    height: 86,
+    // width: 353,
+    // height: 86,
     shadowColor: '#000',
     shadowOpacity: 0.06,
     shadowRadius: 6,
     elevation: 1,
   },
   title: {
+    textAlign: 'left',
     ...Typography.contentBold,
     color: Colors.grey[900],
     marginBottom: 8,

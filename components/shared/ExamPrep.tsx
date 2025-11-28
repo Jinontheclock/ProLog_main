@@ -24,24 +24,30 @@ export const ExamPrep = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 353,
-    alignSelf: 'center',
+    flex: 1,
+    width: '100%',
+    alignSelf: 'stretch',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    paddingHorizontal: 0,
   },
   cardButton: {
+    width: '100%',
     marginBottom: 12,
     borderRadius: 20,
     overflow: 'hidden',
+    alignSelf: 'center',
   },
   image1: {
-    width: 353,
+    width: '100%',
     height: 136,
+    resizeMode: 'cover',
   },
   image2: {
-    width: 353,
+    width: '100%',
     height: 118,
+    resizeMode: 'cover',
   },
 });
 

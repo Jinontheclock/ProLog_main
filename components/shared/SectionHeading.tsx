@@ -14,6 +14,7 @@ interface SectionHeadingProps {
   onIconPress?: () => void;
   isLoading?: boolean;
   hrsText?: string;
+  hoursIcon?: keyof typeof import('./MaterialIcon').ICON_NAMES;
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
@@ -26,6 +27,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   onIconPress,
   isLoading = false,
   hrsText = "hrs",
+  hoursIcon = "schedule",
 }) => {
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const skeletonOpacity = useRef(new Animated.Value(1)).current;
@@ -127,7 +129,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       
       <View style={styles.hoursContainer}>
         <MaterialIcon
-          name="schedule"
+          name={hoursIcon}
           size={20}
           color={Colors.grey[500]}
         />

@@ -3,7 +3,7 @@ import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface HourItem {
   title: string;
@@ -203,20 +203,20 @@ const styles = StyleSheet.create({
     marginTop: 12,
     width: '100%',
   },
-  shadow: {
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.12,
-        shadowRadius: 12,
-      },
-      android: {
-        elevation: 6,
-      },
-      default: {},
-    }),
-  },
+  // shadow: {
+  //   ...Platform.select({
+  //     ios: {
+  //       shadowColor: '#000',
+  //       shadowOffset: { width: 0, height: 6 },
+  //       shadowOpacity: 0.12,
+  //       shadowRadius: 12,
+  //     },
+  //     android: {
+  //       elevation: 6,
+  //     },
+  //     default: {},
+  //   }),
+  // },
   valueContainer: {
     minHeight: 28,
     justifyContent: 'center',

@@ -1,7 +1,15 @@
 import { Colors } from "@/constants/colors";
 import { Typography } from "@/constants/typography";
+import { CommonStyles } from "@/lib/common-styles";
 import React from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { ButtonButtonBar } from "./ButtonButtonBar";
 import MaterialIcon from "./MaterialIcon";
 import QuizScores from "./QuizScores";
@@ -24,6 +32,11 @@ export default function QuizResults({
   const currentDate = new Date().toLocaleDateString();
   return (
     <View style={styles.pageContainer}>
+      <Image
+        source={require("@/assets/images/background-grid 1.svg")}
+        style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
+        resizeMode="cover"
+      />
       {/* Header with Back Button */}
       <View style={styles.pageHeader}>
         <TouchableOpacity style={styles.headerBackButton} onPress={onBack}>
@@ -36,54 +49,58 @@ export default function QuizResults({
         <QuizHeader title="Quiz Result" />
         <View style={{ width: 40 }} />
       </View>
-      
-      <ScrollView 
+
+      <ScrollView
         style={styles.scrollableContent}
         contentContainerStyle={styles.scrollContentContainer}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.resultsContainer}>
-        <View style={styles.currentResult}>
-          <View style={styles.header}>
-            <View style={styles.iconContainer}>
-              <MaterialIcon name="check" size={24} color="white" />
+          <View style={styles.currentResult}>
+            <View style={styles.header}>
+              <View style={styles.iconContainer}>
+                <MaterialIcon name="check" size={24} color="white" />
+              </View>
+              <Text style={styles.title}>You have Completed the Quiz!</Text>
             </View>
-            <Text style={styles.title}>You have Completed the Quiz!</Text>
+            <View style={styles.content}>
+              <Text style={styles.scoreTitle}>Score</Text>
+              <Text style={styles.scoreAchieved}>
+                {score}/{totalQuestions}
+              </Text>
+              <Text style={styles.scoreMessage}>
+                {percentage >= 80
+                  ? "Excellent work! You've mastered this topic."
+                  : percentage >= 60
+                  ? "Good job! Come back anytime to challenge it again to improve your understanding."
+                  : "Keep practicing! Review the material and try again to improve your score."}
+              </Text>
+            </View>
           </View>
-          <View style={styles.content}>
-            <Text style={styles.scoreTitle}>Score</Text>
-            <Text style={styles.scoreAchieved}>
-              {score}/{totalQuestions}
-            </Text>
-            <Text style={styles.scoreMessage}>
-              {percentage >= 80
-                ? "Excellent work! You've mastered this topic."
-                : percentage >= 60
-                ? "Good job! Come back anytime to challenge it again to improve your understanding."
-                : "Keep practicing! Review the material and try again to improve your score."}
-            </Text>
+          <View style={styles.resultComparison}>
+            <Text style={styles.historyTitle}>Quiz History</Text>
+            <QuizScores
+              attempt="Current Attempt"
+              correctAnswers={score}
+              totalQuestions={totalQuestions}
+              date={currentDate}
+              score={percentage.toString()}
+            />
+            <QuizScores
+              attempt="Previous Attempt"
+              correctAnswers={Math.max(0, score - 1)}
+              totalQuestions={totalQuestions}
+              date={new Date(
+                Date.now() - 24 * 60 * 60 * 1000
+              ).toLocaleDateString()}
+              score={Math.round(
+                (Math.max(0, score - 1) / totalQuestions) * 100
+              ).toString()}
+            />
           </View>
-        </View>
-        <View style={styles.resultComparison}>
-          <Text style={styles.historyTitle}>Quiz History</Text>
-          <QuizScores
-            attempt="Current Attempt"
-            correctAnswers={score}
-            totalQuestions={totalQuestions}
-            date={currentDate}
-            score={percentage.toString()}
-          />
-          <QuizScores
-            attempt="Previous Attempt"
-            correctAnswers={Math.max(0, score - 1)}
-            totalQuestions={totalQuestions}
-            date={new Date(Date.now() - 24 * 60 * 60 * 1000).toLocaleDateString()}
-            score={Math.round((Math.max(0, score - 1) / totalQuestions) * 100).toString()}
-          />
-        </View>
         </View>
       </ScrollView>
-      
+
       {/* Sticky Bottom Button Bar */}
       <View style={styles.stickyButtonContainer}>
         <ButtonButtonBar
@@ -101,7 +118,7 @@ export default function QuizResults({
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
   },
   scrollableContent: {
     flex: 1,
@@ -141,8 +158,8 @@ const styles = StyleSheet.create({
     minHeight: 600, // Minimum height to ensure content visibility
   },
   currentResult: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: 85,
     backgroundColor: Colors.white,
     borderRadius: 16,
@@ -194,7 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
-    width: '100%', // Ensure full width
+    width: "100%", // Ensure full width
   },
   historyTitle: {
     ...Typography.contentSubtitle,

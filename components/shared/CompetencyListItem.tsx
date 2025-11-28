@@ -30,26 +30,27 @@ export const CompetencyListItem: React.FC<CompetencyListItemProps> = ({ text, ch
     <TouchableOpacity style={[styles.container, isChecked ? styles.checked : styles.unchecked]} onPress={handlePress} activeOpacity={0.7}>
       <View style={styles.iconBox}>
         {isChecked ? (
-          <MaterialIcons name="check-box" size={32} color={Colors.grey[700]} />
+          <MaterialIcons name="check-box" size={24} color={Colors.grey[700]} />
         ) : (
-          <MaterialIcons name="check-box-outline-blank" size={32} color={Colors.black} />
+          <MaterialIcons name="check-box-outline-blank" size={24} color={Colors.black} />
         )}
       </View>
       <Text style={[styles.text, isChecked ? styles.checkedText : styles.uncheckedText]}>{text}</Text>
-      <MaterialIcons name="chevron-right" size={32} color={Colors.grey[300]} style={styles.chevron} />
+      <MaterialIcons name="chevron-right" size={24} color={Colors.grey[300]} style={styles.chevron} />
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingVertical: 18,
     paddingHorizontal: 20,
     borderRadius: 0,
-    backgroundColor: 'transparent',
-    marginVertical: 8,
+    backgroundColor: Colors.white,
+    // marginVertical: 8,
   },
   checked: {},
   unchecked: {},
@@ -62,6 +63,8 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     ...Typography.bigBody,
+    minHeight: 26,
+    alignSelf: 'center'
   },
   checkedText: {
     color: Colors.grey[700],

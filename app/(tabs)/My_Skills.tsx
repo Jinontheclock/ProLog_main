@@ -3,8 +3,6 @@ import { ExamPrep } from "@/components/shared/ExamPrep";
 import { LineCarousel } from "@/components/shared/LineCarousel";
 import { LineDescription } from "@/components/shared/LineDescription";
 import { PageSwitch } from "@/components/shared/PageSwitch";
-import { Ranking } from "@/components/shared/Ranking";
-import { Recents } from "@/components/shared/Recents";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { CommonStyles } from "@/lib/common-styles";
@@ -14,11 +12,11 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import {
-  SafeAreaView,
-  useSafeAreaInsets,
+  useSafeAreaInsets
 } from "react-native-safe-area-context";
 
 // Import the competency data
+import { Colors } from "@/constants";
 import skillsData from '@/data/skills-competency-summary.json';
 
 type CompetencyItem = {
@@ -29,28 +27,6 @@ type CompetencyItem = {
   Quiz: string;
 };
 
-const styles = StyleSheet.create({
-  buttonContainer: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
-  },
-  overallContainer: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
-    gap: 24,
-  },
-  componentContainer: {
-    alignItems: "center",
-  },
-  tabContentContainer: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
-    gap: 20,
-  },
-  tabComponentContainer: {
-    alignItems: "center",
-  },
-});
 
 export default function SkillsScreen() {
   const skillId = "123";
@@ -62,6 +38,8 @@ export default function SkillsScreen() {
   const insets = useSafeAreaInsets();
   const [selectedSkill, setSelectedSkill] = React.useState<string | null>(null);
   const [completedCompetencies, setCompletedCompetencies] = React.useState<string[]>([]);
+  const [selectedPracticalLine, setSelectedPracticalLine] = React.useState("A");
+  const [selectedTheoreticalLine, setSelectedTheoreticalLine] = React.useState("A");
 
   // Process competency data from JSON
   const lineACompetencies = skillsData['level 1']['Line A'] as CompetencyItem[];
@@ -117,8 +95,18 @@ export default function SkillsScreen() {
     });
   };
 
+  // Function to uncheck all competencies
+  const handleUncheckAll = async () => {
+    try {
+      await completionStore.clearAll();
+      console.log('All competencies unchecked successfully');
+    } catch (error) {
+      console.error('Error clearing competencies:', error);
+    }
+  };
+
   return (
-    <SafeAreaView style={CommonStyles.container}>
+    <View style={[CommonStyles.container, { backgroundColor: "#F0F0F0" }]}>
       <Image
         source={require("@/assets/images/background-grid 1.svg")}
         style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
@@ -134,11 +122,14 @@ export default function SkillsScreen() {
         {/* Top Card */}
         <SectionHeading
           level="Level 2"
-          title="Skills"
+          title="Skills Competency"
           icon_action="cached"
-          currentHours={10} // Example value
-          totalHours={100} // Example value
-          percentage={10} // Example value
+          currentHours={0} // Example value
+          totalHours={81} // Example value
+          percentage={0} // Example value
+          hrsText=""
+          hoursIcon="electric_bolt"
+          onIconPress={handleUncheckAll}
         />
 
         {/* Tab Navigation */}
@@ -153,12 +144,12 @@ export default function SkillsScreen() {
             {
               id: "practical",
               label: "Practical",
-              iconName: "build",
+              iconName: "back_hand",
             },
             {
               id: "theoretical",
               label: "Theoretical",
-              iconName: "menu_book",
+              iconName: "library_book",
             },
           ]}
           selectedTab={selectedTab}
@@ -169,14 +160,14 @@ export default function SkillsScreen() {
         {selectedTab === "overall" && (
           <View style={styles.overallContainer}>
             {/* Recents Component */}
-            <View style={styles.componentContainer}>
+            {/* <View style={styles.componentContainer}>
               <Recents
                 title="Recently viewed"
                 line="Line A-3"
                 description="Describe the concepts of electricity..."
                 onRemove={() => console.log("Remove recent item")}
               />
-            </View>
+            </View> */}
 
             {/* Exam Prep Component */}
             <View style={styles.componentContainer}>
@@ -184,9 +175,10 @@ export default function SkillsScreen() {
             </View>
 
             {/* Ranking Component */}
-            <View style={styles.componentContainer}>
+            {/* <View style={styles.componentContainer}>
               <Ranking title="Avg. Score" scoreRange="90-94%" rank="Top 2" />
-            </View>
+              <Ranking title="Avg. Score" scoreRange="90-94%" rank="Top 2" />
+            </View> */}
           </View>
         )}
 
@@ -196,22 +188,22 @@ export default function SkillsScreen() {
             <View style={styles.tabComponentContainer}>
               <LineCarousel
                 lines={["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]}
-                selectedLine="A"
-                onLineSelect={(line) => console.log("Selected line:", line)}
+                selectedLine={selectedPracticalLine}
+                onLineSelect={(line) => setSelectedPracticalLine(line)}
               />
             </View>
 
             {/* Line Description */}
             <View style={styles.tabComponentContainer}>
               <LineDescription
-                title="Line C"
-                description="Hands-on experience"
+                title={`Line ${selectedPracticalLine}`}
+                description="Description"
                 content="Learn practical electrical skills through real-world applications and laboratory exercises."
               />
             </View>
 
             {/* Competency List Items */}
-            <View style={styles.tabComponentContainer}>
+            <View style={styles.competencyListContainer}>
               {practicalCompetencies.map((competency) => (
                 <CompetencyListItem
                   key={competency.id}
@@ -230,22 +222,22 @@ export default function SkillsScreen() {
             <View style={styles.tabComponentContainer}>
               <LineCarousel
                 lines={["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]}
-                selectedLine="A"
-                onLineSelect={(line) => console.log("Selected line:", line)}
+                selectedLine={selectedTheoreticalLine}
+                onLineSelect={(line) => setSelectedTheoreticalLine(line)}
               />
             </View>
 
             {/* Line Description */}
             <View style={styles.tabComponentContainer}>
               <LineDescription
-                title="Line X"
-                description="Fundamental principles"
+                title={`Line ${selectedTheoreticalLine}`}
+                description="Description"
                 content="Master the theoretical foundations of electrical engineering and circuit analysis."
               />
             </View>
 
             {/* Competency List Items */}
-            <View style={styles.tabComponentContainer}>
+            <View style={styles.competencyListContainer}>
               {theoryCompetencies.map((competency) => (
                 <CompetencyListItem
                   key={competency.id}
@@ -258,6 +250,41 @@ export default function SkillsScreen() {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+  },
+  overallContainer: {
+    paddingHorizontal: 24,
+    gap: 24,
+    flex: 1,
+  },
+  componentContainer: {
+    alignItems: "center",
+    width: '100%',
+    flex: 1,
+  },
+  tabContentContainer: {
+    paddingHorizontal: 24,
+    // paddingTop: 24,
+    gap: 20,
+  },
+  tabComponentContainer: {
+    alignItems: "center",
+  },
+  competencyListContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+    paddingVertical: 12,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    borderColor: Colors.grey[100]
+  }
+});
