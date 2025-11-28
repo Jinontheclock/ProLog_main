@@ -20,15 +20,49 @@ export const AddReminderDialogueBox: React.FC<AddReminderDialogueBoxProps> = ({
   const [eventName, setEventName] = useState('');
   const [date, setDate] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+  
+  // Demo content for auto-fill
+  const demoEventName = 'Test Next Week';
+  const demoDate = 'Dec 05, 2025';
+  
+  const handleEventNameFocus = () => {
+    // Auto-fill with demo content when focused
+    if (!eventName) {
+      setEventName(demoEventName);
+      setDate(demoDate);
+    }
+  };
+
+  const getDatePickerValue = () => {
+    if (date) {
+      // Parse the existing date string back to Date object
+      // Handle format like "Dec 02, 2025"
+      let parsedDate = new Date(date);
+      
+      // If direct parsing fails, try alternative parsing
+      if (isNaN(parsedDate.getTime()) && date.includes(',')) {
+        const parts = date.split(',');
+        if (parts.length === 2) {
+          const [monthDay, year] = parts;
+          parsedDate = new Date(`${monthDay.trim()}, ${year.trim()}`);
+        }
+      }
+      
+      return !isNaN(parsedDate.getTime()) ? parsedDate : new Date();
+    }
+    return new Date();
+  };
 
   if (!visible) return null;
 
   const handleDateSelect = (selectedDate: Date) => {
-    const formatted = selectedDate.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
-    });
+    // Use manual formatting to avoid locale issues on mobile
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = months[selectedDate.getMonth()];
+    const day = selectedDate.getDate();
+    const year = selectedDate.getFullYear();
+    // Use padStart to ensure consistent formatting like "Dec 02, 2025"
+    const formatted = `${month} ${day.toString().padStart(2, '0')}, ${year}`;
     setDate(formatted);
     setShowDatePicker(false);
   };
@@ -63,6 +97,7 @@ export const AddReminderDialogueBox: React.FC<AddReminderDialogueBoxProps> = ({
             placeholderTextColor={Colors.grey[300]}
             value={eventName}
             onChangeText={setEventName}
+            onFocus={handleEventNameFocus}
           />
         </View>
 
@@ -113,7 +148,7 @@ export const AddReminderDialogueBox: React.FC<AddReminderDialogueBoxProps> = ({
               </TouchableOpacity>
               {showDatePicker && (
                 <DateTimePicker
-                  value={new Date()}
+                  value={getDatePickerValue()}
                   mode="date"
                   display="default"
                   onChange={(event, selectedDate) => {
@@ -146,7 +181,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 20,
     width: 353,
-    height: 352,
+    // height: 352,
     paddingVertical: 24,
     paddingHorizontal: 18.5,
     alignItems: 'center',

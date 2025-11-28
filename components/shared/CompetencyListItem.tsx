@@ -30,80 +30,53 @@ export const CompetencyListItem: React.FC<CompetencyListItemProps> = ({
         }
     };
 
-    return (
-        <TouchableOpacity
-            style={[
-                styles.container,
-                isChecked ? styles.checked : styles.unchecked,
-            ]}
-            onPress={handlePress}
-            activeOpacity={0.7}
-        >
-            <View style={styles.iconBox}>
-                {isChecked ? (
-                    <MaterialIcons
-                        name="check-box"
-                        size={32}
-                        color={Colors.grey[700]}
-                    />
-                ) : (
-                    <MaterialIcons
-                        name="check-box-outline-blank"
-                        size={32}
-                        color={Colors.black}
-                    />
-                )}
-            </View>
-            <Text
-                style={[
-                    styles.text,
-                    isChecked ? styles.checkedText : styles.uncheckedText,
-                ]}
-            >
-                {text}
-            </Text>
-            <MaterialIcons
-                name="chevron-right"
-                size={32}
-                color={Colors.grey[300]}
-                style={styles.chevron}
-            />
-        </TouchableOpacity>
-    );
+  return (
+    <TouchableOpacity style={[styles.container, isChecked ? styles.checked : styles.unchecked]} onPress={handlePress} activeOpacity={0.7}>
+      <View style={styles.iconBox}>
+        {isChecked ? (
+          <MaterialIcons name="check-box" size={24} color={Colors.grey[700]} />
+        ) : (
+          <MaterialIcons name="check-box-outline-blank" size={24} color={Colors.black} />
+        )}
+      </View>
+      <Text style={[styles.text, isChecked ? styles.checkedText : styles.uncheckedText]}>{text}</Text>
+      <MaterialIcons name="chevron-right" size={24} color={Colors.grey[300]} style={styles.chevron} />
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        paddingVertical: 18,
-        paddingHorizontal: 20,
-        gap: 12,
-        marginVertical: 0,
-        backgroundColor: Colors.white,
-        borderRadius: 8,
-        alignSelf: "stretch",
-    },
-    checked: {},
-    unchecked: {},
-    iconBox: {
-        marginRight: 16,
-        alignItems: "center",
-        justifyContent: "flex-start",
-        marginTop: 2,
-    },
-    text: {
-        flex: 1,
-        ...Typography.bigBody,
-    },
-    checkedText: {
-        color: Colors.grey[700],
-    },
-    uncheckedText: {
-        color: Colors.black,
-    },
-    chevron: {
-        marginLeft: 12,
-    },
+  container: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingVertical: 18,
+    paddingHorizontal: 20,
+    borderRadius: 0,
+    backgroundColor: Colors.white,
+    // marginVertical: 8,
+  },
+  checked: {},
+  unchecked: {},
+  iconBox: {
+    marginRight: 16,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 2,
+  },
+  text: {
+    flex: 1,
+    ...Typography.bigBody,
+    minHeight: 26,
+    alignSelf: 'center'
+  },
+  checkedText: {
+    color: Colors.grey[700],
+  },
+  uncheckedText: {
+    color: Colors.black,
+  },
+  chevron: {
+    marginLeft: 12,
+  },
 });

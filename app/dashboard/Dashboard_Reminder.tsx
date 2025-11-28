@@ -11,45 +11,84 @@ import React, { useEffect, useState } from 'react';
 import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const DEFAULT_REMINDERS = [
-  { title: 'First Day Back School', date: 'Dec 2, 2025', day: 'Tuesday' },
-  { title: 'Canada Apprenticeship Loan Deadline', date: 'Dec 2, 2025', day: 'Tuesday' },
-  { title: 'Purchase Textbooks', date: 'Dec 2, 2025', day: 'Tuesday' },
+interface ReminderItem {
+  title: string;
+  date: string;
+  day: string;
+  isNew?: boolean;
+  deleted?: boolean;
+}
+
+const DEFAULT_REMINDERS: ReminderItem[] = [
+  { title: 'BCIT Tuition Deadline', date: 'Dec 07, 2025', day: 'Sunday' },
+  { title: 'Apply for EI', date: 'Dec 31, 2025', day: 'Wednesday' },
 ];
 
 export default function DashboardReminderScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [pendingDeleteIndex, setPendingDeleteIndex] = useState<number | null>(null);
-  const [reminderList, setReminderList] = useState(DEFAULT_REMINDERS);
+  const [reminderList, setReminderList] = useState<ReminderItem[]>(DEFAULT_REMINDERS);
 
   // Helper: merge user reminders with defaults, removing deleted defaults
-  function mergeReminders(userReminders) {
+  function mergeReminders(userReminders: ReminderItem[]) {
     // If user deleted a default, don't show it
-    const userTitles = userReminders.map(r => r.title);
+    const userTitles = userReminders.map((r: ReminderItem) => r.title);
     // Keep defaults not deleted, and add new user reminders
     const merged = [
       ...DEFAULT_REMINDERS.filter(def => userTitles.includes(def.title)),
-      ...userReminders.filter(r => !DEFAULT_REMINDERS.some(def => def.title === r.title))
+      ...userReminders.filter((r: ReminderItem) => !DEFAULT_REMINDERS.some(def => def.title === r.title))
     ];
     return merged;
   }
+
+  // Function to sort reminders by date (closest first)
+  const sortRemindersByDate = (reminders: ReminderItem[]) => {
+    return reminders.sort((a: ReminderItem, b: ReminderItem) => {
+      // Use the same parsing logic for consistency
+      const parseDate = (dateStr: string) => {
+        if (dateStr.includes(',')) {
+          const [monthDay, yearStr] = dateStr.split(',').map(s => s.trim());
+          const [monthStr, dayStr] = monthDay.split(' ');
+          
+          const monthMap: {[key: string]: number} = {
+            'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+            'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+          };
+          
+          const monthIndex = monthMap[monthStr];
+          const dayNum = parseInt(dayStr, 10);
+          const yearNum = parseInt(yearStr, 10);
+          
+          if (monthIndex !== undefined && !isNaN(dayNum) && !isNaN(yearNum)) {
+            return new Date(yearNum, monthIndex, dayNum);
+          }
+        }
+        return new Date(dateStr);
+      };
+      
+      const dateA = parseDate(a.date);
+      const dateB = parseDate(b.date);
+      return dateA.getTime() - dateB.getTime();
+    });
+  };
 
   // Load reminders from AsyncStorage on mount
   useEffect(() => {
     (async () => {
       try {
         const stored = await AsyncStorage.getItem('reminders');
-        let userReminders = [];
+        let userReminders: ReminderItem[] = [];
         if (stored) {
-          userReminders = JSON.parse(stored).filter(r => !r.deleted);
+          userReminders = JSON.parse(stored).filter((r: ReminderItem) => !r.deleted).map((r: ReminderItem) => ({ ...r, isNew: true }));
         }
         // Always show defaults + user-added events (deleted defaults are restored)
         const merged = [
           ...DEFAULT_REMINDERS,
-          ...userReminders.filter(r => !DEFAULT_REMINDERS.some(def => def.title === r.title))
+          ...userReminders.filter((r: ReminderItem) => !DEFAULT_REMINDERS.some(def => def.title === r.title))
         ];
-        setReminderList(merged);
+        const sorted = sortRemindersByDate(merged);
+        setReminderList(sorted);
       } catch (e) {
         setReminderList(DEFAULT_REMINDERS);
       }
@@ -64,19 +103,54 @@ export default function DashboardReminderScreen() {
   }, [reminderList]);
 
   const handleAddReminder = (title: string, date: string) => {
-    // Calculate day of week from date string
-    let parsedDate = new Date(date);
+    // More explicit date parsing for mobile reliability
+    let parsedDate;
+    
+    if (date.includes(',')) {
+      // Parse "Dec 02, 2025" format explicitly
+      const [monthDay, yearStr] = date.split(',').map(s => s.trim());
+      const [monthStr, dayStr] = monthDay.split(' ');
+      
+      // Map month names to numbers (0-based)
+      const monthMap: {[key: string]: number} = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+      };
+      
+      const monthIndex = monthMap[monthStr];
+      const dayNum = parseInt(dayStr, 10);
+      const yearNum = parseInt(yearStr, 10);
+      
+      if (monthIndex !== undefined && !isNaN(dayNum) && !isNaN(yearNum)) {
+        // Use Date constructor with year, month, day parameters
+        parsedDate = new Date(yearNum, monthIndex, dayNum);
+      } else {
+        parsedDate = new Date(date);
+      }
+    } else {
+      parsedDate = new Date(date);
+    }
+    
+    // Final fallback
     if (isNaN(parsedDate.getTime())) {
       parsedDate = new Date();
     }
-    const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][parsedDate.getDay()];
-    const formattedDate = parsedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const newReminder = {
+    
+    const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][parsedDate.getDay()];
+    
+    // Always use manual formatting for consistency
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const finalFormattedDate = `${months[parsedDate.getMonth()]} ${parsedDate.getDate().toString().padStart(2, '0')}, ${parsedDate.getFullYear()}`;
+    
+    const newReminder: ReminderItem = {
       title,
-      date: formattedDate,
-      day,
+      date: finalFormattedDate,
+      day: dayOfWeek,
+      isNew: true,
     };
-    setReminderList([...reminderList, newReminder]);
+    const updatedList = [...reminderList, newReminder];
+    const sortedList = sortRemindersByDate(updatedList);
+    setReminderList(sortedList);
   };
 
   const handleDeleteReminder = (index: number) => {
@@ -116,7 +190,7 @@ export default function DashboardReminderScreen() {
 
         {/* Calendar and Reminders */}
         <ReminderFullView 
-          reminders={reminderList.filter(r => !r.deleted)} 
+          reminders={reminderList.filter((r: ReminderItem) => !r.deleted)} 
           onAddReminder={() => setIsModalVisible(true)}
           onDeleteReminder={handleDeleteReminder}
         />

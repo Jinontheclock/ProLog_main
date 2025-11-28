@@ -110,7 +110,7 @@ export default function DashboardScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Hello Jessica</Text>
+            <Text style={styles.greeting}>Hello Ubin</Text>
             <Text style={styles.subtitle}>
               You're getting closer to the goal everyday!
             </Text>

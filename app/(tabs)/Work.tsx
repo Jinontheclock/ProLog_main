@@ -607,7 +607,6 @@ export default function WorkScreen() {
                 onClose={() => setShowSendDiscrepancyReportModal(false)}
                 onSend={() => {
                   setShowSendDiscrepancyReportModal(false);
-                  alert('Report sent!');
                 }}
             />
             {/* Completion Details Info Modal */}

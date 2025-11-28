@@ -2,10 +2,10 @@ import { ButtonButtonBar } from "@/components/shared/ButtonButtonBar";
 import { LoadingQuiz } from "@/components/shared/LoadingQuiz";
 import MaterialIcon from "@/components/shared/MaterialIcon";
 import QuizHeader from "@/components/shared/quiz/QuizHeader";
-import QuizOption from '@/components/shared/quiz/QuizOption';
-import QuizProgressBar from '@/components/shared/quiz/QuizProgressBar';
-import QuizQuestionContainer from '@/components/shared/quiz/QuizQuestionContainer';
-import QuizResults from '@/components/shared/QuizResults';
+import QuizOption from "@/components/shared/quiz/QuizOption";
+import QuizProgressBar from "@/components/shared/quiz/QuizProgressBar";
+import QuizQuestionContainer from "@/components/shared/quiz/QuizQuestionContainer";
+import QuizResults from "@/components/shared/QuizResults";
 import { Colors } from "@/constants/colors";
 import { Spacing } from "@/constants/design-tokens";
 import { Typography } from "@/constants/typography";
@@ -20,7 +20,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import {
   SafeAreaView,
@@ -154,7 +154,7 @@ const QuizPage: React.FC = () => {
   if (isCompleted) {
     return (
       <SafeAreaView style={CommonStyles.container}>
-        <QuizResults 
+        <QuizResults
           score={score}
           totalQuestions={questions.length}
           onBack={() => router.back()}
@@ -192,11 +192,11 @@ const QuizPage: React.FC = () => {
   // Render quiz content
   return (
     <SafeAreaView style={CommonStyles.container}>
-      {/* <Image
+      <Image
         source={require("@/assets/images/background-grid 1.svg")}
-        style={CommonStyles.backgroundImage}
+        style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
         resizeMode="cover"
-      /> */}
+      />
       <ScrollView
         style={CommonStyles.scrollView}
         contentContainerStyle={{
@@ -237,8 +237,15 @@ const QuizPage: React.FC = () => {
                 key={index}
                 label={option}
                 isSelected={selectedOption === option}
-                isCorrect={isAnswered && option === questions[currentQuestion].correctAnswer}
-                isIncorrect={isAnswered && selectedOption === option && option !== questions[currentQuestion].correctAnswer}
+                isCorrect={
+                  isAnswered &&
+                  option === questions[currentQuestion].correctAnswer
+                }
+                isIncorrect={
+                  isAnswered &&
+                  selectedOption === option &&
+                  option !== questions[currentQuestion].correctAnswer
+                }
                 onPress={() => handleOptionPress(option)}
                 disabled={isAnswered}
               />

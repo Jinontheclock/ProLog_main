@@ -8,6 +8,8 @@ interface ReminderItem {
   title: string;
   date: string;
   day: string;
+  isNew?: boolean;
+  deleted?: boolean;
 }
 
 interface ReminderFullViewProps {
@@ -22,9 +24,9 @@ interface ReminderFullViewProps {
 
 export const ReminderFullView: React.FC<ReminderFullViewProps> = ({
   reminders = [
-    { title: 'First Day Back School', date: 'Dec 2, 2025', day: 'Tuesday' },
-    { title: 'Canada Apprenticeship Loan Deadline', date: 'Dec 2, 2025', day: 'Tuesday' },
-    { title: 'Purchase Textbooks', date: 'Dec 2, 2025', day: 'Tuesday' },
+    { title: 'BCIT Tuition Deadline', date: 'Dec 07, 2025', day: 'Sunday' },
+    { title: 'Apply For EI', date: 'Dec 31, 2025', day: 'Wednesday' },
+    
   ],
   month = 'December',
   year = '2025',
@@ -147,7 +149,11 @@ export const ReminderFullView: React.FC<ReminderFullViewProps> = ({
               <View style={styles.reminderItem}>
                 <View style={styles.reminderContent}>
                   <View style={styles.reminderTitleRow}>
-                    <Text style={styles.reminderTitle}>{reminder.title}</Text>
+                    <View style={styles.titleWithIndicator}>
+                      <Text style={styles.reminderTitle}>{reminder.title}</Text>
+                      {/* Orange circle for new reminders */}
+                      {reminder.isNew && <View style={styles.newIndicator} />}
+                    </View>
                     <TouchableOpacity onPress={() => onDeleteReminder?.(index)}>
                       <MaterialCommunityIcons name="close" size={16} color={Colors.grey[300]} />
                     </TouchableOpacity>
@@ -176,7 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 20,
     width: 386,
-    height: 408,
+    // height: 408,
     padding: 24,
     shadowOffset: {
       width: 0,
@@ -324,10 +330,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  titleWithIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    gap: 8,
+  },
   reminderTitle: {
     ...Typography.buttonText,
     color: Colors.grey[900],
-    flex: 1,
+  },
+  newIndicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.orange[400],
   },
   reminderDate: {
     ...Typography.smBody,

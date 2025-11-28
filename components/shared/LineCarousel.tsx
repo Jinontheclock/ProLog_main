@@ -1,8 +1,8 @@
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface LineCarouselProps {
   lines?: string[];
@@ -11,71 +11,113 @@ interface LineCarouselProps {
 }
 
 export const LineCarousel: React.FC<LineCarouselProps> = ({
-  lines = ['Q', 'R', 'V', 'AA', 'A', 'B', 'C', 'D', 'G', 'H'],
-  selectedLine = 'V',
+  lines = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+  selectedLine = 'A',
   onLineSelect,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollViewRef = useRef<ScrollView>(null);
   
   const itemsPerPage = 5;
-  const visibleLines = lines.slice(currentIndex, currentIndex + itemsPerPage);
+  
+  // Get visible lines with infinite loop logic
+  const getVisibleLines = () => {
+    const visibleLines = [];
+    for (let i = 0; i < itemsPerPage; i++) {
+      const index = (currentIndex + i) % lines.length;
+      visibleLines.push(lines[index]);
+    }
+    return visibleLines;
+  };
   
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
+    const newIndex = currentIndex === 0 ? lines.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+    // The selected line is always at position 2 (middle) of visible lines
+    const selectedLineIndex = (newIndex + 2) % lines.length;
+    onLineSelect?.(lines[selectedLineIndex]);
   };
   
   const handleNext = () => {
-    if (currentIndex + itemsPerPage < lines.length) {
-      setCurrentIndex(currentIndex + 1);
-    }
+    const newIndex = (currentIndex + 1) % lines.length;
+    setCurrentIndex(newIndex);
+    // The selected line is always at position 2 (middle) of visible lines
+    const selectedLineIndex = (newIndex + 2) % lines.length;
+    onLineSelect?.(lines[selectedLineIndex]);
   };
 
+  const visibleLines = getVisibleLines();
+  
   return (
     <View style={styles.container}>
       <View style={styles.lineRow}>
-        {visibleLines.map((line, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.lineCircle,
-              index === 2 ? styles.selectedCircle : styles.normalCircle,
-            ]}
-            onPress={() => onLineSelect?.(line)}
-          >
-            <Text
+        {visibleLines.map((line, index) => {
+          const isSelected = index === 2; // Middle item is always selected
+          return (
+            <TouchableOpacity
+              key={`${line}-${index}-${currentIndex}`}
               style={[
-                index === 2 ? styles.selectedText : styles.lineText,
+                styles.lineCircle,
+                isSelected ? styles.selectedCircle : styles.normalCircle,
               ]}
+              onPress={() => {
+                if (index < 2) {
+                  // Navigate backward by the difference
+                  const steps = 2 - index;
+                  let newIndex = currentIndex;
+                  for (let i = 0; i < steps; i++) {
+                    newIndex = newIndex === 0 ? lines.length - 1 : newIndex - 1;
+                  }
+                  setCurrentIndex(newIndex);
+                  const selectedLineIndex = (newIndex + 2) % lines.length;
+                  onLineSelect?.(lines[selectedLineIndex]);
+                } else if (index > 2) {
+                  // Navigate forward by the difference
+                  const steps = index - 2;
+                  let newIndex = currentIndex;
+                  for (let i = 0; i < steps; i++) {
+                    newIndex = (newIndex + 1) % lines.length;
+                  }
+                  setCurrentIndex(newIndex);
+                  const selectedLineIndex = (newIndex + 2) % lines.length;
+                  onLineSelect?.(lines[selectedLineIndex]);
+                } else {
+                  // Middle item clicked - already selected
+                  onLineSelect?.(line);
+                }
+              }}
             >
-              {line}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[
+                  isSelected ? styles.selectedText : styles.lineText,
+                ]}
+              >
+                {line}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
       
       <View style={styles.arrowRow}>
         <TouchableOpacity 
           style={styles.arrowButton}
-          onPress={handlePrev} 
-          disabled={currentIndex === 0}
+          onPress={handlePrev}
         >
           <MaterialCommunityIcons 
             name="chevron-left" 
             size={20} 
-            color={currentIndex === 0 ? Colors.grey[300] : Colors.grey[500]} 
+            color={Colors.grey[500]} 
           />
         </TouchableOpacity>
         <TouchableOpacity 
           style={styles.arrowButton}
-          onPress={handleNext} 
-          disabled={currentIndex + itemsPerPage >= lines.length}
+          onPress={handleNext}
         >
           <MaterialCommunityIcons 
             name="chevron-right" 
             size={20} 
-            color={currentIndex + itemsPerPage >= lines.length ? Colors.grey[300] : Colors.grey[500]} 
+            color={Colors.grey[500]} 
           />
         </TouchableOpacity>
       </View>
@@ -85,14 +127,15 @@ export const LineCarousel: React.FC<LineCarouselProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 353,
     gap: 16,
+    alignItems: 'center',
   },
   lineRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
+    height: 80,
   },
   lineCircle: {
     justifyContent: 'center',
@@ -119,6 +162,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   arrowRow: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

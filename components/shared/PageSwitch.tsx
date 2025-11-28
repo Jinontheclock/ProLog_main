@@ -26,6 +26,11 @@ const getIconName = (iconName: string) => {
     'electric_bolt': 'flash-on',
     'paid': 'attach-money',
     'house': 'home',
+    'dashboard': 'dashboard',
+    'back_hand': 'back-hand',
+    'library_book': 'library-books',
+    'build': 'build',
+    'menu_book': 'menu-book',
   };
   return iconMap[iconName] || 'help-outline';
 };
