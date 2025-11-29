@@ -2,7 +2,7 @@ import { Colors } from "@/constants/colors";
 import { Typography } from "@/constants/typography";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Animated, DimensionValue, StyleSheet, Text, View } from "react-native";
+import { Animated, DimensionValue, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import JourneyProgressIndicator from "./JourneyProgressIndicator";
 
 interface SProgressBarProps {
@@ -27,6 +27,8 @@ interface SProgressBarProps {
   containerMargin?: DimensionValue;
   sProgressContainerMargin?: DimensionValue;
   level3AnimationTrigger?: boolean;
+  isLoading?: boolean;
+  onLevel3Press?: () => void;
 }
 
 export const SProgressBar: React.FC<SProgressBarProps> = ({
@@ -51,7 +53,22 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
   containerMargin = 0,
   sProgressContainerMargin,
   level3AnimationTrigger = false,
+  isLoading = false,
+  onLevel3Press,
 }) => {
+  // Animated values for each bar section
+  const bar1Animation = React.useRef(new Animated.Value(0)).current;
+  const bar2Animation = React.useRef(new Animated.Value(0)).current;
+  const bar3Animation = React.useRef(new Animated.Value(0)).current;
+  const bar4Animation = React.useRef(new Animated.Value(0)).current;
+  const bar5Animation = React.useRef(new Animated.Value(0)).current;
+  const bar6Animation = React.useRef(new Animated.Value(0)).current;
+  const bar7Animation = React.useRef(new Animated.Value(0)).current;
+  const bar8Animation = React.useRef(new Animated.Value(0)).current;
+  const bar9Animation = React.useRef(new Animated.Value(0)).current;
+  
+  // Animated value for margin movement
+  const marginAnimation = React.useRef(new Animated.Value(typeof sProgressContainerMargin === 'number' ? sProgressContainerMargin : 0)).current;
   // Function to resolve image sources from string paths
   const getImageSource = (imagePath: string) => {
     switch (imagePath) {
@@ -70,7 +87,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
 
   // Function to parse style objects from JSON (if they're strings) or use them directly
   const parseStyleProp = (styleProp: any) => {
-    if (typeof styleProp === 'string') {
+    if (typeof styleProp === "string") {
       try {
         return JSON.parse(styleProp);
       } catch {
@@ -100,7 +117,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
         ])
       );
       pulseAnimation.start();
-      
+
       return () => {
         pulseAnimation.stop();
         level3ScaleAnimation.setValue(1);
@@ -110,8 +127,140 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
     }
   }, [level3AnimationTrigger, level3ScaleAnimation]);
 
-  // Ensure percentage is between 0 and 100
-  const clampedPercentage = Math.max(0, Math.min(100, percentage));
+  // Animated progress effect - animate each section sequentially, but wait for loading to complete
+  React.useEffect(() => {
+    // Reset all animations first
+    const resetAnimations = [
+      bar1Animation,
+      bar2Animation,
+      bar3Animation,
+      bar4Animation,
+      bar5Animation,
+      bar6Animation,
+      bar7Animation,
+      bar8Animation,
+      bar9Animation,
+    ];
+    resetAnimations.forEach((anim) => anim.setValue(0));
+
+    // If loading, don't start animation yet
+    if (isLoading) {
+      return;
+    }
+
+    // Calculate target progress for each section
+    const clampedPercentage = Math.max(0, Math.min(100, percentage));
+    const getTargetProgress = (startPercent: number, endPercent: number) => {
+      if (clampedPercentage < startPercent) return 0;
+      if (clampedPercentage >= endPercent) return 1;
+      return (clampedPercentage - startPercent) / (endPercent - startPercent);
+    };
+
+    const targets = [
+      getTargetProgress(0, 11.11), // bar1
+      getTargetProgress(11.11, 22.22), // bar2
+      getTargetProgress(22.22, 33.33), // bar3
+      getTargetProgress(33.33, 44.44), // bar4
+      getTargetProgress(44.44, 55.55), // bar5
+      getTargetProgress(55.55, 66.66), // bar6
+      getTargetProgress(66.66, 77.77), // bar7
+      getTargetProgress(77.77, 88.88), // bar8
+      getTargetProgress(88.88, 100), // bar9
+    ];
+
+    const animations = [
+      bar1Animation,
+      bar2Animation,
+      bar3Animation,
+      bar4Animation,
+      bar5Animation,
+      bar6Animation,
+      bar7Animation,
+      bar8Animation,
+      bar9Animation,
+    ];
+
+    // Create sequential animations for each section
+    const createSectionAnimation = (
+      animation: Animated.Value,
+      target: number,
+      delay: number = 0
+    ) => {
+      return Animated.sequence([
+        Animated.delay(delay),
+        Animated.timing(animation, {
+          toValue: target,
+          duration: target > 0 ? 800 : 0, // Only animate if there's progress to show
+          useNativeDriver: false,
+        }),
+      ]);
+    };
+
+    // Delay the animation start to allow loading overlay to complete
+    const startDelay = 500; // Extra delay after loading completes for LoadingQuiz to finish
+
+    setTimeout(() => {
+      // Create truly sequential animations - each section waits for the previous to complete
+      const createSequentialChain = (
+        animationIndex: number = 0
+      ): Animated.CompositeAnimation => {
+        if (animationIndex >= animations.length) {
+          // All animations complete
+          return Animated.timing(new Animated.Value(0), {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: false,
+          });
+        }
+
+        const currentAnimation = animations[animationIndex];
+        const currentTarget = targets[animationIndex];
+
+        if (currentTarget === 0) {
+          // Skip sections with no progress and move to next
+          return createSequentialChain(animationIndex + 1);
+        }
+
+        return Animated.sequence([
+          Animated.timing(currentAnimation, {
+            toValue: currentTarget,
+            duration: 600, // Slightly faster since they're truly sequential
+            useNativeDriver: false,
+          }),
+          createSequentialChain(animationIndex + 1),
+        ]);
+      };
+
+      // Start the sequential chain
+      createSequentialChain().start();
+    }, startDelay);
+  }, [
+    percentage,
+    isLoading,
+    bar1Animation,
+    bar2Animation,
+    bar3Animation,
+    bar4Animation,
+    bar5Animation,
+    bar6Animation,
+    bar7Animation,
+    bar8Animation,
+    bar9Animation,
+  ]);
+
+  // Animate margin movement after loading completes
+  React.useEffect(() => {
+    if (!isLoading && typeof sProgressContainerMargin === 'number') {
+      // Start margin animation after a short delay to let LoadingQuiz finish
+      setTimeout(() => {
+        Animated.timing(marginAnimation, {
+          toValue: sProgressContainerMargin,
+          duration: 1000, // Smooth 1-second transition
+          useNativeDriver: false,
+        }).start();
+      }, 300); // Start slightly before progress bar animation
+    }
+  }, [sProgressContainerMargin, isLoading, marginAnimation]);
 
   // 9-bar S-shaped progress structure (each bar ≈ 11.11%)
   // Bar1: Bottom rectangular bar (0-11.11%)
@@ -124,25 +273,16 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
   // Bar8: Top-left half-circle bar (77.77-88.88%)
   // Bar9: Top rectangular bar (88.88-100%)
 
-  // Calculate progressive fills for each section as actual values (0-1)
-  const getProgress = (startPercent: number, endPercent: number) => {
-    if (clampedPercentage < startPercent) return 0;
-    if (clampedPercentage >= endPercent) return 1;
-    const progress =
-      (clampedPercentage - startPercent) / (endPercent - startPercent);
-    return Math.max(0, Math.min(1, progress));
-  };
-
-  // Progressive values for each bar (0-1)
-  const bar1Progress = getProgress(0, 11.11); // Bar1: Bottom rectangular bar
-  const bar2Progress = getProgress(11.11, 22.22); // Bar2: Bottom-right half-circle bar
-  const bar3Progress = getProgress(22.22, 33.33); // Bar3: Middle 1 rectangular bar
-  const bar4Progress = getProgress(33.33, 44.44); // Bar4: Middle-left half-circle bar
-  const bar5Progress = getProgress(44.44, 55.55); // Bar5: Middle 2 rectangular bar
-  const bar6Progress = getProgress(55.55, 66.66); // Bar6: Middle-right half-circle bar
-  const bar7Progress = getProgress(66.66, 77.77); // Bar7: Middle 3 rectangular bar
-  const bar8Progress = getProgress(77.77, 88.88); // Bar8: Top-left half-circle bar
-  const bar9Progress = getProgress(88.88, 100); // Bar9: Top rectangular bar
+  // Use animated values for progress (these will be animated from 0 to target values)
+  const bar1Progress = bar1Animation;
+  const bar2Progress = bar2Animation;
+  const bar3Progress = bar3Animation;
+  const bar4Progress = bar4Animation;
+  const bar5Progress = bar5Animation;
+  const bar6Progress = bar6Animation;
+  const bar7Progress = bar7Animation;
+  const bar8Progress = bar8Animation;
+  const bar9Progress = bar9Animation;
 
   // Calculate actual dimensions
   const containerWidth = 300;
@@ -151,114 +291,141 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
   const circleSize = 144;
   const circleRadius = 80;
 
-
-
-
-
   return (
     <View style={styles.container}>
       {/* Top Gradient Rectangle */}
-      <JourneyProgressIndicator
-        image={level1Image ? getImageSource(level1Image) : require("@/assets/images/completed_journeyIcon.png")}
-        title="Level 1"
-        subtext={level1Subtext}
-        containerStyle={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: 16,
-          alignContent: 'flex-start',
-          position: 'absolute',
-          bottom: 64,
-          left: 40,
-          zIndex: 5,
-          height: 42,
-          ...parseStyleProp(level1ContainerStyle)
-        }}
-        imageStyle={{
-          marginTop: 0,
-          ...parseStyleProp(level1ImageStyle)
-        }}
-      />
-      <JourneyProgressIndicator
-        image={level2Image ? getImageSource(level2Image) : require("@/assets/images/inprogress_journeyIcon.png")}
-        title="Level 2"
-        subtext={level2Subtext}
-        containerStyle={{
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          gap: 16,
-          alignContent: 'flex-start',
-          position: 'absolute',
-          bottom: 196,
-          right: 40,
-          zIndex: 5,
-          height: 42,
-          ...parseStyleProp(level2ContainerStyle)
-        }}
-        imageStyle={{
-          marginTop: -14,
-          ...parseStyleProp(level2ImageStyle)
-        }}
-      />
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: 16,
-          alignContent: 'flex-start',
-          position: 'absolute',
-          bottom: 328,
-          left: 40,
-          zIndex: 5,
-          height: 42,
-          ...parseStyleProp(level3ContainerStyle)
-        }}
-      >
-        <Animated.Image
-          source={level3Image ? getImageSource(level3Image) : require("@/assets/images/locked_journeyIcon.png")}
-          style={[
-            {
-              marginTop: 0,
-              ...parseStyleProp(level3ImageStyle)
-            },
-            {
-              transform: [{ scale: level3ScaleAnimation }]
-            }
-          ]}
-        />
-        <View style={styles.level3TextContainer}>
-          <Text style={styles.level3Title}>Level 3</Text>
-          <Text style={styles.level3Subtext}>{level3Subtext}</Text>
-        </View>
-      </View>
-      <JourneyProgressIndicator
-        image={level4Image ? getImageSource(level4Image) : require("@/assets/images/locked_journeyIcon.png")}
-        title="Level 4"
-        subtext={level4Subtext}
-        containerStyle={{
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          gap: 16,
-          alignContent: 'flex-start',
-          position: 'absolute',
-          bottom: 420,
-          right: 40,
-          zIndex: 5,
-          height: 42,
-          ...parseStyleProp(level4ContainerStyle)
-        }}
-        imageStyle={{
-          marginTop: 0,
-          ...parseStyleProp(level4ImageStyle)
-        }}
-      />
+
       <LinearGradient
         colors={[Colors.backgroundGrey, "transparent"]}
         style={styles.topGradient}
         pointerEvents="none"
       />
 
-      <View style={[styles.sProgressContainer, { margin: containerMargin }, sProgressContainerMargin ? { marginTop: sProgressContainerMargin } : {}]}>
+      <Animated.View
+        style={[
+          styles.sProgressContainer,
+          { margin: containerMargin },
+          {
+            marginTop: marginAnimation,
+          },
+        ]}
+      >
+        <JourneyProgressIndicator
+          image={
+            level1Image
+              ? getImageSource(level1Image)
+              : require("@/assets/images/completed_journeyIcon.png")
+          }
+          title="Level 1"
+          subtext={level1Subtext}
+          containerStyle={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 16,
+            alignContent: "flex-start",
+            position: "absolute",
+            bottom: 64,
+            left: 40,
+            zIndex: 5,
+            height: 42,
+            ...parseStyleProp(level1ContainerStyle),
+          }}
+          imageStyle={{
+            marginTop: 0,
+            ...parseStyleProp(level1ImageStyle),
+          }}
+        />
+        <JourneyProgressIndicator
+          image={
+            level2Image
+              ? getImageSource(level2Image)
+              : require("@/assets/images/inprogress_journeyIcon.png")
+          }
+          title="Level 2"
+          subtext={level2Subtext}
+          containerStyle={{
+            display: "flex",
+            flexDirection: "row-reverse",
+            gap: 16,
+            alignContent: "flex-start",
+            position: "absolute",
+            bottom: 196,
+            right: 40,
+            zIndex: 5,
+            height: 42,
+            ...parseStyleProp(level2ContainerStyle),
+          }}
+          imageStyle={{
+            ...parseStyleProp(level2ImageStyle),
+          }}
+        />
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 16,
+            alignContent: "flex-start",
+            position: "absolute",
+            bottom: 328,
+            left: 40,
+            zIndex: 5,
+            height: 42,
+            ...parseStyleProp(level3ContainerStyle),
+          }}
+        >
+          <TouchableOpacity
+            onPress={onLevel3Press}
+            disabled={!onLevel3Press}
+            activeOpacity={onLevel3Press ? 0.7 : 1}
+          >
+            <Animated.Image
+              source={
+                level3Image
+                  ? getImageSource(level3Image)
+                  : require("@/assets/images/locked_journeyIcon.png")
+              }
+              style={[
+                {
+                  marginTop: 0,
+                  ...parseStyleProp(level3ImageStyle),
+                },
+                {
+                  transform: [{ scale: level3ScaleAnimation }],
+                },
+              ]}
+            />
+          </TouchableOpacity>
+          <View style={styles.level3TextContainer}>
+            <Text style={styles.level3Title}>Level 3</Text>
+            <Text style={styles.level3Subtext}>{level3Subtext}</Text>
+          </View>
+        </View>
+        <JourneyProgressIndicator
+          image={
+            level4Image
+              ? getImageSource(level4Image)
+              : require("@/assets/images/locked_journeyIcon.png")
+          }
+          title="Level 4"
+          subtext={level4Subtext}
+          containerStyle={{
+            display: "flex",
+            flexDirection: "row-reverse",
+            gap: 16,
+            alignContent: "flex-start",
+            position: "absolute",
+            bottom: 420,
+            right: 40,
+            zIndex: 5,
+            height: 42,
+            ...parseStyleProp(level4ContainerStyle),
+          }}
+          imageStyle={{
+            marginTop: 0,
+            ...parseStyleProp(level4ImageStyle),
+          }}
+        />
+
         {/* Bar1: Bottom Rectangular Bar */}
         <View
           style={[
@@ -277,16 +444,20 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             },
           ]}
         >
-          <View
+          <Animated.View
             style={[
               styles.progressFill,
               {
-                width: `${bar1Progress * 100}%`,
+                width: bar1Progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["0%", "100%"],
+                  extrapolate: "clamp",
+                }),
                 height: "60%",
                 top: "20%",
                 backgroundColor: Colors.orange[400],
                 borderTopLeftRadius: 30,
-                borderBottomLeftRadius: 30
+                borderBottomLeftRadius: 30,
               },
             ]}
           />
@@ -321,7 +492,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             ]}
           />
           {/* Progress Overlay */}
-          <View
+          <Animated.View
             style={[
               styles.circle,
               {
@@ -336,12 +507,39 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
                 borderRightWidth: barHeight * 0.6,
                 borderBottomWidth: barHeight * 0.6,
                 borderLeftWidth: 0,
-                borderTopColor:
-                  bar2Progress > 0.33 ? Colors.orange[400] : "transparent",
-                borderRightColor:
-                  bar2Progress > 0.66 ? Colors.orange[400] : "transparent",
-                borderBottomColor:
-                  bar2Progress > 0 ? Colors.orange[400] : "transparent",
+                borderTopColor: bar2Progress.interpolate({
+                  inputRange: [0, 0.5, 0.65, 0.8, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderRightColor: bar2Progress.interpolate({
+                  inputRange: [0, 0.15, 0.3, 0.6, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderBottomColor: bar2Progress.interpolate({
+                  inputRange: [0, 0.05, 0.2, 0.4, 1],
+                  outputRange: [
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
                 backgroundColor: "transparent",
               },
             ]}
@@ -362,14 +560,18 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             },
           ]}
         >
-          <View
+          <Animated.View
             style={[
               styles.progressFill,
               {
                 position: "absolute",
                 right: 0,
                 top: "20%",
-                left: `${100 - bar3Progress * 100}%`,
+                left: bar3Progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["100%", "0%"],
+                  extrapolate: "clamp",
+                }),
                 height: "60%",
                 backgroundColor: Colors.orange[400],
               },
@@ -406,7 +608,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             ]}
           />
           {/* Progress Overlay */}
-          <View
+          <Animated.View
             style={[
               styles.circle,
               {
@@ -421,12 +623,39 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
                 borderLeftWidth: barHeight * 0.6,
                 borderBottomWidth: barHeight * 0.6,
                 borderRightWidth: 0,
-                borderBottomColor:
-                  bar4Progress > 0 ? Colors.orange[400] : "transparent",
-                borderLeftColor:
-                  bar4Progress > 0.33 ? Colors.orange[400] : "transparent",
-                borderTopColor:
-                  bar4Progress > 0.66 ? Colors.orange[400] : "transparent",
+                borderBottomColor: bar4Progress.interpolate({
+                  inputRange: [0, 0.05, 0.2, 0.4, 1],
+                  outputRange: [
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderLeftColor: bar4Progress.interpolate({
+                  inputRange: [0, 0.15, 0.3, 0.6, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderTopColor: bar4Progress.interpolate({
+                  inputRange: [0, 0.5, 0.65, 0.8, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
                 backgroundColor: "transparent",
               },
             ]}
@@ -447,11 +676,15 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             },
           ]}
         >
-          <View
+          <Animated.View
             style={[
               styles.progressFill,
               {
-                width: `${bar5Progress * 100}%`,
+                width: bar5Progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["0%", "100%"],
+                  extrapolate: "clamp",
+                }),
                 height: "60%",
                 top: "20%",
                 backgroundColor: Colors.orange[400],
@@ -489,7 +722,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             ]}
           />
           {/* Progress Overlay */}
-          <View
+          <Animated.View
             style={[
               styles.circle,
               {
@@ -504,12 +737,39 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
                 borderRightWidth: barHeight * 0.6,
                 borderBottomWidth: barHeight * 0.6,
                 borderLeftWidth: 0,
-                borderTopColor:
-                  bar6Progress > 0.33 ? Colors.orange[400] : "transparent",
-                borderRightColor:
-                  bar6Progress > 0.66 ? Colors.orange[400] : "transparent",
-                borderBottomColor:
-                  bar6Progress > 0 ? Colors.orange[400] : "transparent",
+                borderTopColor: bar6Progress.interpolate({
+                  inputRange: [0, 0.5, 0.65, 0.8, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderRightColor: bar6Progress.interpolate({
+                  inputRange: [0, 0.15, 0.3, 0.6, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderBottomColor: bar6Progress.interpolate({
+                  inputRange: [0, 0.05, 0.2, 0.4, 1],
+                  outputRange: [
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
                 backgroundColor: "transparent",
               },
             ]}
@@ -530,14 +790,18 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             },
           ]}
         >
-          <View
+          <Animated.View
             style={[
               styles.progressFill,
               {
                 position: "absolute",
                 right: 0,
                 top: "20%",
-                left: `${100 - bar7Progress * 100}%`,
+                left: bar7Progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["100%", "0%"],
+                  extrapolate: "clamp",
+                }),
                 height: "60%",
                 backgroundColor: Colors.orange[400],
               },
@@ -574,7 +838,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             ]}
           />
           {/* Progress Overlay */}
-          <View
+          <Animated.View
             style={[
               styles.circle,
               {
@@ -589,12 +853,39 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
                 borderLeftWidth: barHeight * 0.6,
                 borderBottomWidth: barHeight * 0.6,
                 borderRightWidth: 0,
-                borderBottomColor:
-                  bar8Progress > 0 ? Colors.orange[400] : "transparent",
-                borderLeftColor:
-                  bar8Progress > 0.33 ? Colors.orange[400] : "transparent",
-                borderTopColor:
-                  bar8Progress > 0.66 ? Colors.orange[400] : "transparent",
+                borderBottomColor: bar8Progress.interpolate({
+                  inputRange: [0, 0.05, 0.2, 0.4, 1],
+                  outputRange: [
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderLeftColor: bar8Progress.interpolate({
+                  inputRange: [0, 0.15, 0.3, 0.6, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
+                borderTopColor: bar8Progress.interpolate({
+                  inputRange: [0, 0.5, 0.65, 0.8, 1],
+                  outputRange: [
+                    "transparent",
+                    "transparent",
+                    "transparent",
+                    Colors.orange[400],
+                    Colors.orange[400],
+                  ],
+                  extrapolate: "clamp",
+                }),
                 backgroundColor: "transparent",
               },
             ]}
@@ -615,11 +906,15 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             },
           ]}
         >
-          <View
+          <Animated.View
             style={[
               styles.progressFill,
               {
-                width: `${bar9Progress * 100}%`,
+                width: bar9Progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ["0%", "100%"],
+                  extrapolate: "clamp",
+                }),
                 height: "60%",
                 top: "20%",
                 backgroundColor: Colors.orange[400],
@@ -627,9 +922,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
             ]}
           />
         </View>
-
-
-      </View>
+      </Animated.View>
 
       {/* Bottom Gradient Rectangle */}
       <LinearGradient
@@ -646,7 +939,7 @@ const styles = StyleSheet.create({
     width: "85%",
     alignSelf: "center",
     height: 380,
-    overflow: 'hidden'
+    overflow: "hidden",
   },
   sProgressContainer: {
     flexDirection: "column-reverse",
@@ -685,15 +978,14 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   level3TextContainer: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: 2,
   },
   level3Title: {
-    ...Typography.contentSubtitle
+    ...Typography.contentSubtitle,
   },
   level3Subtext: {
-    ...Typography.contentTitle
+    ...Typography.contentTitle,
   },
-
 });

@@ -85,7 +85,6 @@ export const Button: React.FC<ButtonProps> = ({
       onPress={onPress}
       disabled={disabled}
     >
-      {iconComponent && iconComponent}
       <Text
         style={[
           Typography.buttonText,

@@ -1,12 +1,13 @@
 import { DashboardData } from "@/components/shared/DashboardData";
 import { LoadingQuiz } from "@/components/shared/LoadingQuiz";
 import { Reminder } from "@/components/shared/Reminder";
+import SendDiscrepancyReportModal from "@/components/shared/SendDiscrepancyReportModal";
 import { SProgressBar } from "@/components/shared/SProgressBar";
 import { Tags } from "@/components/shared/Tags";
 import { Colors } from "@/constants/colors";
 import { Spacing } from "@/constants/design-tokens";
 import { Typography } from "@/constants/typography";
-import workData from '@/data/work-data.json';
+import workData from "@/data/work-data.json";
 import { CommonStyles } from "@/lib/common-styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -23,17 +24,32 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DashboardScreen() {
-  const [demoState, setDemoState] = useState<'before' | 'after'>('before');
+  const [demoState, setDemoState] = useState<"before" | "after" | "nxtLvl">("before");
   const [isLoading, setIsLoading] = useState(false);
   const [level3AnimationActive, setLevel3AnimationActive] = useState(false);
+  const [showSendDiscrepancyReportModal, setShowSendDiscrepancyReportModal] =
+    useState(false);
   const spinAnimation = useRef(new Animated.Value(0)).current;
-  const progressAnimation = useRef(new Animated.Value(parseInt(workData['level 2'].Dashboard.progressSection.before))).current;
+  const progressAnimation = useRef(
+    new Animated.Value(
+      parseInt(workData["level 2"].Dashboard.progressSection.before)
+    )
+  ).current;
 
   // Helper function to get current data based on demo state
   const getCurrentData = (dataPath: any) => {
-    if (typeof dataPath === 'object' && dataPath !== null && !Array.isArray(dataPath)) {
-      if (dataPath.before !== undefined && dataPath.after !== undefined) {
+    if (
+      typeof dataPath === "object" &&
+      dataPath !== null &&
+      !Array.isArray(dataPath)
+    ) {
+      // Check if the current state exists in the data object
+      if (dataPath[demoState] !== undefined) {
         return dataPath[demoState];
+      }
+      // Fall back to original logic for before/after states
+      if (dataPath.before !== undefined && dataPath.after !== undefined) {
+        return dataPath[demoState === "nxtLvl" ? "after" : demoState];
       }
     }
     return dataPath;
@@ -42,7 +58,7 @@ export default function DashboardScreen() {
   // Toggle demo state function with loading animation
   const toggleDemoState = () => {
     setIsLoading(true);
-    
+
     // Start refresh icon spin animation
     const spinLoopAnimation = Animated.loop(
       Animated.timing(spinAnimation, {
@@ -52,46 +68,47 @@ export default function DashboardScreen() {
       })
     );
     spinLoopAnimation.start();
-    
+
     // Simulate loading delay for better UX
     setTimeout(() => {
-      const newState = demoState === 'before' ? 'after' : 'before';
-      const newProgressValue = parseInt(workData['level 2'].Dashboard.progressSection[newState]);
-      
+      const newState = demoState === "before" ? "after" : "before";
+      const newProgressValue = parseInt(
+        workData["level 2"].Dashboard.progressSection[newState]
+      );
+
       setDemoState(newState);
-      
+
       // End loading after state change
       setTimeout(() => {
         setIsLoading(false);
         spinLoopAnimation.stop();
         spinAnimation.setValue(0);
-        
+
         // Animate progress bar to new value
         Animated.timing(progressAnimation, {
           toValue: newProgressValue,
           duration: 2000,
           useNativeDriver: false,
         }).start();
-        
+
         // Trigger Level 3 animation only when state is "after"
-        setLevel3AnimationActive(newState === 'after');
-      }, 6000); // Additional time for progress bar animation
+        setLevel3AnimationActive(newState === "after");
+      }, 2000); // Additional time for progress bar animation
     }, 300);
   };
 
   // Get dashboard data
-  const dashboardData = workData['level 2'].Dashboard;
-  const schoolExamData = workData['level 2'].school_page.standardExamSection;
+  const dashboardData = workData["level 2"].Dashboard;
+  const schoolExamData = workData["level 2"].Dashboard.standardExamSection;
 
   // Skeleton loading component for text
-  const SkeletonText = ({ width = 100, height = 16 }: { width?: number; height?: number }) => (
-    <View 
-      style={[
-        styles.skeletonText, 
-        { width, height }
-      ]} 
-    />
-  );
+  const SkeletonText = ({
+    width = 100,
+    height = 16,
+  }: {
+    width?: number;
+    height?: number;
+  }) => <View style={[styles.skeletonText, { width, height }]} />;
 
   return (
     <SafeAreaView style={CommonStyles.container}>
@@ -115,19 +132,21 @@ export default function DashboardScreen() {
               You're getting closer to the goal everyday!
             </Text>
           </View>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.profileButton}
             onPress={toggleDemoState}
             disabled={isLoading}
           >
             <Animated.View
               style={{
-                transform: [{
-                  rotate: spinAnimation.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '360deg'],
-                  }),
-                }],
+                transform: [
+                  {
+                    rotate: spinAnimation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ["0deg", "360deg"],
+                    }),
+                  },
+                ],
               }}
             >
               <MaterialCommunityIcons
@@ -142,49 +161,91 @@ export default function DashboardScreen() {
         {/* Progress Bar */}
         <View style={styles.progressSection}>
           <View style={styles.progressBar}>
-            <Animated.View 
+            <Animated.View
               style={[
-                styles.progressFill, 
-                { 
+                styles.progressFill,
+                {
                   width: progressAnimation.interpolate({
                     inputRange: [0, 100],
-                    outputRange: ['0%', '100%'],
-                    extrapolate: 'clamp',
-                  })
-                }
-              ]} 
+                    outputRange: ["0%", "100%"],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ]}
             />
           </View>
           {isLoading ? (
             <SkeletonText width={40} height={18} />
           ) : (
-            <Text style={styles.progressText}>{getCurrentData(dashboardData.progressSection)}%</Text>
+            <Text style={styles.progressText}>
+              {getCurrentData(dashboardData.progressSection)}%
+            </Text>
           )}
         </View>
 
         {/* S-Shaped Progress */}
         <View style={styles.journeySection}>
-          <SProgressBar 
-            percentage={getCurrentData(dashboardData.journeySectionPercentage)} 
+          <SProgressBar
+            percentage={getCurrentData(dashboardData.journeySectionPercentage)}
             height={50}
-            level1Image={getCurrentData(dashboardData.level1ProgressIndicatorImage)}
-            level1Subtext={getCurrentData(dashboardData.level1ProgressIndicatorSubText)}
-            level1ContainerStyle={getCurrentData(dashboardData.level1ProgressIndicatorContainerStyle)}
-            level1ImageStyle={getCurrentData(dashboardData.level1ProgressIndicatorImageStyle)}
-            level2Image={getCurrentData(dashboardData.level2ProgressIndicatorImage)}
-            level2Subtext={getCurrentData(dashboardData.level2ProgressIndicatorSubText)}
-            level2ContainerStyle={getCurrentData(dashboardData.level2ProgressIndicatorContainerStyle)}
-            level2ImageStyle={getCurrentData(dashboardData.level2ProgressIndicatorImageStyle)}
-            level3Image={getCurrentData(dashboardData.journeyProgressIndicatorImage)}
-            level3Subtext={getCurrentData(dashboardData.journeyProgressIndicatorSubText)}
-            level3ContainerStyle={getCurrentData(dashboardData.journeyProgressIndicatorContainerStyle)}
-            level3ImageStyle={getCurrentData(dashboardData.journeyProgressIndicatorImageStyle)}
-            level4Image={getCurrentData(dashboardData.level4ProgressIndicatorImage)}
-            level4Subtext={getCurrentData(dashboardData.level4ProgressIndicatorSubText)}
-            level4ContainerStyle={getCurrentData(dashboardData.level4ProgressIndicatorContainerStyle)}
-            level4ImageStyle={getCurrentData(dashboardData.level4ProgressIndicatorImageStyle)}
-            sProgressContainerMargin={getCurrentData(dashboardData.sProgressContainerMargin)}
+            level1Image={getCurrentData(
+              dashboardData.level1ProgressIndicatorImage
+            )}
+            level1Subtext={getCurrentData(
+              dashboardData.level1ProgressIndicatorSubText
+            )}
+            level1ContainerStyle={getCurrentData(
+              dashboardData.level1ProgressIndicatorContainerStyle
+            )}
+            level1ImageStyle={getCurrentData(
+              dashboardData.level1ProgressIndicatorImageStyle
+            )}
+            level2Image={getCurrentData(
+              dashboardData.level2ProgressIndicatorImage
+            )}
+            level2Subtext={getCurrentData(
+              dashboardData.level2ProgressIndicatorSubText
+            )}
+            level2ContainerStyle={getCurrentData(
+              dashboardData.level2ProgressIndicatorContainerStyle
+            )}
+            level2ImageStyle={getCurrentData(
+              dashboardData.level2ProgressIndicatorImageStyle
+            )}
+            level3Image={getCurrentData(
+              dashboardData.journeyProgressIndicatorImage
+            )}
+            level3Subtext={getCurrentData(
+              dashboardData.journeyProgressIndicatorSubText
+            )}
+            level3ContainerStyle={getCurrentData(
+              dashboardData.journeyProgressIndicatorContainerStyle
+            )}
+            level3ImageStyle={getCurrentData(
+              dashboardData.journeyProgressIndicatorImageStyle
+            )}
+            level4Image={getCurrentData(
+              dashboardData.level4ProgressIndicatorImage
+            )}
+            level4Subtext={getCurrentData(
+              dashboardData.level4ProgressIndicatorSubText
+            )}
+            level4ContainerStyle={getCurrentData(
+              dashboardData.level4ProgressIndicatorContainerStyle
+            )}
+            level4ImageStyle={getCurrentData(
+              dashboardData.level4ProgressIndicatorImageStyle
+            )}
+            sProgressContainerMargin={getCurrentData(
+              dashboardData.sProgressContainerMargin
+            )}
             level3AnimationTrigger={level3AnimationActive}
+            isLoading={isLoading}
+            onLevel3Press={
+              demoState === "after" && level3AnimationActive
+                ? () => setShowSendDiscrepancyReportModal(true)
+                : undefined
+            }
           />
         </View>
 
@@ -192,7 +253,7 @@ export default function DashboardScreen() {
         <View style={styles.dashboardDataProgress}>
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Overall Progress</Text>
-            <DashboardData 
+            <DashboardData
               hoursData={getCurrentData(dashboardData.dashboardDataHours)}
               skillsData={getCurrentData(dashboardData.dashboardDataSkills)}
               schoolData={getCurrentData(dashboardData.dashboardDataSchool)}
@@ -216,12 +277,16 @@ export default function DashboardScreen() {
             <View style={styles.examCard}>
               <View style={styles.examLeft}>
                 <View style={styles.examInfo}>
-                  <Text style={styles.examTitle}>{schoolExamData.examAttempt}</Text>
+                  <Text style={styles.examTitle}>
+                    {getCurrentData(schoolExamData.examAttempt)}
+                  </Text>
                 </View>
                 {isLoading ? (
                   <SkeletonText width={90} height={28} />
                 ) : (
-                  <Tags label={getCurrentData(schoolExamData.registeredBadge)} />
+                  <Tags
+                    label={getCurrentData(schoolExamData.registeredBadge)}
+                  />
                 )}
               </View>
               <View style={styles.examRight}>
@@ -229,7 +294,9 @@ export default function DashboardScreen() {
                   <SkeletonText width={60} height={38} />
                 ) : (
                   <>
-                    <Text style={styles.score}>{getCurrentData(schoolExamData.examResult)}</Text>
+                    <Text style={styles.score}>
+                      {getCurrentData(schoolExamData.examResult)}
+                    </Text>
                     {getCurrentData(schoolExamData.examResult) !== "-" && (
                       <Text style={styles.scoreUnit}>%</Text>
                     )}
@@ -246,12 +313,42 @@ export default function DashboardScreen() {
       {/* Loading Quiz Overlay */}
       {isLoading && (
         <View style={styles.loadingOverlay}>
-          <LoadingQuiz 
+          <LoadingQuiz
             loadingTitle="Updating Data..."
             loadingContent="Please wait while we update your dashboard information to 6 months in the future."
           />
         </View>
       )}
+
+      {/* Send Discrepancy Report Modal */}
+      <SendDiscrepancyReportModal
+        visible={showSendDiscrepancyReportModal}
+        onClose={() => setShowSendDiscrepancyReportModal(false)}
+        onSend={() => {
+          setShowSendDiscrepancyReportModal(false);
+          setDemoState("nxtLvl");
+          
+          // Animate progress bar to nxtLvl value
+          const nxtLvlProgressValue = parseInt(
+            workData["level 2"].Dashboard.progressSection.nxtLvl
+          );
+          Animated.timing(progressAnimation, {
+            toValue: nxtLvlProgressValue,
+            duration: 2000,
+            useNativeDriver: false,
+          }).start();
+          
+          // Reset level3 animation since we're moving to next level
+          setLevel3AnimationActive(false);
+        }}
+        icon="icon-lock"
+        iconColor={Colors.orange[400]}
+        title="Level 3 Unlocked"
+        content="Congratulations – you have achieved all the requirements for Level 2. Press the button below to continue your trades journey."
+        buttonText="Start the Next Level"
+        buttonIcon="arrow-right"
+        buttonVariant="primary"
+      />
     </SafeAreaView>
   );
 }
@@ -266,7 +363,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.base,
   },
   greeting: {
-    fontFamily: "SpaceGrotesk-Light",
+    fontFamily: "SpaceGrotesk-Bold",
     fontSize: 32,
     lineHeight: 36 * 1.05,
     color: Colors.grey[700],
@@ -337,8 +434,8 @@ const styles = StyleSheet.create({
     color: Colors.grey[700],
   },
   sectionContainer: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: 12,
   },
   examCard: {
@@ -396,19 +493,30 @@ const styles = StyleSheet.create({
     color: Colors.grey[900],
   },
   loadingOverlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 10000,
   },
   skeletonText: {
-    backgroundColor: '#E5E7EB',
+    backgroundColor: "#E5E7EB",
     borderRadius: 4,
     opacity: 0.6,
+  },
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(44, 44, 44, 0.18)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 9999,
   },
 });

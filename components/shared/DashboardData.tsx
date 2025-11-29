@@ -58,9 +58,9 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
     switch (colorString) {
       case "Colors.white":
         return Colors.white;
-      case "Colors.orange[200]":
-        console.log('Using orange[200]:', Colors.orange[200]); // Debug log
-        return Colors.orange[200];
+      case "Colors.grey[300]":
+        console.log('Using grey[300]:', Colors.grey[300]); // Debug log
+        return Colors.grey[300];
       default:
         console.log('Using default white color for:', colorString);
         return Colors.white;

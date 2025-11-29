@@ -54,13 +54,13 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           <View style={[styles.progressBarFg, { width: `${progress * 100}%` }]} />
         </View>
         {/* Mute/Unmute Icon */}
-        <TouchableOpacity onPress={onMute} style={styles.iconButton}>
+        {/* <TouchableOpacity onPress={onMute} style={styles.iconButton}>
           <MaterialIcon 
             name={isMuted ? 'volume_off' : 'volume_down'} 
             size={20} 
             color={isMuted ? Colors.grey[400] : Colors.grey[900]} 
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* Restart Icon */}
         <TouchableOpacity onPress={onRestart} style={styles.iconButton}>
           <MaterialIcon 

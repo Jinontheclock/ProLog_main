@@ -167,7 +167,8 @@ const styles = StyleSheet.create({
   },
   discrepancyCard: {
     backgroundColor: 'white',
-    borderRadius: RADIUS,
+    borderTopLeftRadius: RADIUS,
+    borderBottomLeftRadius: RADIUS,
     padding: 18,
     width: 180,
     position: 'absolute',

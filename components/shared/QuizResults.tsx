@@ -3,12 +3,12 @@ import { Typography } from "@/constants/typography";
 import { CommonStyles } from "@/lib/common-styles";
 import React from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { ButtonButtonBar } from "./ButtonButtonBar";
 import MaterialIcon from "./MaterialIcon";
