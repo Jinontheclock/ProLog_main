@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    // padding: 16,
     backgroundColor: "#FFFFFF",
-    borderRadius: 8,
+    // borderRadius: 8,
     marginVertical: 4,
-    borderWidth: 1,
-    borderColor: Colors.grey[50],
+    // borderWidth: 1,
+    // borderColor: Colors.grey[50],
     minHeight: 80, // Ensure consistent height
   },
   mainContentContainer: {

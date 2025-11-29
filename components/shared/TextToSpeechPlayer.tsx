@@ -153,9 +153,9 @@ export const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({
         </View>
 
         {/* Volume Control */}
-        <TouchableOpacity onPress={handleVolume} style={styles.iconButton}>
+        {/* <TouchableOpacity onPress={handleVolume} style={styles.iconButton}>
           <MaterialIcon name="volume_down" size={20} color={Colors.grey[900]} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* Menu */}
         <TouchableOpacity onPress={handleMenu} style={styles.iconButton}>

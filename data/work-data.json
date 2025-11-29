@@ -3,31 +3,37 @@
     "Dashboard": {
       "progressSection": {
         "before": "10",
-        "after": "100"
+        "after": "100",
+        "nxtLvl": "0"
       },
       "journeySectionPercentage": {
         "before": 25,
-        "after": 42
+        "after": 45,
+        "nxtLvl": 45
       },
       "journeyProgressIndicatorImage": {
         "before": "@/assets/images/locked_journeyIcon.png",
-        "after": "@/assets/images/unlocked_journeyIcon.png"
+        "after": "@/assets/images/unlocked_journeyIcon.png",
+        "nxtLvl": "@/assets/images/inprogress_journeyIcon.png"
       },
       "journeyProgressIndicatorSubText": {
         "before": "Locked",
-        "after": "Unlocked"
+        "after": "Unlocked",
+        "nxtLvl": "In-Progress"
       },
       "journeyProgressIndicatorContainerStyle": {
         "before": {},
         "after": {
-            "bottom": 214
-        }
+            "bottom": 332
+        },
+        "nxtLvl": {"bottom": 332}
       },
       "journeyProgressIndicatorImageStyle": {
         "before": {},
         "after": {
             "marginTop": -14
-        }
+        },
+        "nxtLvl": {"marginTop": -14}
       },
       "level1ProgressIndicatorImage": {
         "before": "@/assets/images/completed_journeyIcon.png",
@@ -49,7 +55,7 @@
       },
       "level2ProgressIndicatorImage": {
         "before": "@/assets/images/inprogress_journeyIcon.png",
-        "after": "@/assets/images/inprogress_journeyIcon.png"
+        "after": "@/assets/images/completed_journeyIcon.png"
       },
       "level2ProgressIndicatorSubText": {
         "before": "In-Progress",
@@ -58,12 +64,15 @@
       "level2ProgressIndicatorContainerStyle": {
         "before": {},
         "after": {
-            "bottom": 80
+            "bottom": 194
         }
       },
       "level2ProgressIndicatorImageStyle": {
-        "before": {},
-        "after": {}
+        "before": {
+          "marginTop": -14
+        },
+        "after": {
+        }
       },
       "level4ProgressIndicatorImage": {
         "before": "@/assets/images/locked_journeyIcon.png",
@@ -76,7 +85,7 @@
       "level4ProgressIndicatorContainerStyle": {
         "before": {},
         "after": {
-            "bottom": 340
+            "bottom": 460
         }
       },
       "level4ProgressIndicatorImageStyle": {
@@ -96,7 +105,12 @@
         "after": {
           "completionIndicator": "@/assets/images/check.png",
           "value": "1800",
-          "containerBackground": "Colors.orange[200]"
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
         }
       },
       "dashboardDataSchool": {
@@ -108,7 +122,12 @@
         "after": {
           "completionIndicator": "@/assets/images/check.png",
           "value": "10/10",
-          "containerBackground": "Colors.orange[200]"
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
         }
       },
       "dashboardDataExam": {
@@ -120,7 +139,12 @@
         "after": {
           "completionIndicator": "@/assets/images/check.png",
           "value": "89.4",
-          "containerBackground": "Colors.orange[200]"
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
         }
       },
       "dashboardDataSkills": {
@@ -132,22 +156,34 @@
         "after": {
           "completionIndicator": "@/assets/images/check.png",
           "value": "54 / 81",
-          "containerBackground": "Colors.orange[200]"
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
         }
       },
       "standardExamSection": {
-        "examAttempt": "Attempt 1",
+        "examAttempt": {
+          "before": "Attempt 1",
+          "after": "Attempt 1",
+          "nxtLvl": "Attempt 1"
+        },
         "examAttemptDate": {
           "before": "",
-          "after": "May 09, 2025"
+          "after": "May 09, 2025",
+          "nxtLvl": ""
         },
         "registeredBadge": {
           "before": "Not Registered",
-          "after": "Declared"
+          "after": "Declared",
+          "nxtLvl": "Not Registered"
         },
         "examResult": {
           "before": "-",
-          "after": "89.4"
+          "after": "89.4",
+          "nxtLvl": "-"
         }
       }
     },
@@ -205,16 +241,16 @@
           "after": "210"
         },
         "workingHoursGraph": {
-          "before": "image_1",
-          "after": "image_2"
+          "before": "work_graph01.png",
+          "after": "work_graph02.png"
         },
         "incomeAvg": {
           "before": "$3,567",
           "after": "$3,198"
         },
         "incomeGraph": {
-          "before": "image_1",
-          "after": "image_2"
+          "before": "income_graph01.png",
+          "after": "income_graph02.png"
         },
         "paystubDateStart": {
           "before": "Jan 2024",

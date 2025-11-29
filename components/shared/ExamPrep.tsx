@@ -1,12 +1,17 @@
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
-export const ExamPrep = () => {
+interface ExamPrepProps {
+  onPress?: () => void;
+}
+
+export const ExamPrep = ({ onPress }: ExamPrepProps) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity
                 style={styles.cardButton}
                 activeOpacity={0.85}
+                onPress={onPress}
             >
                 <Image
                     source={require("@/assets/images/examprep1.jpg")}
@@ -17,6 +22,7 @@ export const ExamPrep = () => {
             <TouchableOpacity
                 style={styles.cardButton}
                 activeOpacity={0.85}
+                onPress={onPress}
             >
                 <Image
                     source={require("@/assets/images/examprep2.jpg")}

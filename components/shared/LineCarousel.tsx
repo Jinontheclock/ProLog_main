@@ -15,7 +15,7 @@ export const LineCarousel: React.FC<LineCarouselProps> = ({
   selectedLine = 'A',
   onLineSelect,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(lines.length - 2);
   const scrollViewRef = useRef<ScrollView>(null);
   
   const itemsPerPage = 5;

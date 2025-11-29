@@ -2,6 +2,7 @@ import { CompetencyListItem } from "@/components/shared/CompetencyListItem";
 import { ExamPrep } from "@/components/shared/ExamPrep";
 import { LineCarousel } from "@/components/shared/LineCarousel";
 import { LineDescription } from "@/components/shared/LineDescription";
+import NotificationPopup from "@/components/shared/NotificationPopup";
 import { PageSwitch } from "@/components/shared/PageSwitch";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -9,8 +10,8 @@ import { CommonStyles } from "@/lib/common-styles";
 import { completionStore } from "@/lib/completion-store";
 import { useFocusEffect } from '@react-navigation/native';
 import { router } from "expo-router";
-import React from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import React, { useRef } from "react";
+import { Animated, Image, ScrollView, StyleSheet, View } from "react-native";
 import {
   useSafeAreaInsets
 } from "react-native-safe-area-context";
@@ -40,6 +41,8 @@ export default function SkillsScreen() {
   const [completedCompetencies, setCompletedCompetencies] = React.useState<string[]>([]);
   const [selectedPracticalLine, setSelectedPracticalLine] = React.useState("A");
   const [selectedTheoreticalLine, setSelectedTheoreticalLine] = React.useState("A");
+  const [showNotification, setShowNotification] = React.useState(false);
+  const slideAnim = useRef(new Animated.Value(-100)).current;
 
   // Process competency data from JSON
   const lineACompetencies = skillsData['level 1']['Line A'] as CompetencyItem[];
@@ -85,6 +88,41 @@ export default function SkillsScreen() {
       };
       refreshData();
     }, [])
+  );
+
+  // Check if returning from exam-prep and show notification
+  const [shouldShowNotification, setShouldShowNotification] = React.useState(false);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      if (shouldShowNotification) {
+        // Show notification after 1000ms delay
+        setTimeout(() => {
+          setShowNotification(true);
+          
+          // Slide down animation
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+          }).start(() => {
+            // After 3000ms, slide back up
+            setTimeout(() => {
+              Animated.timing(slideAnim, {
+                toValue: -100,
+                duration: 500,
+                useNativeDriver: true,
+              }).start(() => {
+                setShowNotification(false);
+                // Reset animation value for next use
+                slideAnim.setValue(-100);
+                setShouldShowNotification(false);
+              });
+            }, 3000);
+          });
+        }, 2000);
+      }
+    }, [shouldShowNotification, slideAnim])
   );
 
   // Helper function to handle competency navigation
@@ -171,7 +209,10 @@ export default function SkillsScreen() {
 
             {/* Exam Prep Component */}
             <View style={styles.componentContainer}>
-              <ExamPrep />
+              <ExamPrep onPress={() => {
+                setShouldShowNotification(true);
+                router.push('/skills/exam-prep');
+              }} />
             </View>
 
             {/* Ranking Component */}
@@ -250,6 +291,25 @@ export default function SkillsScreen() {
           </View>
         )}
       </ScrollView>
+      
+      {/* Animated Notification Popup */}
+      {showNotification && (
+        <Animated.View
+          style={[
+            styles.notificationContainer,
+            {
+              transform: [{ translateY: slideAnim }]
+            }
+          ]}
+        >
+          <NotificationPopup
+            typeName="Reminder Alert"
+            date="now"
+            title="BCIT Tuition Deadline"
+            content="December 07, 2025"
+          />
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -286,5 +346,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 20,
     borderColor: Colors.grey[100]
+  },
+  notificationContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    paddingHorizontal: 16,
+    paddingTop: 16,
   }
 });

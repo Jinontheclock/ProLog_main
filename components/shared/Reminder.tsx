@@ -242,8 +242,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grey[100],
   },
   selectedDateBox: {
-    borderWidth: 2,
-    borderColor: Colors.orange[400],
+    borderWidth: 1,
+    borderColor: Colors.grey[700],
   },
   todayDateBox: {
     backgroundColor: Colors.orange[50],

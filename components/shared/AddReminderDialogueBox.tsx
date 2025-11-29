@@ -27,10 +27,11 @@ export const AddReminderDialogueBox: React.FC<AddReminderDialogueBoxProps> = ({
   
   const handleEventNameFocus = () => {
     // Auto-fill with demo content when focused
-    if (!eventName) {
-      setEventName(demoEventName);
-      setDate(demoDate);
-    }
+    // TODO: Commented out for this branch - remove autofill functionality
+    // if (!eventName) {
+    //   setEventName(demoEventName);
+    //   setDate(demoDate);
+    // }
   };
 
   const getDatePickerValue = () => {

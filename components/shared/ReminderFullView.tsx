@@ -155,7 +155,7 @@ export const ReminderFullView: React.FC<ReminderFullViewProps> = ({
                       {reminder.isNew && <View style={styles.newIndicator} />}
                     </View>
                     <TouchableOpacity onPress={() => onDeleteReminder?.(index)}>
-                      <MaterialCommunityIcons name="close" size={16} color={Colors.grey[300]} />
+                      <MaterialCommunityIcons name="close" size={24} color={Colors.grey[300]} />
                     </TouchableOpacity>
                   </View>
                   <Text style={styles.reminderDate}>
