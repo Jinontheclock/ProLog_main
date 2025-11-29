@@ -1,0 +1,412 @@
+import { CompetencyListItem } from "@/components/shared/CompetencyListItem";
+import { ExamPrep } from "@/components/shared/ExamPrep";
+import { FilterDropdown } from "@/components/shared/FilterDropdown";
+import { LineCarousel } from "@/components/shared/LineCarousel";
+import { LineDescription } from "@/components/shared/LineDescription";
+import NotificationPopup from "@/components/shared/NotificationPopup";
+import { PageSwitch } from "@/components/shared/PageSwitch";
+import { SectionHeading } from "@/components/shared/SectionHeading";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { CommonStyles } from "@/lib/common-styles";
+import { completionStore } from "@/lib/completion-store";
+import { useFocusEffect } from '@react-navigation/native';
+import { router } from "expo-router";
+import React, { useRef } from "react";
+import { Animated, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  useSafeAreaInsets
+} from "react-native-safe-area-context";
+
+// Import the competency data
+import { Colors } from "@/constants";
+import skillsData from '@/data/skills-competency-summary.json';
+
+type CompetencyItem = {
+  id: string;
+  Title: string;
+  Summary: any[];
+  Category: string;
+  Quiz: string;
+};
+
+
+export default function SkillsScreen() {
+  const skillId = "123";
+  const title = "Skill Development";
+  const description = "Learn and enhance your skills effectively.";
+  const learningObjectives = ["Objective 1", "Objective 2", "Objective 3"];
+  const [selectedTab, setSelectedTab] = React.useState("overall");
+  const colorScheme = useColorScheme();
+  const insets = useSafeAreaInsets();
+  const [selectedSkill, setSelectedSkill] = React.useState<string | null>(null);
+  const [completedCompetencies, setCompletedCompetencies] = React.useState<string[]>([]);
+  const [selectedPracticalLine, setSelectedPracticalLine] = React.useState("A");
+  const [selectedTheoreticalLine, setSelectedTheoreticalLine] = React.useState("A");
+  const [showNotification, setShowNotification] = React.useState(false);
+  const slideAnim = useRef(new Animated.Value(-100)).current;
+
+  // Process competency data from JSON
+  const lineACompetencies = skillsData['level 1']['Line A'] as CompetencyItem[];
+  const theoryCompetencies = lineACompetencies.filter(comp => comp.Category === 'Theory');
+  const practicalCompetencies = lineACompetencies.filter(comp => comp.Category === 'Practical');
+
+  // Subscribe to completion store changes
+  React.useEffect(() => {
+    const setupStore = async () => {
+      // Wait for store to initialize
+      await completionStore.waitForInitialization();
+      
+      // Set initial state
+      setCompletedCompetencies(completionStore.getCompleted());
+      
+      // Subscribe to changes
+      const unsubscribe = completionStore.subscribe((completedIds) => {
+        setCompletedCompetencies(completedIds);
+      });
+      
+      return unsubscribe;
+    };
+    
+    let unsubscribe: (() => void) | undefined;
+    
+    setupStore().then((unsub) => {
+      unsubscribe = unsub;
+    });
+    
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, []);
+
+  // Refresh completion status when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      const refreshData = async () => {
+        await completionStore.waitForInitialization();
+        setCompletedCompetencies(completionStore.getCompleted());
+      };
+      refreshData();
+    }, [])
+  );
+
+  // Check if returning from exam-prep and show notification
+  const [shouldShowNotification, setShouldShowNotification] = React.useState(false);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      if (shouldShowNotification) {
+        // Show notification after 1000ms delay
+        setTimeout(() => {
+          setShowNotification(true);
+          
+          // Slide down animation
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+          }).start(() => {
+            // After 3000ms, slide back up
+            setTimeout(() => {
+              Animated.timing(slideAnim, {
+                toValue: -100,
+                duration: 500,
+                useNativeDriver: true,
+              }).start(() => {
+                setShowNotification(false);
+                // Reset animation value for next use
+                slideAnim.setValue(-100);
+                setShouldShowNotification(false);
+              });
+            }, 3000);
+          });
+        }, 2000);
+      }
+    }, [shouldShowNotification, slideAnim])
+  );
+
+  // Helper function to handle competency navigation
+  const handleCompetencyPress = (competencyId: string) => {
+    router.push({
+      pathname: "/skills/details",
+      params: { competencyId }
+    });
+  };
+
+  // Function to uncheck all competencies
+  const handleUncheckAll = async () => {
+    try {
+      await completionStore.clearAll();
+      console.log('All competencies unchecked successfully');
+    } catch (error) {
+      console.error('Error clearing competencies:', error);
+    }
+  };
+
+  return (
+    <View style={[CommonStyles.container, { backgroundColor: "#F0F0F0" }]}>
+      <Image
+        source={require("@/assets/images/background-grid 1.svg")}
+        style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
+        resizeMode="cover"
+      />
+      <ScrollView
+        style={CommonStyles.scrollView}
+        contentContainerStyle={{
+          paddingBottom: 70 + insets.bottom + 20,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Top Card */}
+        <SectionHeading
+          level="Level 2"
+          title="Skills Competency"
+          icon_action="cached"
+          currentHours={0} // Example value
+          totalHours={81} // Example value
+          percentage={0} // Example value
+          hrsText=""
+          hoursIcon="electric_bolt"
+          onIconPress={handleUncheckAll}
+        />
+
+        {/* Tab Navigation */}
+        <PageSwitch
+          key="my-skills-tabs"
+          tabs={[
+            {
+              id: "overall",
+              label: "Overall",
+              iconName: "dashboard",
+            },
+            {
+              id: "practical",
+              label: "Practical",
+              iconName: "back_hand",
+            },
+            {
+              id: "theoretical",
+              label: "Theoretical",
+              iconName: "library_book",
+            },
+          ]}
+          selectedTab={selectedTab}
+          onTabChange={setSelectedTab}
+        />
+
+        {/* Content based on selected tab */}
+        {selectedTab === "overall" && (
+          <View style={styles.overallContainer}>
+            {/* Recents Component */}
+            {/* <View style={styles.componentContainer}>
+              <Recents
+                title="Recently viewed"
+                line="Line A-3"
+                description="Describe the concepts of electricity..."
+                onRemove={() => console.log("Remove recent item")}
+              />
+            </View> */}
+
+            {/* Exam Prep Component */}
+            <View style={styles.componentContainer}>
+              <ExamPrep onPress={() => {
+                setShouldShowNotification(true);
+                router.push('/skills/exam-prep');
+              }} />
+            </View>
+
+            {/* Ranking Component */}
+            {/* <View style={styles.componentContainer}>
+              <Ranking title="Avg. Score" scoreRange="90-94%" rank="Top 2" />
+              <Ranking title="Avg. Score" scoreRange="90-94%" rank="Top 2" />
+            </View> */}
+          </View>
+        )}
+
+        {selectedTab === "practical" && (
+          <View style={styles.tabContentContainer}>
+            {/* Line Carousel */}
+            <View style={styles.tabComponentContainer}>
+              <LineCarousel
+                lines={["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]}
+                selectedLine={selectedPracticalLine}
+                onLineSelect={(line) => setSelectedPracticalLine(line)}
+              />
+            </View>
+
+            {/* Line Description */}
+            <View style={styles.tabComponentContainer}>
+              <LineDescription
+                title={`Line ${selectedPracticalLine}`}
+                description="Description"
+                content="Learn practical electrical skills through real-world applications and laboratory exercises."
+              />
+            </View>
+
+            {/* Competency Completion Count */}
+            {/* Competency Completion Count + Filter */}
+            <View style={styles.competencyCountRow}>
+              <Text style={styles.competencyCountText}>
+                Competencies {practicalCompetencies.filter(c => completedCompetencies.includes(c.id)).length} / {practicalCompetencies.length}
+              </Text>
+              <FilterDropdown
+                options={["All", "Completed", "Incomplete"]}
+                selected={"All"}
+                onSelect={() => {}}
+                style={styles.filterDropdown}
+              />
+            </View>
+            {/* Competency List Items */}
+            <View style={styles.competencyListContainer}>
+              {practicalCompetencies.map((competency) => (
+                <CompetencyListItem
+                  key={competency.id}
+                  text={competency.Title}
+                  checked={completedCompetencies.includes(competency.id)}
+                  onCheckedChange={() => handleCompetencyPress(competency.id)}
+                />
+              ))}
+            </View>
+          </View>
+        )}
+
+        {selectedTab === "theoretical" && (
+          <View style={styles.tabContentContainer}>
+            {/* Line Carousel */}
+            <View style={styles.tabComponentContainer}>
+              <LineCarousel
+                lines={["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]}
+                selectedLine={selectedTheoreticalLine}
+                onLineSelect={(line) => setSelectedTheoreticalLine(line)}
+              />
+            </View>
+
+            {/* Line Description */}
+            <View style={styles.tabComponentContainer}>
+              <LineDescription
+                title={`Line ${selectedTheoreticalLine}`}
+                description="Description"
+                content="Master the theoretical foundations of electrical engineering and circuit analysis."
+              />
+            </View>
+
+            {/* Competency Completion Count */}
+            {/* Competency Completion Count + Filter */}
+            <View style={styles.competencyCountRow}>
+              <Text style={styles.competencyCountText}>
+                Competencies {theoryCompetencies.filter(c => completedCompetencies.includes(c.id)).length} / {theoryCompetencies.length}
+              </Text>
+              <FilterDropdown
+                options={["All", "Completed", "Incomplete"]}
+                selected={"All"}
+                onSelect={() => {}}
+                style={styles.filterDropdown}
+              />
+            </View>
+            {/* Competency List Items */}
+            <View style={styles.competencyListContainer}>
+              {theoryCompetencies.map((competency) => (
+                <CompetencyListItem
+                  key={competency.id}
+                  text={competency.Title}
+                  checked={completedCompetencies.includes(competency.id)}
+                  onCheckedChange={() => handleCompetencyPress(competency.id)}
+                />
+              ))}
+            </View>
+          </View>
+        )}
+      </ScrollView>
+      
+      {/* Animated Notification Popup */}
+      {showNotification && (
+        <Animated.View
+          style={[
+            styles.notificationContainer,
+            {
+              transform: [{ translateY: slideAnim }]
+            }
+          ]}
+        >
+          <NotificationPopup
+            typeName="Reminder Alert"
+            date="now"
+            title="BCIT Tuition Deadline"
+            content="December 07, 2025"
+          />
+        </Animated.View>
+      )}
+    </View>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  competencyCountText: {
+    fontFamily: 'SpaceGrotesk-Medium',
+    fontSize: 16,
+    color: Colors.grey[900],
+    marginRight: 12,
+    textAlign: 'left',
+    flex: 1,
+    marginLeft: 4,
+    marginBottom: 4,
+  },
+  competencyCountRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+    justifyContent: 'space-between',
+  },
+  filterDropdown: {
+    width: 110,
+    height: 30,
+    borderRadius: 30,
+    marginLeft: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+  },
+  buttonContainer: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+  },
+  overallContainer: {
+    paddingHorizontal: 24,
+    gap: 24,
+    flex: 1,
+  },
+  componentContainer: {
+    alignItems: "center",
+    width: '100%',
+    flex: 1,
+  },
+  tabContentContainer: {
+    paddingHorizontal: 24,
+    // paddingTop: 24,
+    gap: 20,
+  },
+  tabComponentContainer: {
+    alignItems: "center",
+  },
+  competencyListContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+    paddingVertical: 12,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    borderColor: Colors.grey[100],
+    marginTop: -8,
+  },
+  notificationContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  }
+});

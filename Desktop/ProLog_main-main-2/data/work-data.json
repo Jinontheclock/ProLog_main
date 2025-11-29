@@ -1,0 +1,296 @@
+{
+  "level 2": {
+    "Dashboard": {
+      "progressSection": {
+        "before": "10",
+        "after": "100",
+        "nxtLvl": "0"
+      },
+      "journeySectionPercentage": {
+        "before": 25,
+        "after": 45,
+        "nxtLvl": 45
+      },
+      "journeyProgressIndicatorImage": {
+        "before": "@/assets/images/locked_journeyIcon.png",
+        "after": "@/assets/images/unlocked_journeyIcon.png",
+        "nxtLvl": "@/assets/images/inprogress_journeyIcon.png"
+      },
+      "journeyProgressIndicatorSubText": {
+        "before": "Locked",
+        "after": "Unlocked",
+        "nxtLvl": "In-Progress"
+      },
+      "journeyProgressIndicatorContainerStyle": {
+        "before": {},
+        "after": {
+            "bottom": 332
+        },
+        "nxtLvl": {"bottom": 332}
+      },
+      "journeyProgressIndicatorImageStyle": {
+        "before": {},
+        "after": {
+            "marginTop": -14
+        },
+        "nxtLvl": {"marginTop": -14}
+      },
+      "level1ProgressIndicatorImage": {
+        "before": "@/assets/images/completed_journeyIcon.png",
+        "after": "@/assets/images/completed_journeyIcon.png"
+      },
+      "level1ProgressIndicatorSubText": {
+        "before": "completed",
+        "after": "completed"
+      },
+      "level1ProgressIndicatorContainerStyle": {
+        "before": {},
+        "after": {
+            "bottom": -100
+        }
+      },
+      "level1ProgressIndicatorImageStyle": {
+        "before": {},
+        "after": {}
+      },
+      "level2ProgressIndicatorImage": {
+        "before": "@/assets/images/inprogress_journeyIcon.png",
+        "after": "@/assets/images/completed_journeyIcon.png"
+      },
+      "level2ProgressIndicatorSubText": {
+        "before": "In-Progress",
+        "after": "In-Progress"
+      },
+      "level2ProgressIndicatorContainerStyle": {
+        "before": {},
+        "after": {
+            "bottom": 194
+        }
+      },
+      "level2ProgressIndicatorImageStyle": {
+        "before": {
+          "marginTop": -14
+        },
+        "after": {
+        }
+      },
+      "level4ProgressIndicatorImage": {
+        "before": "@/assets/images/locked_journeyIcon.png",
+        "after": "@/assets/images/locked_journeyIcon.png"
+      },
+      "level4ProgressIndicatorSubText": {
+        "before": "Locked",
+        "after": "Locked"
+      },
+      "level4ProgressIndicatorContainerStyle": {
+        "before": {},
+        "after": {
+            "bottom": 460
+        }
+      },
+      "level4ProgressIndicatorImageStyle": {
+        "before": {},
+        "after": {}
+      },
+      "sProgressContainerMargin": {
+        "before": -168,
+        "after": -50
+      },
+      "dashboardDataHours": {
+        "before": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "450",
+          "containerBackground": "Colors.white"
+        },
+        "after": {
+          "completionIndicator": "@/assets/images/check.png",
+          "value": "1800",
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
+        }
+      },
+      "dashboardDataSchool": {
+        "before": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0/10",
+          "containerBackground": "Colors.white"
+        },
+        "after": {
+          "completionIndicator": "@/assets/images/check.png",
+          "value": "10/10",
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
+        }
+      },
+      "dashboardDataExam": {
+        "before": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "-",
+          "containerBackground": "Colors.white"
+        },
+        "after": {
+          "completionIndicator": "@/assets/images/check.png",
+          "value": "89.4",
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
+        }
+      },
+      "dashboardDataSkills": {
+        "before": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "28 / 81",
+          "containerBackground": "Colors.white"
+        },
+        "after": {
+          "completionIndicator": "@/assets/images/check.png",
+          "value": "54 / 81",
+          "containerBackground": "Colors.grey[300]"
+        },
+        "nxtLvl": {
+          "completionIndicator": "@/assets/images/In-progress_Icon.png",
+          "value": "0",
+          "containerBackground": "Colors.white"
+        }
+      },
+      "standardExamSection": {
+        "examAttempt": {
+          "before": "Attempt 1",
+          "after": "Attempt 1",
+          "nxtLvl": "Attempt 1"
+        },
+        "examAttemptDate": {
+          "before": "",
+          "after": "May 09, 2025",
+          "nxtLvl": ""
+        },
+        "registeredBadge": {
+          "before": "Not Registered",
+          "after": "Declared",
+          "nxtLvl": "Not Registered"
+        },
+        "examResult": {
+          "before": "-",
+          "after": "89.4",
+          "nxtLvl": "-"
+        }
+      }
+    },
+    "Work_page": {
+      "sectionHeading": {
+        "level": "Level 2",
+        "title": "Working Hours",
+        "currentHours": {
+          "before": 450,
+          "after": 1640
+        },
+        "totalHours": 1800,
+        "percentage": {
+          "before": 21,
+          "after": 91
+        }
+      },
+      "apprenticeshipDetails": {
+        "sponsor": "Burquos Mills Incorporated",
+        "estimatedDaysToGo": {
+          "before": "203 days",
+          "after": "20 days"
+        },
+        "startDate": "May 06, 2024",
+        "estimatedEndDate": {
+          "before": "Mar 19, 2025",
+          "after": "Apr 15, 2025"
+        }
+      },
+      "discrepancyTracking": {
+        "paystubHours": {
+          "before": "450",
+          "after": "1800"
+        },
+        "paystubDate": {
+          "before": "Jul 02, 2024",
+          "after": "Apr 02, 2025"
+        },
+        "skilledTradeBCHours": {
+          "before": "450",
+          "after": "1640"
+        },
+        "skilledTradeBCDate": {
+          "before": "Jul 12, 2024",
+          "after": "Apr 25, 2025"
+        },
+        "discrepancy": {
+          "before": "0",
+          "after": "-160"
+        }
+      },
+      "paystubRecord": {
+        "workingHoursAvg": {
+          "before": "187",
+          "after": "210"
+        },
+        "workingHoursGraph": {
+          "before": "work_graph01.png",
+          "after": "work_graph02.png"
+        },
+        "incomeAvg": {
+          "before": "$3,567",
+          "after": "$3,198"
+        },
+        "incomeGraph": {
+          "before": "income_graph01.png",
+          "after": "income_graph02.png"
+        },
+        "paystubDateStart": {
+          "before": "Jan 2024",
+          "after": "Oct 2024"
+        },
+        "paystubDateEnd": {
+          "before": "Jun 2024",
+          "after": "Mar 2025"
+        }
+      }
+    },
+    "school_page": {
+      "sectionHeading": {
+        "level": "Level 2",
+        "title": "Technical Training",
+        "currentHours": {
+          "before": 0,
+          "after": 10
+        },
+        "totalHours": 10,
+        "percentage": {
+          "before": 0,
+          "after": 100
+        }
+      },
+      "standardExamSection": {
+        "examAttempt": "Attempt 1",
+        "examAttemptDate": {
+          "before": "",
+          "after": "May 09, 2025"
+        },
+        "registeredBadge": {
+          "before": "Not Registered",
+          "after": "Declared"
+        },
+        "examResult": {
+          "before": "-",
+          "after": "89.4"
+        }
+      }
+    }
+  }
+}
