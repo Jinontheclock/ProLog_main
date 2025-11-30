@@ -3,14 +3,14 @@ import { Image as ExpoImage } from "expo-image";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-    Animated,
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -816,7 +816,7 @@ const styles = StyleSheet.create({
   },
   successMessageContainer: {
     position: "absolute",
-    bottom: 120,
+    bottom: 140,
     left: 0,
     right: 0,
     zIndex: 10001,
