@@ -6,8 +6,8 @@ import { Typography } from "@/constants/typography";
 import { CommonStyles } from "@/lib/common-styles";
 import { completionStore } from "@/lib/completion-store";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, Animated, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -15,6 +15,7 @@ import {
 
 // Import the competency data
 import { TTSAudioPlayer } from "@/components/shared/TTSAudioPlayer";
+import SuccessMessage from "@/components/shared/successMessage";
 import skillsData from "@/data/skills-competency-summary.json";
 
 type SummarySection = {
@@ -38,6 +39,8 @@ export default function SkillsDetailsScreen() {
   );
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const slideAnimation = useRef(new Animated.Value(100)).current;
 
   // Generate text content for TTS from competency data
   const generateTTSContent = (data: CompetencyData): string => {
@@ -106,13 +109,27 @@ export default function SkillsDetailsScreen() {
     try {
       await saveCompletionStatus(competencyData.id, newCompletedState);
 
-      Alert.alert(
-        "Success",
-        newCompletedState
-          ? "Competency marked as complete!"
-          : "Competency marked as incomplete.",
-        [{ text: "OK" }]
-      );
+      // Show success message with slide animation
+      if (newCompletedState) {
+        setShowSuccessMessage(true);
+        // Slide up animation
+        Animated.timing(slideAnimation, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+
+        setTimeout(() => {
+          // Slide down animation
+          Animated.timing(slideAnimation, {
+            toValue: 100,
+            duration: 300,
+            useNativeDriver: true,
+          }).start(() => {
+            setShowSuccessMessage(false);
+          });
+        }, 3000);
+      }
     } catch (error) {
       console.error("Error saving completion status:", error);
       // Revert the local state if save failed
@@ -192,6 +209,24 @@ export default function SkillsDetailsScreen() {
           isCompleted={isCompleted}
         />
       </View>
+
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <Animated.View
+          style={[
+            styles.successMessageContainer,
+            {
+              transform: [{ translateY: slideAnimation }],
+            },
+          ]}
+        >
+          <SuccessMessage
+            text="Competency Marked as Complete"
+            iconName="check"
+            iconColor={Colors.orange[400]}
+          />
+        </Animated.View>
+      )}
     </SafeAreaView>
   );
 }
@@ -238,5 +273,12 @@ const styles = StyleSheet.create({
     ...Typography.bigBody,
     color: Colors.grey[700],
     lineHeight: 22,
+  },
+  successMessageContainer: {
+    position: "absolute",
+    bottom: 140,
+    left: 0,
+    right: 0,
+    zIndex: 10001,
   },
 });
