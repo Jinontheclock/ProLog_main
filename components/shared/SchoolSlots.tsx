@@ -83,7 +83,7 @@ export const SchoolSlots: React.FC<SchoolSlotsProps> = ({ campuses }) => {
 const styles = StyleSheet.create({
   carouselContainer: {
     marginBottom: 20,
-    marginLeft: 20,
+    marginLeft: 0,
   },
   carouselContent: {
     paddingHorizontal: 20,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 24,
     width: 291,
-    height: 302,
+    height: 320,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,

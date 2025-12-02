@@ -3,14 +3,14 @@ import { Image as ExpoImage } from "expo-image";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-  Animated,
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Animated,
+    Image,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -21,6 +21,7 @@ import { CompetencyCompletion } from "@/components/shared/CompetencyCompletion";
 import { CompletedLines } from "@/components/shared/CompletedLines";
 import { ContentDataFormats } from "@/components/shared/ContentDataFormats";
 import { ExpenseCard } from "@/components/shared/ExpenseCard";
+import { FinancialSupport } from "@/components/shared/FinancialSupport";
 import { HourDiscrepancy } from "@/components/shared/HourDiscrepancy";
 import { InformationalMessage } from "@/components/shared/InformationalMessage";
 import { LoadingQuiz } from "@/components/shared/LoadingQuiz";
@@ -428,6 +429,28 @@ export default function WorkScreen() {
 
         {selectedTab === "finance" && (
           <>
+            {/* Financial Support */}
+            <FinancialSupport
+              supportItems={[
+                {
+                  title: "Canada Apprentice Loan",
+                  description: "Interest-free loans for each period\nof technical training",
+                },
+                {
+                  title: "WorkBC Apprentice Services",
+                  description: "Financial support for travel, childcare and\nrelocation",
+                },
+                {
+                  title: "Tradesperson's Tool Deduction",
+                  description: "Financial support for tradespeople to cover tool\ncosts",
+                },
+                {
+                  title: "Canada Training Credit",
+                  description: "Claim a tax credit for tuition\nand exam fees",
+                },
+              ]}
+            />
+
             {/* Potential Expenses Section */}
             <View style={styles.financeHeaderContainer}>
               <View style={styles.financeHeaderRow}>

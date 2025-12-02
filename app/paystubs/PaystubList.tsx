@@ -114,27 +114,33 @@ export default function PaystubListScreen() {
             </TouchableOpacity>
             {showMonthDropdown && (
               <View style={styles.dropdown}>
-                <TouchableOpacity 
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setSelectedMonth(null);
-                    setShowMonthDropdown(false);
-                  }}
+                <ScrollView 
+                  style={styles.dropdownScrollView}
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
                 >
-                  <Text style={styles.dropdownText}>All</Text>
-                </TouchableOpacity>
-                {months.map((month) => (
-                  <TouchableOpacity
-                    key={month}
+                  <TouchableOpacity 
                     style={styles.dropdownItem}
                     onPress={() => {
-                      setSelectedMonth(month);
+                      setSelectedMonth(null);
                       setShowMonthDropdown(false);
                     }}
                   >
-                    <Text style={styles.dropdownText}>{month}</Text>
+                    <Text style={styles.dropdownText}>All</Text>
                   </TouchableOpacity>
-                ))}
+                  {months.map((month) => (
+                    <TouchableOpacity
+                      key={month}
+                      style={styles.dropdownItem}
+                      onPress={() => {
+                        setSelectedMonth(month);
+                        setShowMonthDropdown(false);
+                      }}
+                    >
+                      <Text style={styles.dropdownText}>{month}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
               </View>
             )}
           </View>
@@ -149,27 +155,33 @@ export default function PaystubListScreen() {
             </TouchableOpacity>
             {showYearDropdown && (
               <View style={styles.dropdown}>
-                <TouchableOpacity 
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setSelectedYear(null);
-                    setShowYearDropdown(false);
-                  }}
+                <ScrollView 
+                  style={styles.dropdownScrollView}
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
                 >
-                  <Text style={styles.dropdownText}>All</Text>
-                </TouchableOpacity>
-                {years.map((year) => (
-                  <TouchableOpacity
-                    key={year}
+                  <TouchableOpacity 
                     style={styles.dropdownItem}
                     onPress={() => {
-                      setSelectedYear(year);
+                      setSelectedYear(null);
                       setShowYearDropdown(false);
                     }}
                   >
-                    <Text style={styles.dropdownText}>{year}</Text>
+                    <Text style={styles.dropdownText}>All</Text>
                   </TouchableOpacity>
-                ))}
+                  {years.map((year) => (
+                    <TouchableOpacity
+                      key={year}
+                      style={styles.dropdownItem}
+                      onPress={() => {
+                        setSelectedYear(year);
+                        setShowYearDropdown(false);
+                      }}
+                    >
+                      <Text style={styles.dropdownText}>{year}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
               </View>
             )}
           </View>
@@ -317,6 +329,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
+    overflow: 'hidden',
+  },
+  dropdownScrollView: {
+    maxHeight: 200,
   },
   dropdownItem: {
     paddingVertical: 12,

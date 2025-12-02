@@ -14,6 +14,7 @@ import workData from "@/data/work-data.json";
 import { CompetencyCompletion } from "@/components/shared/CompetencyCompletion";
 import { CompletedLines } from "@/components/shared/CompletedLines";
 import { ExpenseCard } from "@/components/shared/ExpenseCard";
+import { FinancialSupport } from "@/components/shared/FinancialSupport";
 import { InformationalMessage } from "@/components/shared/InformationalMessage";
 import { LoadingQuiz } from "@/components/shared/LoadingQuiz";
 import MaterialIcon from "@/components/shared/MaterialIcon";
@@ -339,7 +340,7 @@ export default function SchoolScreen() {
                                     <View style={styles.iconTitleWrapper}>
                                         <MaterialIcon
                                             name="help_outline"
-                                            size={24}
+                                            size={20}
                                             color="#616161"
                                         />
                                         <Text style={styles.promptTitle}>
@@ -960,6 +961,28 @@ export default function SchoolScreen() {
 
                 {selectedTab === "finance" && (
                     <>
+                        {/* Financial Support */}
+                        <FinancialSupport
+                            supportItems={[
+                                {
+                                    title: "Canada Apprentice Loan",
+                                    description: "Interest-free loans for each period\nof technical training",
+                                },
+                                {
+                                    title: "Provincial Grant",
+                                    description: "Financial assistance for apprentices\nin technical training",
+                                },
+                                {
+                                    title: "Employer Sponsorship",
+                                    description: "Support from employers for\neducational expenses",
+                                },
+                                {
+                                    title: "Scholarship Programs",
+                                    description: "Merit-based financial awards\nfor skilled trades students",
+                                },
+                            ]}
+                        />
+
                         {/* Potential Expenses */}
                         <View style={styles.financeHeader}>
                             <Text style={styles.financeSectionTitle}>
@@ -1262,13 +1285,11 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 20,
         padding: 24,
-        paddingTop: 12,
-        marginTop: 20,
+        paddingTop: 20,
+        marginTop: 32,
         marginBottom: 16,
         marginHorizontal: 20,
-        width: 354,
         height: 122,
-        alignSelf: "center",
         ...Platform.select({
             ios: {
                 shadowColor: "#000",
@@ -1290,14 +1311,17 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     promptTitle: {
-        ...Typography.contentTitle,
+        fontFamily: 'Roboto-Medium',
+        fontSize: 16,
+        lineHeight: 20,
         color: Colors.grey[900],
         marginLeft: 12,
     },
     promptDescription: {
-        ...Typography.buttonText,
-        color: Colors.grey[400],
+        fontFamily: 'Roboto-Medium',
+        fontSize: 14,
         lineHeight: 20,
+        color: Colors.grey[400],
     },
     addEnrollmentCard: {
         backgroundColor: Colors.orange[400],
@@ -1310,9 +1334,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-start",
-        width: 354,
         height: 136,
-        alignSelf: "center",
         ...Platform.select({
             ios: {
                 shadowColor: "#000",
@@ -1337,14 +1359,17 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     addEnrollmentTitle: {
-        ...Typography.contentMedium,
+        fontFamily: 'Roboto-Medium',
+        fontSize: 20,
+        lineHeight: 24,
         color: Colors.white,
-        marginBottom: 6,
+        marginBottom: 8,
     },
     addEnrollmentDescription: {
-        ...Typography.contentSubtitle,
-        color: Colors.white,
+        fontFamily: 'Roboto-Light',
+        fontSize: 14,
         lineHeight: 20,
+        color: Colors.white,
         width: 300,
     },
     addIconCircle: {
@@ -1362,6 +1387,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginHorizontal: 20,
         marginTop: 8,
+        marginBottom: 16,
     },
     discrepancyTitle: {
         ...Typography.sectionHeader,
@@ -1381,8 +1407,6 @@ const styles = StyleSheet.create({
         padding: 32,
         paddingTop: 24,
         paddingBottom: 24,
-        width: 354,
-        alignSelf: "center",
         ...Platform.select({
             ios: {
                 shadowColor: "#000",
@@ -1412,11 +1436,9 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         paddingHorizontal: 24,
         height: 40,
-        width: 313,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        alignSelf: "center",
     },
     dropdownPlaceholder: {
         ...Typography.bigBody,
@@ -1434,7 +1456,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 48,
         left: 0,
-        width: 313,
+        right: 0,
         backgroundColor: Colors.white,
         borderRadius: 20,
         shadowColor: "#000",

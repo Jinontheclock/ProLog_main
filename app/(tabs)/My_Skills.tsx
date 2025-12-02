@@ -2,6 +2,7 @@ import { CompetencyListItem } from "@/components/shared/CompetencyListItem";
 import { ExamPrep } from "@/components/shared/ExamPrep";
 import { LineCarousel } from "@/components/shared/LineCarousel";
 import { LineDescription } from "@/components/shared/LineDescription";
+import MaterialIcon from "@/components/shared/MaterialIcon";
 import NotificationPopup from "@/components/shared/NotificationPopup";
 import { PageSwitch } from "@/components/shared/PageSwitch";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -11,9 +12,9 @@ import { completionStore } from "@/lib/completion-store";
 import { useFocusEffect } from '@react-navigation/native';
 import { router } from "expo-router";
 import React, { useRef } from "react";
-import { Animated, Image, ScrollView, StyleSheet, View } from "react-native";
+import { Animated, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
-  useSafeAreaInsets
+    useSafeAreaInsets
 } from "react-native-safe-area-context";
 
 // Import the competency data
@@ -42,6 +43,10 @@ export default function SkillsScreen() {
   const [selectedPracticalLine, setSelectedPracticalLine] = React.useState("A");
   const [selectedTheoreticalLine, setSelectedTheoreticalLine] = React.useState("A");
   const [showNotification, setShowNotification] = React.useState(false);
+  const [practicalFilter, setPracticalFilter] = React.useState<string>('All');
+  const [theoreticalFilter, setTheoreticalFilter] = React.useState<string>('All');
+  const [showPracticalDropdown, setShowPracticalDropdown] = React.useState(false);
+  const [showTheoreticalDropdown, setShowTheoreticalDropdown] = React.useState(false);
   const slideAnim = useRef(new Animated.Value(-100)).current;
 
   // Process competency data from JSON
@@ -208,7 +213,13 @@ export default function SkillsScreen() {
             </View> */}
 
             {/* Exam Prep Component */}
-            <View style={styles.componentContainer}>
+            <View style={styles.examPrepSection}>
+              <View style={styles.examPrepHeader}>
+                <Text style={styles.examPrepTitle}>Exam Prep</Text>
+                <TouchableOpacity>
+                  <MaterialIcon name="info" size={20} color={Colors.grey[400]} />
+                </TouchableOpacity>
+              </View>
               <ExamPrep onPress={() => {
                 setShouldShowNotification(true);
                 router.push('/skills/exam-prep');
@@ -244,15 +255,76 @@ export default function SkillsScreen() {
             </View>
 
             {/* Competency List Items */}
-            <View style={styles.competencyListContainer}>
-              {practicalCompetencies.map((competency) => (
-                <CompetencyListItem
-                  key={competency.id}
-                  text={competency.Title}
-                  checked={completedCompetencies.includes(competency.id)}
-                  onCheckedChange={() => handleCompetencyPress(competency.id)}
-                />
-              ))}
+            <View style={styles.competencySection}>
+              <View style={styles.competencyHeaderRow}>
+                <Text style={styles.competencyCountText}>
+                  Competencies {practicalCompetencies.filter(comp => {
+                    if (practicalFilter === 'Completed') return completedCompetencies.includes(comp.id);
+                    if (practicalFilter === 'Incomplete') return !completedCompetencies.includes(comp.id);
+                    return true;
+                  }).length}/{practicalCompetencies.length}
+                </Text>
+                <View style={styles.filterWrapper}>
+                  <TouchableOpacity 
+                    style={styles.filterButton} 
+                    onPress={() => setShowPracticalDropdown(!showPracticalDropdown)}
+                  >
+                    <Text style={styles.filterText}>{practicalFilter}</Text>
+                    <MaterialIcon name="icon-dropdown-arrow" size={16} color={Colors.grey[500]} />
+                  </TouchableOpacity>
+                  {showPracticalDropdown && (
+                    <View style={styles.dropdown}>
+                      <ScrollView 
+                        style={styles.dropdownScrollView}
+                        nestedScrollEnabled={true}
+                        showsVerticalScrollIndicator={true}
+                      >
+                        <TouchableOpacity 
+                          style={styles.dropdownItem}
+                          onPress={() => {
+                            setPracticalFilter('All');
+                            setShowPracticalDropdown(false);
+                          }}
+                        >
+                          <Text style={styles.dropdownText}>All</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.dropdownItem}
+                          onPress={() => {
+                            setPracticalFilter('Completed');
+                            setShowPracticalDropdown(false);
+                          }}
+                        >
+                          <Text style={styles.dropdownText}>Completed</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.dropdownItem}
+                          onPress={() => {
+                            setPracticalFilter('Incomplete');
+                            setShowPracticalDropdown(false);
+                          }}
+                        >
+                          <Text style={styles.dropdownText}>Incomplete</Text>
+                        </TouchableOpacity>
+                      </ScrollView>
+                    </View>
+                  )}
+                </View>
+              </View>
+              <View style={styles.competencyListContainer}>
+                {practicalCompetencies.filter(comp => {
+                  if (practicalFilter === 'Completed') return completedCompetencies.includes(comp.id);
+                  if (practicalFilter === 'Incomplete') return !completedCompetencies.includes(comp.id);
+                  return true;
+                }).map((competency) => (
+                  <CompetencyListItem
+                    key={competency.id}
+                    text={competency.Title}
+                    checked={completedCompetencies.includes(competency.id)}
+                    onCheckedChange={() => handleCompetencyPress(competency.id)}
+                  />
+                ))}
+              </View>
             </View>
           </View>
         )}
@@ -278,15 +350,76 @@ export default function SkillsScreen() {
             </View>
 
             {/* Competency List Items */}
-            <View style={styles.competencyListContainer}>
-              {theoryCompetencies.map((competency) => (
-                <CompetencyListItem
-                  key={competency.id}
-                  text={competency.Title}
-                  checked={completedCompetencies.includes(competency.id)}
-                  onCheckedChange={() => handleCompetencyPress(competency.id)}
-                />
-              ))}
+            <View style={styles.competencySection}>
+              <View style={styles.competencyHeaderRow}>
+                <Text style={styles.competencyCountText}>
+                  Competencies {theoryCompetencies.filter(comp => {
+                    if (theoreticalFilter === 'Completed') return completedCompetencies.includes(comp.id);
+                    if (theoreticalFilter === 'Incomplete') return !completedCompetencies.includes(comp.id);
+                    return true;
+                  }).length}/{theoryCompetencies.length}
+                </Text>
+                <View style={styles.filterWrapper}>
+                  <TouchableOpacity 
+                    style={styles.filterButton} 
+                    onPress={() => setShowTheoreticalDropdown(!showTheoreticalDropdown)}
+                  >
+                    <Text style={styles.filterText}>{theoreticalFilter}</Text>
+                    <MaterialIcon name="icon-dropdown-arrow" size={16} color={Colors.grey[500]} />
+                  </TouchableOpacity>
+                  {showTheoreticalDropdown && (
+                    <View style={styles.dropdown}>
+                      <ScrollView 
+                        style={styles.dropdownScrollView}
+                        nestedScrollEnabled={true}
+                        showsVerticalScrollIndicator={true}
+                      >
+                        <TouchableOpacity 
+                          style={styles.dropdownItem}
+                          onPress={() => {
+                            setTheoreticalFilter('All');
+                            setShowTheoreticalDropdown(false);
+                          }}
+                        >
+                          <Text style={styles.dropdownText}>All</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.dropdownItem}
+                          onPress={() => {
+                            setTheoreticalFilter('Completed');
+                            setShowTheoreticalDropdown(false);
+                          }}
+                        >
+                          <Text style={styles.dropdownText}>Completed</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.dropdownItem}
+                          onPress={() => {
+                            setTheoreticalFilter('Incomplete');
+                            setShowTheoreticalDropdown(false);
+                          }}
+                        >
+                          <Text style={styles.dropdownText}>Incomplete</Text>
+                        </TouchableOpacity>
+                      </ScrollView>
+                    </View>
+                  )}
+                </View>
+              </View>
+              <View style={styles.competencyListContainer}>
+                {theoryCompetencies.filter(comp => {
+                  if (theoreticalFilter === 'Completed') return completedCompetencies.includes(comp.id);
+                  if (theoreticalFilter === 'Incomplete') return !completedCompetencies.includes(comp.id);
+                  return true;
+                }).map((competency) => (
+                  <CompetencyListItem
+                    key={competency.id}
+                    text={competency.Title}
+                    checked={completedCompetencies.includes(competency.id)}
+                    onCheckedChange={() => handleCompetencyPress(competency.id)}
+                  />
+                ))}
+              </View>
             </View>
           </View>
         )}
@@ -330,6 +463,21 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
   },
+  examPrepSection: {
+    width: '100%',
+    gap: 12,
+  },
+  examPrepHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  examPrepTitle: {
+    fontFamily: 'SpaceGrotesk-Regular',
+    fontSize: 20,
+    lineHeight: 24,
+    color: Colors.grey[700],
+  },
   tabContentContainer: {
     paddingHorizontal: 24,
     // paddingTop: 24,
@@ -338,6 +486,79 @@ const styles = StyleSheet.create({
   tabComponentContainer: {
     alignItems: "center",
   },
+  competencySection: {
+    gap: 12,
+    zIndex: 1,
+  },
+  competencyHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  competencyCountText: {
+    fontFamily: 'SpaceGrotesk-Medium',
+    fontSize: 16,
+    lineHeight: 20,
+    color: Colors.grey[900],
+  },
+  filterWrapper: {
+    position: 'relative',
+    zIndex: 1000,
+  },
+  filterButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 30,
+    gap: 4,
+    borderWidth: 1,
+    borderColor: Colors.grey[200],
+    width: 120,
+    height: 30,
+    justifyContent: 'space-between',
+  },
+  filterText: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 12,
+    lineHeight: 16 * 1.05,
+    color: Colors.grey[500],
+  },
+  dropdown: {
+    position: 'absolute',
+    top: 35,
+    right: 0,
+    width: 120,
+    backgroundColor: Colors.white,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.grey[200],
+    maxHeight: 200,
+    zIndex: 1001,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+    overflow: 'hidden',
+  },
+  dropdownScrollView: {
+    maxHeight: 200,
+  },
+  dropdownItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.grey[100],
+  },
+  dropdownText: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 12,
+    lineHeight: 16 * 1.05,
+    color: Colors.grey[700],
+  },
   competencyListContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -345,7 +566,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: Colors.white,
     borderRadius: 20,
-    borderColor: Colors.grey[100]
+    borderColor: Colors.grey[100],
+    zIndex: 0,
   },
   notificationContainer: {
     position: 'absolute',
