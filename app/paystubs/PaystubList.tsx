@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import MaterialIcon from '@/components/shared/MaterialIcon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
+import { CommonStyles } from '@/lib/common-styles';
 
 export default function PaystubListScreen() {
   const insets = useSafeAreaInsets();
@@ -78,27 +79,25 @@ export default function PaystubListScreen() {
   });
 
   return (
-    <View style={styles.outerContainer}>
-      <View style={[styles.container, { backgroundColor: '#F0F0F0' }]}>
-        <View style={[styles.contentWrapper, { width: appWidth, alignSelf: 'center' }]}>
-          <Image 
-            source={require('@/assets/images/background-grid 1.svg')}
-            style={{ position: 'absolute', width: '100%', height: '100%', opacity: 0.12 }}
-            resizeMode="cover"
-          />
-          <ScrollView 
-            style={styles.scrollView}
-            contentContainerStyle={{ paddingBottom: 70 + insets.bottom + 20 }}
-            showsVerticalScrollIndicator={false}
-          >
+    <SafeAreaView style={CommonStyles.container}>
+      <Image 
+        source={require('@/assets/images/background-grid 1.svg')}
+        style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
+        resizeMode="cover"
+      />
+      <ScrollView 
+        style={CommonStyles.scrollView}
+        contentContainerStyle={{ paddingBottom: 70 + insets.bottom + 20 }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
-        <View style={[styles.header, { paddingTop: insets.top + 47 }]}>
+        <View style={styles.header}>
           <TouchableOpacity style={styles.backButton} onPress={() => router.push('/(tabs)/Work')}>
             <MaterialIcon name="icon-arrow-back" size={24} color={Colors.grey[900]} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Paystub Records</Text>
           <TouchableOpacity style={styles.iconButton} onPress={() => router.push('/paystubs/DocumentScanner')}>
-            <MaterialIcon name="document_scanner" size={24} color={Colors.grey[900]} />
+            {/* <MaterialIcon name="document_scanner" size={24} color={Colors.grey[500]} /> */}
           </TouchableOpacity>
         </View>
 
@@ -219,32 +218,17 @@ export default function PaystubListScreen() {
           </View>
         ))}
       </ScrollView>
-      </View>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  outerContainer: {
-    flex: 1,
-    backgroundColor: Colors.black,
-  },
-  container: {
-    flex: 1,
-  },
-  contentWrapper: {
-    flex: 1,
-    position: 'relative',
-  },
-  scrollView: {
-    flex: 1,
-  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 24,
+    paddingTop: 24,
     paddingBottom: 16,
   },
   backButton: {
@@ -261,16 +245,18 @@ const styles = StyleSheet.create({
     fontFamily: 'SpaceGrotesk-Regular',
     fontSize: 20,
     color: Colors.grey[700],
+    flex: 1,
+    textAlign: 'center'
   },
   iconButton: {
     width: 44,
     height: 44,
-    borderRadius: 22,
-    backgroundColor: Colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: Colors.grey[200],
+    // borderRadius: 22,
+    // backgroundColor: Colors.white,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // borderWidth: 1,
+    // borderColor: Colors.grey[200],
   },
   filtersContainer: {
     flexDirection: 'row',

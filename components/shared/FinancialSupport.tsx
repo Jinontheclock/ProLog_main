@@ -27,9 +27,9 @@ export const FinancialSupport: React.FC<FinancialSupportProps> = ({ supportItems
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Financial Support</Text>
-      <Text style={styles.subtitle}>
+      {/* <Text style={styles.subtitle}>
         List of financial support available for skilled trades apprenticeships.
-      </Text>
+      </Text> */}
 
       <ScrollView
         ref={scrollViewRef}
@@ -41,6 +41,8 @@ export const FinancialSupport: React.FC<FinancialSupportProps> = ({ supportItems
         snapToInterval={346}
         decelerationRate="fast"
         contentContainerStyle={styles.scrollContent}
+        contentInsetAdjustmentBehavior="never"
+        overScrollMode="never"
       >
         {supportItems.map((item, index) => (
           <TouchableOpacity key={index} style={styles.card}>
@@ -95,8 +97,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   scrollContent: {
-    paddingHorizontal: 0,
+    paddingHorizontal: 4,
+    paddingVertical: 10,
     gap: 16,
+    overflow: 'visible'
   },
   card: {
     backgroundColor: Colors.white,
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E5E5',
     padding: 20,
-    height: 118,
+    // height: 118,
     width: 338,
     marginRight: 8,
     flexDirection: 'row',
@@ -122,7 +126,7 @@ const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 8,
   },
   cardTitle: {

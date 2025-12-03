@@ -109,7 +109,7 @@ export const AddReminderDialogueBox: React.FC<AddReminderDialogueBoxProps> = ({
               type="date"
               style={{
                 backgroundColor: Colors.grey[50],
-                borderRadius: '50px',
+                borderRadius: '8px',
                 paddingLeft: 16,
                 paddingRight: 16,
                 height: 40,
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: Colors.grey[50],
-    borderRadius: 50,
+    borderRadius: 8,
     paddingHorizontal: 16,
     height: 40,
     width: 316,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.grey[50],
-    borderRadius: 50,
+    borderRadius: 8,
     paddingHorizontal: 16,
     height: 40,
     width: 316,

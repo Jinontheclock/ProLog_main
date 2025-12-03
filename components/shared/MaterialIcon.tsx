@@ -49,6 +49,7 @@ export const ICON_NAMES = {
   
   // Document icons
   'document_scanner': 'document-scanner',
+  'document_scanner_outlined': 'insert-drive-file',
   'ios_share': 'ios-share',
   'icon-assignment': 'assignment',
   

@@ -185,7 +185,7 @@ export default function SchoolScreen() {
                         {isLoadingProgram ? (
                             <View style={styles.enrollmentFormContainer}>
                                 <LoadingQuiz
-                                    loadingTitle="Updating Data..."
+                                    loadingTitle="Generating Program Details..."
                                     loadingContent="Please wait while we update your technical training information to show your progress."
                                 />
                             </View>
@@ -225,7 +225,7 @@ export default function SchoolScreen() {
                                             <Text
                                                 style={styles.programDateValue}
                                             >
-                                                Sep 4, 2025
+                                                Jan 05, 2026
                                             </Text>
                                         </View>
                                         <View style={styles.programDateBox}>
@@ -237,7 +237,7 @@ export default function SchoolScreen() {
                                             <Text
                                                 style={styles.programDateValue}
                                             >
-                                                Nov 14, 2025
+                                                Mar 13, 2026
                                             </Text>
                                         </View>
                                     </View>
@@ -477,7 +477,7 @@ export default function SchoolScreen() {
                                                                 }
                                                                 onPress={() => {
                                                                     setSelectedInstitution(
-                                                                        "Institute Name 1"
+                                                                        "North Delta Secondary"
                                                                     );
                                                                     setShowInstitutionDropdown(
                                                                         false
@@ -489,30 +489,7 @@ export default function SchoolScreen() {
                                                                         styles.dropdownOptionText
                                                                     }
                                                                 >
-                                                                    Institute
-                                                                    Name 1
-                                                                </Text>
-                                                            </TouchableOpacity>
-                                                            <TouchableOpacity
-                                                                style={
-                                                                    styles.dropdownOption
-                                                                }
-                                                                onPress={() => {
-                                                                    setSelectedInstitution(
-                                                                        "Institute Name 2"
-                                                                    );
-                                                                    setShowInstitutionDropdown(
-                                                                        false
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <Text
-                                                                    style={
-                                                                        styles.dropdownOptionText
-                                                                    }
-                                                                >
-                                                                    Institute
-                                                                    Name 2
+                                                                    North Delta Secondary
                                                                 </Text>
                                                             </TouchableOpacity>
                                                         </View>
@@ -595,50 +572,6 @@ export default function SchoolScreen() {
                                                                     - Level 2
                                                                 </Text>
                                                             </TouchableOpacity>
-                                                            <TouchableOpacity
-                                                                style={
-                                                                    styles.dropdownOption
-                                                                }
-                                                                onPress={() => {
-                                                                    setSelectedProgram(
-                                                                        "Program Name 1"
-                                                                    );
-                                                                    setShowProgramDropdown(
-                                                                        false
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <Text
-                                                                    style={
-                                                                        styles.dropdownOptionText
-                                                                    }
-                                                                >
-                                                                    Program Name
-                                                                    1
-                                                                </Text>
-                                                            </TouchableOpacity>
-                                                            <TouchableOpacity
-                                                                style={
-                                                                    styles.dropdownOption
-                                                                }
-                                                                onPress={() => {
-                                                                    setSelectedProgram(
-                                                                        "Program Name 2"
-                                                                    );
-                                                                    setShowProgramDropdown(
-                                                                        false
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <Text
-                                                                    style={
-                                                                        styles.dropdownOptionText
-                                                                    }
-                                                                >
-                                                                    Program Name
-                                                                    2
-                                                                </Text>
-                                                            </TouchableOpacity>
                                                         </View>
                                                     </>
                                                 )}
@@ -702,7 +635,7 @@ export default function SchoolScreen() {
                                                                 }
                                                                 onPress={() => {
                                                                     setSelectedDuration(
-                                                                        "Mar 13, 2026 to May 18, 2026"
+                                                                        "Jan 05 to Mar 13, 2026"
                                                                     );
                                                                     setShowDurationDropdown(
                                                                         false
@@ -714,9 +647,7 @@ export default function SchoolScreen() {
                                                                         styles.dropdownOptionText
                                                                     }
                                                                 >
-                                                                    Mar 13, 2026
-                                                                    to May 18,
-                                                                    2026
+                                                                    Jan 05 to Mar 13, 2026
                                                                 </Text>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
@@ -725,7 +656,7 @@ export default function SchoolScreen() {
                                                                 }
                                                                 onPress={() => {
                                                                     setSelectedDuration(
-                                                                        "Duration Slot 1"
+                                                                        "Mar 16 to May 22, 2026"
                                                                     );
                                                                     setShowDurationDropdown(
                                                                         false
@@ -737,8 +668,7 @@ export default function SchoolScreen() {
                                                                         styles.dropdownOptionText
                                                                     }
                                                                 >
-                                                                    Duration
-                                                                    Slot 1
+                                                                    Mar 16 to May 22, 2026
                                                                 </Text>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
@@ -747,7 +677,7 @@ export default function SchoolScreen() {
                                                                 }
                                                                 onPress={() => {
                                                                     setSelectedDuration(
-                                                                        "Duration Slot 2"
+                                                                        "May 25 to Jul 31, 2026"
                                                                     );
                                                                     setShowDurationDropdown(
                                                                         false
@@ -759,8 +689,7 @@ export default function SchoolScreen() {
                                                                         styles.dropdownOptionText
                                                                     }
                                                                 >
-                                                                    Duration
-                                                                    Slot 2
+                                                                    May 25 to Jul 31, 2026
                                                                 </Text>
                                                             </TouchableOpacity>
                                                         </View>
@@ -966,19 +895,19 @@ export default function SchoolScreen() {
                             supportItems={[
                                 {
                                     title: "Canada Apprentice Loan",
-                                    description: "Interest-free loans for each period\nof technical training",
+                                    description: "Interest-free loans for each period of technical training",
                                 },
                                 {
                                     title: "Provincial Grant",
-                                    description: "Financial assistance for apprentices\nin technical training",
+                                    description: "Financial assistance for apprentices in technical training",
                                 },
                                 {
                                     title: "Employer Sponsorship",
-                                    description: "Support from employers for\neducational expenses",
+                                    description: "Support from employers for educational expenses",
                                 },
                                 {
                                     title: "Scholarship Programs",
-                                    description: "Merit-based financial awards\nfor skilled trades students",
+                                    description: "Merit-based financial awards for skilled trades students",
                                 },
                             ]}
                         />
@@ -1286,10 +1215,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 24,
         paddingTop: 20,
-        marginTop: 32,
+        // marginTop: 32,
         marginBottom: 16,
         marginHorizontal: 20,
-        height: 122,
+        // height: 122,
         ...Platform.select({
             ios: {
                 shadowColor: "#000",
@@ -1334,7 +1263,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-start",
-        height: 136,
+        // height: 136,
         ...Platform.select({
             ios: {
                 shadowColor: "#000",
@@ -1433,7 +1362,7 @@ const styles = StyleSheet.create({
     },
     dropdownField: {
         backgroundColor: Colors.grey[50],
-        borderRadius: 50,
+        borderRadius: 8,
         paddingHorizontal: 24,
         height: 40,
         flexDirection: "row",
@@ -1541,10 +1470,11 @@ const styles = StyleSheet.create({
     },
     programDateBox: {
         width: 145.5,
-        height: 76,
+        // height: 76,
         backgroundColor: Colors.grey[50],
         borderRadius: 12,
         padding: 16,
+        flex: 1,
     },
     programDateLabel: {
         ...Typography.contentTitle,
