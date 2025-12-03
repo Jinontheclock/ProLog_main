@@ -4,7 +4,15 @@ import { Typography } from "@/constants/typography";
 import { CommonStyles } from "@/lib/common-styles";
 import { router } from "expo-router";
 import React from "react";
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Mock exam data
@@ -40,7 +48,7 @@ const examAttempts = [
 
 export default function ExamPrepScreen() {
   const insets = useSafeAreaInsets();
-  const screenWidth = Dimensions.get('window').width;
+  const screenWidth = Dimensions.get("window").width;
   const maxAppWidth = 428;
   const appWidth = Math.min(screenWidth, maxAppWidth);
 
@@ -48,7 +56,12 @@ export default function ExamPrepScreen() {
     router.back();
   };
 
-  const bestAttempt = examAttempts.find(a => a.isBestRecord) || examAttempts[0];
+  const handleNewExam = () => {
+    router.push("/skills/loadingExam");
+  };
+
+  const bestAttempt =
+    examAttempts.find((a) => a.isBestRecord) || examAttempts[0];
 
   return (
     <View style={[CommonStyles.container, { backgroundColor: "#F0F0F0" }]}>
@@ -57,28 +70,37 @@ export default function ExamPrepScreen() {
         style={[CommonStyles.backgroundImage, { opacity: 0.12 }]}
         resizeMode="cover"
       />
-      
-      <View style={[styles.contentWrapper, { width: appWidth, alignSelf: 'center' }]}>
-        <ScrollView 
+
+      <View
+        style={[
+          styles.contentWrapper,
+          { width: appWidth, alignSelf: "center" },
+        ]}
+      >
+        <ScrollView
           style={styles.scrollView}
           contentContainerStyle={{ paddingBottom: insets.bottom + 20 }}
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
-          <View style={[styles.header, { paddingTop: insets.top + 47 }]}>
-            <TouchableOpacity 
+          <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
+            <TouchableOpacity
               style={styles.backButton}
               onPress={handleBackPress}
               activeOpacity={0.7}
             >
-              <MaterialIcon name="icon-arrow-back" size={24} color={Colors.grey[900]} />
+              <MaterialIcon
+                name="icon-arrow-back"
+                size={24}
+                color={Colors.grey[900]}
+              />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Exam Prep</Text>
             <View style={{ width: 44 }} />
           </View>
 
           {/* Give New Exam Card */}
-          <TouchableOpacity style={styles.newExamCard} activeOpacity={0.8}>
+          <TouchableOpacity style={styles.newExamCard} activeOpacity={0.8} onPress={handleNewExam}>
             <Image
               source={require("@/assets/images/Exam_prep.svg")}
               style={styles.newExamBackground}
@@ -86,14 +108,19 @@ export default function ExamPrepScreen() {
             />
             <View style={styles.newExamContent}>
               <View style={styles.newExamTextContent}>
-                <Text style={styles.newExamTitle}>Give{'\n'}New Exam</Text>
-                <Text style={styles.newExamDescription}>
-                  Test your skills with AI-generated questions, covering all lines in your current level.
-                </Text>
+                <Text style={styles.newExamTitle}>Give{"\n"}New Exam</Text>
+                <View style={styles.newExamIconContainer}>
+                  <MaterialIcon
+                    name="chevron_right"
+                    size={24}
+                    color={Colors.grey[900]}
+                  />
+                </View>
               </View>
-              <View style={styles.newExamIconContainer}>
-                <MaterialIcon name="chevron_right" size={24} color={Colors.grey[900]} />
-              </View>
+              <Text style={styles.newExamDescription}>
+                Test your skills with AI-generated questions, covering all lines
+                in your current level.
+              </Text>
             </View>
           </TouchableOpacity>
 
@@ -108,17 +135,26 @@ export default function ExamPrepScreen() {
 
             {/* Best Attempt Card */}
             <View style={styles.progressCard}>
-              <Text style={styles.attemptLabel}>Attempt {bestAttempt.attemptNumber}</Text>
+              <Text style={styles.attemptLabel}>
+                Attempt {bestAttempt.attemptNumber}
+              </Text>
               <View style={styles.progressMainContent}>
                 <View style={styles.progressLeft}>
-                  <Text style={styles.percentageText}>{bestAttempt.percentage}%</Text>
+                  <Text style={styles.percentageText}>
+                    {bestAttempt.percentage}%
+                  </Text>
                   <View style={styles.bestRecordBadge}>
                     <Text style={styles.bestRecordText}>Best record</Text>
                   </View>
                 </View>
                 <View style={styles.progressRight}>
                   <Text style={styles.improvementText}>
-                    You achieved <Text style={styles.improvementBold}>{bestAttempt.improvement}%</Text> more than your previous attempt, passing the test pass mark by <Text style={styles.improvementBold}>+25%</Text> margin.
+                    You achieved{" "}
+                    <Text style={styles.improvementBold}>
+                      {bestAttempt.improvement}%
+                    </Text>{" "}
+                    more than your previous attempt, passing the test pass mark
+                    by <Text style={styles.improvementBold}>+25%</Text> margin.
                   </Text>
                 </View>
               </View>
@@ -128,13 +164,22 @@ export default function ExamPrepScreen() {
             <View style={styles.scoreComparison}>
               <View style={styles.scoreBox}>
                 <Text style={styles.scoreLabel}>Previous Score</Text>
-                <Text style={styles.scoreValue}>{bestAttempt.previousScore.score}/{bestAttempt.previousScore.total}</Text>
-                <Text style={styles.scoreDate}>{bestAttempt.previousScore.date}</Text>
+                <Text style={styles.scoreValue}>
+                  {bestAttempt.previousScore.score}/
+                  {bestAttempt.previousScore.total}
+                </Text>
+                <Text style={styles.scoreDate}>
+                  {bestAttempt.previousScore.date}
+                </Text>
               </View>
               <View style={styles.scoreBox}>
                 <Text style={styles.scoreLabel}>New Score</Text>
-                <Text style={styles.scoreValue}>{bestAttempt.newScore.score}/{bestAttempt.newScore.total}</Text>
-                <Text style={styles.scoreDate}>{bestAttempt.newScore.date}</Text>
+                <Text style={styles.scoreValue}>
+                  {bestAttempt.newScore.score}/{bestAttempt.newScore.total}
+                </Text>
+                <Text style={styles.scoreDate}>
+                  {bestAttempt.newScore.date}
+                </Text>
               </View>
             </View>
           </View>
@@ -142,27 +187,38 @@ export default function ExamPrepScreen() {
           {/* Exam Log Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Exam Log</Text>
-            
+
             {examAttempts.map((attempt, index) => (
               <View key={index} style={styles.examLogItem}>
                 <View style={styles.examLogLeft}>
-                  <Text style={styles.examLogAttempt}>Attempt {attempt.attemptNumber}</Text>
-                  <Text style={styles.examLogScore}>{attempt.score}/{attempt.total}</Text>
+                  <Text style={styles.examLogAttempt}>
+                    Attempt {attempt.attemptNumber}
+                  </Text>
+                  <Text style={styles.examLogScore}>
+                    {attempt.score}/{attempt.total}
+                  </Text>
                   <Text style={styles.examLogDate}>{attempt.date}</Text>
                 </View>
                 <View style={styles.examLogRight}>
                   {attempt.improvement !== null && (
-                    <View style={[
-                      styles.improvementBadge, 
-                      attempt.improvement > 0 ? styles.improvementPositive : styles.improvementNegative
-                    ]}>
+                    <View
+                      style={[
+                        styles.improvementBadge,
+                        attempt.improvement > 0
+                          ? styles.improvementPositive
+                          : styles.improvementNegative,
+                      ]}
+                    >
                       <Text style={styles.improvementBadgeText}>
-                        {attempt.improvement > 0 ? '+' : ''}{attempt.improvement}%
+                        {attempt.improvement > 0 ? "+" : ""}
+                        {attempt.improvement}%
                       </Text>
                     </View>
                   )}
                   <View style={styles.percentageBox}>
-                    <Text style={styles.percentageBoxText}>{attempt.percentage}%</Text>
+                    <Text style={styles.percentageBoxText}>
+                      {attempt.percentage}%
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -177,7 +233,7 @@ export default function ExamPrepScreen() {
 const styles = StyleSheet.create({
   contentWrapper: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
   },
   scrollView: {
     flex: 1,
@@ -194,13 +250,13 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 22,
     backgroundColor: Colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: Colors.grey[200],
   },
   headerTitle: {
-    fontFamily: 'SpaceGrotesk-Medium',
+    fontFamily: "SpaceGrotesk-Medium",
     fontSize: 24,
     color: Colors.grey[700],
   },
@@ -208,29 +264,35 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 24,
     marginBottom: 24,
-    overflow: 'hidden',
-    position: 'relative',
+    overflow: "hidden",
+    position: "relative",
   },
   newExamBackground: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
     top: 0,
     left: 0,
   },
   newExamContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: "column",
+    gap: 12,
+    // justifyContent: "space-between",
+    alignItems: "flex-start",
     padding: 20,
     minHeight: 136,
+    backgroundColor: Colors.orange[400],
   },
   newExamTextContent: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
     flex: 1,
+    width: "100%",
     gap: 8,
   },
   newExamTitle: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: "Roboto-Medium",
     fontSize: 20,
     lineHeight: 24,
     color: Colors.white,
@@ -238,15 +300,15 @@ const styles = StyleSheet.create({
   newExamDescription: {
     ...Typography.contentSubtitle,
     color: Colors.white,
-    maxWidth: 300,
+    // maxWidth: 300,
   },
   newExamIconContainer: {
     width: 30,
     height: 30,
     borderRadius: 15,
     backgroundColor: Colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   section: {
     marginHorizontal: 24,
@@ -254,12 +316,12 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   sectionTitle: {
-    fontFamily: 'SpaceGrotesk-Regular',
+    fontFamily: "SpaceGrotesk-Regular",
     fontSize: 20,
     lineHeight: 24,
     color: Colors.grey[700],
@@ -273,20 +335,20 @@ const styles = StyleSheet.create({
     borderColor: Colors.grey[100],
   },
   attemptLabel: {
-    fontFamily: 'SpaceGrotesk-Medium',
+    fontFamily: "SpaceGrotesk-Medium",
     fontSize: 20,
     lineHeight: 24,
     color: Colors.grey[900],
   },
   progressMainContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 16,
   },
   progressLeft: {
     gap: 12,
   },
   percentageText: {
-    fontFamily: 'SpaceGrotesk-Regular',
+    fontFamily: "SpaceGrotesk-Regular",
     fontSize: 36,
     lineHeight: 40,
     color: Colors.grey[900],
@@ -296,29 +358,29 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 4,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   bestRecordText: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: "Roboto-Bold",
     fontSize: 12,
     color: Colors.white,
   },
   progressRight: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   improvementText: {
-    fontFamily: 'Roboto-Regular',
+    fontFamily: "Roboto-Regular",
     fontSize: 14,
     lineHeight: 20,
     color: Colors.grey[800],
   },
   improvementBold: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: "Roboto-Bold",
     color: Colors.grey[900],
   },
   scoreComparison: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   scoreBox: {
@@ -346,12 +408,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 12,
     padding: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    // alignItems: "start",
     borderWidth: 1,
     borderColor: Colors.grey[100],
-    position: 'relative',
+    position: "relative",
   },
   examLogLeft: {
     gap: 4,
@@ -370,35 +432,38 @@ const styles = StyleSheet.create({
   },
   examLogRight: {
     gap: 8,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
     zIndex: 10,
-    position: 'relative',
+    position: "relative",
   },
   improvementBadge: {
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 4,
+    zIndex: 5,
+    marginTop: -8,
+    marginRight: -8
   },
   improvementPositive: {
-    backgroundColor: '#E97851',
+    backgroundColor: "#E97851",
   },
   improvementNegative: {
-    backgroundColor: '#4A9B9F',
+    backgroundColor: "#4A9B9F",
   },
   improvementBadgeText: {
     ...Typography.captionBold,
     color: Colors.white,
   },
   percentageBox: {
-    position: 'absolute',
-    top: '50%',
+    position: "absolute",
+    top: "50%",
     right: -8,
     width: 160,
     height: 77,
     backgroundColor: Colors.grey[50],
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     transform: [{ translateY: -38.5 }],
     zIndex: 1,
   },

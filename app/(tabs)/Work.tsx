@@ -3,14 +3,14 @@ import { Image as ExpoImage } from "expo-image";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-    Animated,
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -237,12 +237,12 @@ export default function WorkScreen() {
             {/* Paystub Records */}
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Paystub Records</Text>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.iconButton}
                 onPress={() => router.push("/paystubs/PaystubList")}
               >
-                <MaterialIcon name="document_scanner" size={20} color="#999" />
-              </TouchableOpacity>
+                <MaterialIcon name="document_scanner" size={20} color={Colors.grey[500]} />
+              </TouchableOpacity> */}
             </View>
 
             {/* Working Hours Chart */}
@@ -281,14 +281,14 @@ export default function WorkScreen() {
                 style={styles.chartGraphImage}
                 contentFit="contain"
               />
-              <View style={styles.chartPeriod}>
+              {/* <View style={styles.chartPeriod}>
                 <Text style={styles.periodText}>
                   {getCurrentData(workPageData.paystubRecord.paystubDateStart)}
                 </Text>
                 <Text style={styles.periodText}>
                   {getCurrentData(workPageData.paystubRecord.paystubDateEnd)}
                 </Text>
-              </View>
+              </View> */}
             </TouchableOpacity>
 
             {/* Income Chart */}
@@ -323,14 +323,14 @@ export default function WorkScreen() {
                 style={styles.chartGraphImage}
                 contentFit="contain"
               />
-              <View style={styles.chartPeriod}>
+              {/* <View style={styles.chartPeriod}>
                 <Text style={styles.periodText}>
                   {getCurrentData(workPageData.paystubRecord.paystubDateStart)}
                 </Text>
                 <Text style={styles.periodText}>
                   {getCurrentData(workPageData.paystubRecord.paystubDateEnd)}
                 </Text>
-              </View>
+              </View> */}
             </TouchableOpacity>
 
             {/* View All Paystubs Button */}
@@ -338,7 +338,7 @@ export default function WorkScreen() {
               text="View All Paystubs"
               variant="light"
               customStyle={{
-                width: 354,
+                width: 388,
                 height: 42,
                 borderRadius: 30,
                 alignSelf: "center",
@@ -433,20 +433,20 @@ export default function WorkScreen() {
             <FinancialSupport
               supportItems={[
                 {
-                  title: "Canada Apprentice Loan",
-                  description: "Interest-free loans for each period\nof technical training",
+                  title: "Canada\nApprentice Loan",
+                  description: "Interest-free loans for each periodof technical training",
                 },
                 {
-                  title: "WorkBC Apprentice Services",
-                  description: "Financial support for travel, childcare and\nrelocation",
+                  title: "WorkBC\nApprentice Services",
+                  description: "Financial support for travel, childcare and relocation",
                 },
                 {
-                  title: "Tradesperson's Tool Deduction",
-                  description: "Financial support for tradespeople to cover tool\ncosts",
+                  title: "Tradesperson's\nTool Deduction",
+                  description: "Financial support for tradespeople to cover tool costs",
                 },
                 {
-                  title: "Canada Training Credit",
-                  description: "Claim a tax credit for tuition\nand exam fees",
+                  title: "Canada\nTraining Credit",
+                  description: "Claim a tax credit for tuition and exam fees",
                 },
               ]}
             />
