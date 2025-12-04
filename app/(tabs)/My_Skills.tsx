@@ -166,8 +166,8 @@ export default function SkillsScreen() {
         {/* Content based on selected tab */}
         {selectedTab === "overall" && (
           <View style={styles.overallContainer}>
-            {/* Recents Component */}
-            {/* <View style={styles.componentContainer}>
+            {/* Recents Component
+            <View style={styles.componentContainer}>
               <Recents
                 title="Recently viewed"
                 line="Line A-3"
@@ -190,10 +190,16 @@ export default function SkillsScreen() {
             </View>
 
             {/* Ranking Component */}
-            {/* <View style={styles.componentContainer}>
-              <Ranking title="Avg. Score" scoreRange="90-94%" rank="Top 2" />
-              <Ranking title="Avg. Score" scoreRange="90-94%" rank="Top 2" />
-            </View> */}
+            <View style={styles.rankingContainer}>
+              <View style={styles.examPrepHeader}>
+                <Text style={styles.examPrepTitle}>Quiz Ranking</Text>
+              </View>
+              <View style={styles.personalRanking}>
+                <Image source={require("@/assets/images/Ranking01.png")} style={styles.rank01} />
+                <Image source={require("@/assets/images/Ranking02.png")} style={styles.rank02} />
+              </View>
+              <Image source={require("@/assets/images/overAll_Ranking_Graph.png")} style={styles.overallRank} />
+            </View>
           </View>
         )}
 
@@ -401,7 +407,7 @@ const styles = StyleSheet.create({
   },
   overallContainer: {
     paddingHorizontal: 24,
-    gap: 24,
+    gap: 12,
     flex: 1,
   },
   componentContainer: {
@@ -423,6 +429,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 24,
     color: Colors.grey[700],
+  },
+  rankingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+    width: '100%',
+  },
+  personalRanking: {
+    flexDirection: 'row',
+    gap: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rank01: {
+    height: 101,
+    width: 180,
+    resizeMode: 'contain',
+  },
+  rank02: {
+    height: 101,
+    width: 180,
+    resizeMode: 'contain',
+  },
+  overallRank: {
+    width: '100%',
+    height: 470,
+    resizeMode: 'contain',
   },
   tabContentContainer: {
     paddingHorizontal: 24,
