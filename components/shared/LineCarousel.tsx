@@ -50,61 +50,54 @@ export const LineCarousel: React.FC<LineCarouselProps> = ({
   
   return (
     <View style={styles.container}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-        scrollEnabled={true}
-      >
-        <View style={styles.lineRow}>
-          {visibleLines.map((line, index) => {
-            const isSelected = index === 2; // Middle item is always selected
-            return (
-              <TouchableOpacity
-                key={`${line}-${index}-${currentIndex}`}
-                style={[
-                  styles.lineCircle,
-                  isSelected ? styles.selectedCircle : styles.normalCircle,
-                ]}
-                onPress={() => {
-                  if (index < 2) {
-                    // Navigate backward by the difference
-                    const steps = 2 - index;
-                    let newIndex = currentIndex;
-                    for (let i = 0; i < steps; i++) {
-                      newIndex = newIndex === 0 ? lines.length - 1 : newIndex - 1;
-                    }
-                    setCurrentIndex(newIndex);
-                    const selectedLineIndex = (newIndex + 2) % lines.length;
-                    onLineSelect?.(lines[selectedLineIndex]);
-                  } else if (index > 2) {
-                    // Navigate forward by the difference
-                    const steps = index - 2;
-                    let newIndex = currentIndex;
-                    for (let i = 0; i < steps; i++) {
-                      newIndex = (newIndex + 1) % lines.length;
-                    }
-                    setCurrentIndex(newIndex);
-                    const selectedLineIndex = (newIndex + 2) % lines.length;
-                    onLineSelect?.(lines[selectedLineIndex]);
-                  } else {
-                    // Middle item clicked - already selected
-                    onLineSelect?.(line);
+      <View style={styles.lineRow}>
+        {visibleLines.map((line, index) => {
+          const isSelected = index === 2; // Middle item is always selected
+          return (
+            <TouchableOpacity
+              key={`${line}-${index}-${currentIndex}`}
+              style={[
+                styles.lineCircle,
+                isSelected ? styles.selectedCircle : styles.normalCircle,
+              ]}
+              onPress={() => {
+                if (index < 2) {
+                  // Navigate backward by the difference
+                  const steps = 2 - index;
+                  let newIndex = currentIndex;
+                  for (let i = 0; i < steps; i++) {
+                    newIndex = newIndex === 0 ? lines.length - 1 : newIndex - 1;
                   }
-                }}
+                  setCurrentIndex(newIndex);
+                  const selectedLineIndex = (newIndex + 2) % lines.length;
+                  onLineSelect?.(lines[selectedLineIndex]);
+                } else if (index > 2) {
+                  // Navigate forward by the difference
+                  const steps = index - 2;
+                  let newIndex = currentIndex;
+                  for (let i = 0; i < steps; i++) {
+                    newIndex = (newIndex + 1) % lines.length;
+                  }
+                  setCurrentIndex(newIndex);
+                  const selectedLineIndex = (newIndex + 2) % lines.length;
+                  onLineSelect?.(lines[selectedLineIndex]);
+                } else {
+                  // Middle item clicked - already selected
+                  onLineSelect?.(line);
+                }
+              }}
+            >
+              <Text
+                style={[
+                  isSelected ? styles.selectedText : styles.lineText,
+                ]}
               >
-                <Text
-                  style={[
-                    isSelected ? styles.selectedText : styles.lineText,
-                  ]}
-                >
-                  {line}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </ScrollView>
+                {line}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
       
       <View style={styles.arrowRow}>
         <TouchableOpacity 
@@ -135,10 +128,6 @@ export const LineCarousel: React.FC<LineCarouselProps> = ({
 const styles = StyleSheet.create({
   container: {
     gap: 16,
-    alignItems: 'center',
-  },
-  scrollContent: {
-    paddingHorizontal: 20,
     alignItems: 'center',
   },
   lineRow: {
