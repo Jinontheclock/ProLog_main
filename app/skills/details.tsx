@@ -9,8 +9,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Animated, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
-  SafeAreaView,
-  useSafeAreaInsets,
+    SafeAreaView,
+    useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
 // Import the competency data
@@ -238,10 +238,10 @@ const styles = StyleSheet.create({
   },
   stickyButtonContainer: {
     position: "absolute",
-    bottom: -16,
+    bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: 20,
+    paddingBottom: 0,
   },
   loadingContainer: {
     flex: 1,

@@ -3,14 +3,14 @@ import { Image as ExpoImage } from "expo-image";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-  Animated,
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Animated,
+    Image,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 4,
+    marginBottom: 2,
     marginHorizontal: 24,
   },
   financeHeaderContainer: {

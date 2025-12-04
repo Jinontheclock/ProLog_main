@@ -45,7 +45,13 @@ export const FinancialSupport: React.FC<FinancialSupportProps> = ({ supportItems
         overScrollMode="never"
       >
         {supportItems.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.card}>
+          <TouchableOpacity 
+            key={index} 
+            style={[
+              styles.card,
+              index === supportItems.length - 1 && styles.lastCard
+            ]}
+          >
             <View style={styles.cardContent}>
               <View style={styles.titleRow}>
                 <Text style={styles.cardTitle}>{item.title}</Text>
@@ -119,6 +125,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 2,
+  },
+  lastCard: {
+    height: 118,
   },
   cardContent: {
     flex: 1,
