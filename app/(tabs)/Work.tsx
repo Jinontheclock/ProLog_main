@@ -1,16 +1,17 @@
 import SendDiscrepancyReportModal from "@/components/shared/SendDiscrepancyReportModal";
+import { Audio } from "expo-av";
 import { Image as ExpoImage } from "expo-image";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-    Animated,
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -26,6 +27,7 @@ import { HourDiscrepancy } from "@/components/shared/HourDiscrepancy";
 import { InformationalMessage } from "@/components/shared/InformationalMessage";
 import { LoadingQuiz } from "@/components/shared/LoadingQuiz";
 import MaterialIcon from "@/components/shared/MaterialIcon";
+import NotificationPopup from "@/components/shared/NotificationPopup";
 import { PageSwitch } from "@/components/shared/PageSwitch";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import SuccessMessage from "@/components/shared/successMessage";
@@ -71,6 +73,63 @@ export default function WorkScreen() {
     }, 300);
   };
 
+  // Demo notification handler
+  const handleDemoNotification = async () => {
+    try {
+      // Play notification sound
+      const { sound } = await Audio.Sound.createAsync(
+        require('@/assets/audio/iphone_16_messege_tone.mp3'),
+        { shouldPlay: true }
+      );
+      
+      // Wait 1 second then show notification popup
+      setTimeout(() => {
+        setShowNotificationPopup(true);
+        
+        // Slide down animation from top
+        Animated.timing(slideAnimation, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+          // Slide back up animation
+          Animated.timing(slideAnimation, {
+            toValue: -100,
+            duration: 300,
+            useNativeDriver: true,
+          }).start(() => {
+            setShowNotificationPopup(false);
+          });
+        }, 3000);
+      }, 350);
+    } catch (error) {
+      console.log('Error playing notification sound:', error);
+      // Still show popup even if sound fails (with same delay)
+      setTimeout(() => {
+        setShowNotificationPopup(true);
+        Animated.timing(slideAnimation, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+          Animated.timing(slideAnimation, {
+            toValue: -100,
+            duration: 300,
+            useNativeDriver: true,
+          }).start(() => {
+            setShowNotificationPopup(false);
+          });
+        }, 3000);
+      }, 1000);
+    }
+  };
+
   // Get work page data
   const workPageData = workData["level 2"].Work_page;
 
@@ -100,7 +159,9 @@ export default function WorkScreen() {
   const [showSendDiscrepancyReportModal, setShowSendDiscrepancyReportModal] =
     useState(false);
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
-  const slideAnimation = useRef(new Animated.Value(100)).current;
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const slideAnimation = useRef(new Animated.Value(-100)).current;
+  const successSlideAnimation = useRef(new Animated.Value(100)).current;
 
   return (
     <View style={[styles.container, { backgroundColor: "#F0F0F0" }]}>
@@ -196,7 +257,9 @@ export default function WorkScreen() {
 
             {/* Discrepancy Tracking */}
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Discrepancy Tracking</Text>
+              <TouchableOpacity onPress={handleDemoNotification}>
+                <Text style={styles.sectionTitle}>Discrepancy Tracking</Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => setShowDiscrepancyInfoModal(true)}
               >
@@ -543,9 +606,9 @@ export default function WorkScreen() {
         onSend={() => {
           setShowSendDiscrepancyReportModal(false);
           setTimeout(() => {
-            setShowNotificationPopup(true);
-            // Slide up animation
-            Animated.timing(slideAnimation, {
+            setShowSuccessMessage(true);
+            // Slide up animation from bottom
+            Animated.timing(successSlideAnimation, {
               toValue: 0,
               duration: 300,
               useNativeDriver: true,
@@ -553,12 +616,12 @@ export default function WorkScreen() {
 
             setTimeout(() => {
               // Slide down animation
-              Animated.timing(slideAnimation, {
+              Animated.timing(successSlideAnimation, {
                 toValue: 100,
                 duration: 300,
                 useNativeDriver: true,
               }).start(() => {
-                setShowNotificationPopup(false);
+                setShowSuccessMessage(false);
               });
             }, 3000);
           }, 1500);
@@ -607,13 +670,32 @@ export default function WorkScreen() {
         </View>
       )}
 
-      {/* Success Message */}
+      {/* Notification Popup */}
       {showNotificationPopup && (
         <Animated.View
           style={[
             styles.successMessageContainer,
             {
               transform: [{ translateY: slideAnimation }],
+            },
+          ]}
+        >
+          <NotificationPopup
+            typeName="Notification Reminder"
+            date="now"
+            title="BCIT Tuition Deadline"
+            content="Dec 07, 2025"
+          />
+        </Animated.View>
+      )}
+
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <Animated.View
+          style={[
+            styles.successMessageBottomContainer,
+            {
+              transform: [{ translateY: successSlideAnimation }],
             },
           ]}
         >
@@ -838,6 +920,13 @@ const styles = StyleSheet.create({
     zIndex: 10000,
   },
   successMessageContainer: {
+    position: "absolute",
+    top: 60,
+    left: 0,
+    right: 0,
+    zIndex: 10001,
+  },
+  successMessageBottomContainer: {
     position: "absolute",
     bottom: 140,
     left: 0,
