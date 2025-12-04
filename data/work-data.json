@@ -2,12 +2,12 @@
   "level 2": {
     "Dashboard": {
       "progressSection": {
-        "before": "10",
+        "before": "0",
         "after": "100",
         "nxtLvl": "0"
       },
       "journeySectionPercentage": {
-        "before": 25,
+        "before": 23,
         "after": 45,
         "nxtLvl": 45
       },
@@ -99,7 +99,7 @@
       "dashboardDataHours": {
         "before": {
           "completionIndicator": "@/assets/images/In-progress_Icon.png",
-          "value": "450",
+          "value": "0",
           "containerBackground": "Colors.white"
         },
         "after": {
@@ -150,7 +150,7 @@
       "dashboardDataSkills": {
         "before": {
           "completionIndicator": "@/assets/images/In-progress_Icon.png",
-          "value": "28 / 81",
+          "value": "0 / 81",
           "containerBackground": "Colors.white"
         },
         "after": {
@@ -192,47 +192,47 @@
         "level": "Level 2",
         "title": "Working Hours",
         "currentHours": {
-          "before": 450,
-          "after": 1640
+          "before": 0,
+          "after": 1770
         },
         "totalHours": 1800,
         "percentage": {
-          "before": 21,
-          "after": 91
+          "before": 0,
+          "after": 99
         }
       },
       "apprenticeshipDetails": {
         "sponsor": "Burquos Mills Incorporated",
         "estimatedDaysToGo": {
-          "before": "203 days",
+          "before": "-",
           "after": "20 days"
         },
-        "startDate": "May 06, 2024",
+        "startDate": "Mar 06, 2025",
         "estimatedEndDate": {
-          "before": "Mar 19, 2025",
-          "after": "Apr 15, 2025"
+          "before": "-",
+          "after": "Jan 15, 2026"
         }
       },
       "discrepancyTracking": {
         "paystubHours": {
-          "before": "450",
+          "before": "0",
           "after": "1800"
         },
         "paystubDate": {
-          "before": "Jul 02, 2024",
-          "after": "Apr 02, 2025"
+          "before": "-",
+          "after": "Dec 02, 2025"
         },
         "skilledTradeBCHours": {
-          "before": "450",
-          "after": "1640"
+          "before": "0",
+          "after": "1770"
         },
         "skilledTradeBCDate": {
-          "before": "Jul 12, 2024",
-          "after": "Apr 25, 2025"
+          "before": "-",
+          "after": "Dec 04, 2025"
         },
         "discrepancy": {
           "before": "0",
-          "after": "-160"
+          "after": "-30"
         }
       },
       "paystubRecord": {

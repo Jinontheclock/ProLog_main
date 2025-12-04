@@ -69,7 +69,7 @@ export default function WorkScreen() {
       // End loading after state change
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000); // Additional time for progress bar animation
+      }, 1500); // Additional time for progress bar animation
     }, 300);
   };
 
@@ -623,8 +623,8 @@ export default function WorkScreen() {
               }).start(() => {
                 setShowSuccessMessage(false);
               });
-            }, 3000);
-          }, 1500);
+            }, 2000);
+          }, 500);
         }}
         buttonIcon="arrow-right"
       />
@@ -664,8 +664,8 @@ export default function WorkScreen() {
       {isLoading && (
         <View style={styles.loadingOverlay}>
           <LoadingQuiz
-            loadingTitle="Updating Data..."
-            loadingContent="Please wait while we update your work information to 6 months in the future."
+            loadingTitle="Refreshing Data..."
+            loadingContent="Please wait while we update your working hours and employer information."
           />
         </View>
       )}

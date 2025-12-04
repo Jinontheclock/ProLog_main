@@ -105,7 +105,7 @@ export const SProgressBar: React.FC<SProgressBarProps> = ({
       const pulseAnimation = Animated.loop(
         Animated.sequence([
           Animated.timing(level3ScaleAnimation, {
-            toValue: 1.15,
+            toValue: 1.2,
             duration: 1000,
             useNativeDriver: true,
           }),
