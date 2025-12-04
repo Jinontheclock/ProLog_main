@@ -1,12 +1,12 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-    Image,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -41,7 +41,10 @@ export default function LoginCredentialsScreen() {
     setReEnterPassword("**************");
   };
 
-  const isFormComplete = email.trim() !== "" && password.trim() !== "" && reEnterPassword.trim() !== "";
+  const isFormComplete =
+    email.trim() !== "" &&
+    password.trim() !== "" &&
+    reEnterPassword.trim() !== "";
 
   const handleCreateAccount = () => {
     setIsLoading(true);
@@ -54,7 +57,6 @@ export default function LoginCredentialsScreen() {
 
   return (
     <SafeAreaView style={[CommonStyles.container]}>
-
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
@@ -68,7 +70,7 @@ export default function LoginCredentialsScreen() {
 
       <View style={styles.contentContainer}>
         {isLoading ? (
-          <LoadingQuiz  isLoading={true} />
+          <LoadingQuiz isLoading={true} loadingTitle="Creating Profile..." loadingContent="Please wait while we gather all required information to get you started." />
         ) : (
           <>
             {/* Login content will go here */}
@@ -78,47 +80,47 @@ export default function LoginCredentialsScreen() {
                 source={require("@/assets/images/login_logo.png")}
               />
             </View>
-        <View style={styles.loginDetails}>
-          <Text style={styles.loginInfo}>
-            ProLog connects directly with SkilledTradesBC. Log in with your
-            SkilledTradesBC account to get started.
-          </Text>
-          <View style={styles.inputSection}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              placeholderTextColor={Colors.grey[300]}
-              value={email}
-              onChangeText={setEmail}
-              onFocus={handleEmailFocus}
-            />
-          </View>
-          <View style={styles.inputSection}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your password"
-              placeholderTextColor={Colors.grey[300]}
-              value={password}
-              onChangeText={setPassword}
-              onFocus={handlePasswordFocus}
-              secureTextEntry={true}
-            />
-          </View>
-          <View style={styles.inputSection}>
-            <Text style={styles.label}>Re-Enter Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Re-enter your password"
-              placeholderTextColor={Colors.grey[300]}
-              value={reEnterPassword}
-              onChangeText={setReEnterPassword}
-              onFocus={handleReEnterPasswordFocus}
-              secureTextEntry={true}
-            />
-          </View>
-        </View>
+            <View style={styles.loginDetails}>
+              <Text style={styles.loginInfo}>
+                ProLog connects directly with SkilledTradesBC. Log in with your
+                SkilledTradesBC account to get started.
+              </Text>
+              <View style={styles.inputSection}>
+                <Text style={styles.label}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your email"
+                  placeholderTextColor={Colors.grey[300]}
+                  value={email}
+                  onChangeText={setEmail}
+                  onFocus={handleEmailFocus}
+                />
+              </View>
+              <View style={styles.inputSection}>
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your password"
+                  placeholderTextColor={Colors.grey[300]}
+                  value={password}
+                  onChangeText={setPassword}
+                  onFocus={handlePasswordFocus}
+                  secureTextEntry={true}
+                />
+              </View>
+              <View style={styles.inputSection}>
+                <Text style={styles.label}>Re-Enter Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Re-enter your password"
+                  placeholderTextColor={Colors.grey[300]}
+                  value={reEnterPassword}
+                  onChangeText={setReEnterPassword}
+                  onFocus={handleReEnterPasswordFocus}
+                  secureTextEntry={true}
+                />
+              </View>
+            </View>
             <View style={styles.buttonContainer}>
               <Button
                 text="Create Account"
@@ -152,7 +154,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingHorizontal: 24,
     paddingTop: 60,
-    paddingBottom: 16, 
+    paddingBottom: 16,
     zIndex: 10,
   },
   backButton: {
@@ -188,10 +190,10 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: Colors.borderGrey
+    borderColor: Colors.borderGrey,
   },
   loginInfo: {
-    ...Typography.smBody
+    ...Typography.smBody,
   },
   inputSection: {
     // marginBottom: 16,

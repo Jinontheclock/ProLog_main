@@ -13,13 +13,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-    Animated,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -314,7 +314,7 @@ export default function DashboardScreen() {
       {isLoading && (
         <View style={styles.loadingOverlay}>
           <LoadingQuiz
-            loadingTitle="Updating Data..."
+            loadingTitle="Updating Progress..."
             loadingContent="Please wait while we update your dashboard information to 6 months in the future."
           />
         </View>
