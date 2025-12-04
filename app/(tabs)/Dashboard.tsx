@@ -13,13 +13,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-  Animated,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Animated,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -458,13 +458,15 @@ const styles = StyleSheet.create({
   },
   examLeft: {
     flex: 1,
-    gap: Spacing.md,
+    gap: 32,
   },
   examInfo: {
     gap: 4,
   },
   examTitle: {
-    ...Typography.contentTitle,
+    fontFamily: 'Roboto-Medium',
+    fontSize: 20,
+    lineHeight: 24,
     color: Colors.grey[900],
   },
   examDate: {
@@ -480,6 +482,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 4,
+    marginLeft: 12,
   },
   score: {
     fontFamily: "SpaceGrotesk-Medium",

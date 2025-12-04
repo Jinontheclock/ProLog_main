@@ -41,7 +41,11 @@ export const SchoolSlots: React.FC<SchoolSlotsProps> = ({ campuses }) => {
               <Text style={styles.campusLocation}>{campus.location}</Text>
             </View>
             <IconButton
-              iconComponent={<MaterialIcon name="arrow_outward" size={24} color="#fff" />}
+              iconComponent={
+                <View style={{ transform: [{ rotate: '-45deg' }] }}>
+                  <MaterialIcon name="arrow_outward" size={24} color="#fff" />
+                </View>
+              }
               variant="primary"
               size={40}
               onPress={campus.onPress}

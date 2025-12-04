@@ -122,9 +122,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   bodyText: {
-    fontFamily: FontFamily.roboto.medium,
+    fontFamily: FontFamily.roboto.light,
     fontSize: 14,
-    color: Colors.grey[400],
+    color: Colors.grey[500],
     lineHeight: 18 * 1.05,
     textAlign: 'left',
   },

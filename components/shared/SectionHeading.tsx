@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 0,
   },
   level: {
     ...Typography.contentSubtitle,
@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
     ...Typography.title,
     color: Colors.black,
     marginBottom: 16,
+    marginTop: -4,
   },
   hoursContainer: {
     flexDirection: 'row',
